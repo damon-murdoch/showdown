@@ -6,7 +6,7 @@ venv/
 creds
 *.xlsx
 *.txt
-prisma/bot.db
+*.db
 suspect_decisions.py
 teams/teams
 .env
