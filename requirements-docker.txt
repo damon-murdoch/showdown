@@ -1,3 +1,5 @@
 nashpy==0.0.17
 pandas==1.4.3
 numpy==1.23.1
+python-dotenv
+prisma

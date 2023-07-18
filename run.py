@@ -1,4 +1,5 @@
 import asyncio
+from prisma import Prisma
 import json
 import logging
 import traceback
@@ -8,7 +9,7 @@ from copy import deepcopy
 import constants
 from config import ShowdownConfig, init_logging
 
-from teams import load_team
+from teams import load_factory, load_team
 from showdown.run_battle import pokemon_battle
 from showdown.websocket_client import PSWebsocketClient
 
@@ -43,6 +44,10 @@ def check_dictionaries_are_unmodified(original_pokedex, original_move_json):
 
 
 async def showdown():
+
+    # Connect to prisma
+    prisma = Prisma()
+
     ShowdownConfig.configure()
     init_logging(
         ShowdownConfig.log_level,
@@ -61,12 +66,29 @@ async def showdown():
     await ps_websocket_client.login()
 
     battles_run = 0
-    wins = 0
-    losses = 0
+
     while True:
         if ShowdownConfig.log_to_file:
             ShowdownConfig.log_handler.do_rollover(datetime.now().strftime("%Y-%m-%dT%H:%M:%S.log"))
-        team = load_team(ShowdownConfig.team)
+        
+        # Team Data (None by default)
+        team: str | None = None
+
+        # If the team mode is set to 'factory team'
+        if ShowdownConfig.team_mode == constants.FACTORY_TEAM:
+
+            # Generate a team using the factory sets
+            team = load_factory(ShowdownConfig.factory)
+
+        # Mode is set to 'sample team'
+        elif ShowdownConfig.team_mode == constants.SAMPLE_TEAM:
+
+            # Use one of the provided teams
+            team = load_team(ShowdownConfig.team)
+
+        else: 
+            raise ValueError("Invalid Team Mode: {}".format(ShowdownConfig.team_mode))
+
         if ShowdownConfig.bot_mode == constants.CHALLENGE_USER:
             await ps_websocket_client.challenge_user(
                 ShowdownConfig.user_to_challenge,
@@ -84,18 +106,14 @@ async def showdown():
         else:
             raise ValueError("Invalid Bot Mode: {}".format(ShowdownConfig.bot_mode))
 
-        winner = await pokemon_battle(ps_websocket_client, ShowdownConfig.pokemon_mode)
-        if winner == ShowdownConfig.username:
-            wins += 1
-        else:
-            losses += 1
+        await pokemon_battle(ps_websocket_client, ShowdownConfig.pokemon_mode, prisma)
 
-        logger.info("W: {}\tL: {}".format(wins, losses))
         check_dictionaries_are_unmodified(original_pokedex, original_move_json)
 
         battles_run += 1
-        if battles_run >= ShowdownConfig.run_count:
-            break
+        
+        # if battles_run >= ShowdownConfig.run_count:
+        # break
 
 
 if __name__ == "__main__":

@@ -1,0 +1,616 @@
+# 1. Mega Kangaskhan
+Kangaskhan @ Kangaskhanite
+Ability: Scrappy
+EVs: 4 HP / 244 Atk / 4 Def / 4 SpD / 252 Spe
+Jolly nature
+- Sucker Punch / Crunch
+- Double-Edge / Return / Secret Power
+- Earthquake / Fire Punch / Ice Punch / Power-Up Punch / Low Kick / Rock Slide / Rock Tomb
+- Fake Out
+
+# 2. Mega Garchomp
+Garchomp @ Garchompite
+Ability: Rough Skin
+EVs: 4 HP / 244 Atk / 4 Def / 4 SpD / 252 Spe
+Jolly nature
+- Earthquake
+- Outrage
+- Rock Tomb / Stone Edge / Fire Fang
+- Stealth Rock / Swords Dance / Roar / Toxic
+
+# 3. Mega Gengar
+Gengar @ Gengarite
+Ability: Levitate
+EVs: 188 HP / 116 Def / 4 SpA / 4 SpD / 196 Spe
+IVs: 0 Atk
+Timid nature
+- Destiny Bond
+- Will-O-Wisp / Taunt / Icy Wind / Substitute
+- Hex / Shadow Ball
+- Sludge Bomb
+
+# 4. Nasty Plot Thundurus
+Thundurus @ Life Orb
+Ability: Prankster
+EVs: 4 HP / 4 Def / 244 SpA / 4 SpD / 252 Spe
+IVs: 0 Atk / 30 Def
+Timid nature
+- Nasty Plot
+- Grass Knot / Focus Blast
+- Hidden Power Ice
+- Thunderbolt
+
+# 4. Support Thundurus
+Thundurus @ Sitrus Berry
+Ability: Prankster
+EVs: 140 HP / 16 Def / 164 SpA / 188 Spe
+IVs: 0 Atk / 30 Def
+Timid nature
+- Thunder Wave
+- Swagger / Taunt
+- Hidden Power Ice
+- Thunderbolt
+
+# 4. Support Thundurus
+Thundurus @ Salac Berry
+Ability: Prankster
+EVs: 140 HP / 16 Def / 164 SpA / 188 Spe
+IVs: 0 Atk / 30 Def
+Timid nature
+- Thunder Wave
+- Swagger / Taunt
+- Hidden Power Ice
+- Thunderbolt
+
+# 4. Support Thundurus
+Thundurus @ Leftovers
+Ability: Prankster
+EVs: 244 HP / 4 Def / 4 SpA / 196 SpD / 60 Spe
+IVs: 0 Atk / 30 Def
+Timid nature
+- Thunder Wave
+- Swagger / Taunt
+- Hidden Power Ice
+- Thunderbolt
+
+# 5. Chesto Resto Suicune
+Suicune @ Chesto Berry
+Ability: Pressure
+EVs: 252 HP / 252 Def / 4 Spe
+IVs: 0 Atk
+Bold nature
+- Scald
+- Ice Beam / Toxic / Roar
+- Calm Mind
+- Rest
+
+# 5. Leftovers Suicune
+Suicune @ Leftovers
+Ability: Pressure
+EVs: 252 HP / 252 Def / 4 Spe
+IVs: 0 Atk
+Bold nature
+- Scald
+- Ice Beam / Toxic / Roar
+- Calm Mind / Substitute
+- Protect
+
+# 6. Standard Cresselia
+Cresselia @ Rocky Helmet
+Ability: Levitate
+EVs: 252 HP / 252 Def / 4 SpD 
+IVs: 0 Atk
+Bold nature
+- Moonlight
+- Toxic
+- Psychic
+- Thunder Wave / Lunar Dance / Ice Beam
+
+# 7. Choice Banded Talonflame
+Talonflame @ Choice Band
+Ability: Gale Wings
+EVs: 4 HP / 244 Atk / 4 Def / 4 SpD / 252 Spe
+Adamant nature
+- U-Turn
+- Flare Blitz
+- Brave Bird
+- Sleep Talk
+
+# 7. Sharp Beak Talonflame
+Talonflame @ Sharp Beak
+Ability: Gale Wings
+EVs: 204 HP / 52 Atk / 4 Def / 244 SpD / 4 Spe
+Careful nature
+- Roost
+- Swords Dance
+- Will-O-Wisp / Taunt / Substitute / Flare Blitz
+- Brave Bird
+
+# 8. Focus Sash Breloom
+Breloom @ Focus Sash
+Ability: Technician
+EVs: 4 HP / 252 Atk / 252 Spe
+Jolly nature
+- Spore
+- Mach Punch
+- Bullet Seed
+- Rock Tomb / Swords Dance
+
+# 8. Toxic Orb Breloom
+Breloom @ Toxic Orb
+Ability: Poison Heal
+EVs: 156 HP / 28 Atk / 28 Def / 44 SpD / 252 Spe
+Jolly nature
+- Spore
+- Substitute
+- Swords Dance / Focus Punch / Rock Tomb / Mach Punch
+- Bullet Seed
+
+# 9. Standard Ditto
+Ditto @ Focus Sash
+Ability: Imposter
+EVs: 252 HP / 12 Atk / 44 Def / 4 SpA / 196 SpD
+Sassy nature
+- Transform
+
+# 10. Standard Heatran
+Heatran @ Leftovers
+Ability: Flash Fire
+EVs: 212 HP / 100 Def / 4 SpA / 108 SpD / 84 Spe
+IVs: 0 Atk
+Calm nature
+- Protect
+- Magma Storm
+- Toxic / Will-O-Wisp / Substitute
+- Earth Power / Taunt
+
+# 11. Weakness Policy Aegislash (Physical)
+Aegislash @ Weakness Policy
+Ability: Stance Change
+EVs: 244 HP / 252 Atk / 12 Spe
+Adamant nature
+- Shadow Sneak
+- King's Shield
+- Swords Dance / Iron Head / Shadow Claw
+- Sacred Sword
+
+# 11. Weakness Policy Aegislash (Special)
+Aegislash @ Weakness Policy
+Ability: Stance Change
+EVs: 244 HP / 252 SpA / 12 Spe
+Modest nature
+- Shadow Sneak
+- King's Shield
+- Substitute / Flash Cannon
+- Shadow Ball
+
+# 12. Moody Glalie
+Glalie @ Leftovers
+Ability: Moody
+EVs: 172 HP / 4 Def / 4 SpA / 76 SpD / 252 Spe
+IVs: 0 Atk
+Timid nature
+- Protect
+- Substitute
+- Sheer Cold
+- Frost Breath / Freeze Dry
+
+# 13. Standard Hydreigon
+Hydreigon @ Choice Specs
+Ability: Levitate
+EVs: 4 HP / 4 Def / 244 SpA / 4 SpD / 252 Spe
+Modest nature
+- Dark Pulse
+- Draco Meteor
+- Flamethrower
+- Focus Blast
+
+# 14. Lum Berry Chicken
+Blaziken @ Lum Berry
+Ability: Speed Boost
+EVs: 4 HP / 244 Atk / 4 Def / 4 SpD / 252 Spe
+Adamant nature
+- Protect
+- High Jump Kick
+- Knock Off / Flare Blitz
+- Baton Pass
+
+# 14. Focus Sash Chicken
+Blaziken @ Focus Sash
+Ability: Speed Boost
+EVs: 4 HP / 244 Atk / 4 Def / 4 SpD / 252 Spe
+Jolly nature
+- Protect
+- High Jump Kick / Knock Off
+- Swords Dance
+- Baton Pass
+
+# 15. Minimise Chandelure
+Chandelure @ Bright Powder
+EVs: 76 HP / 4 Def / 164 SpA / 12 SpD / 252 Spe
+IVs: 0 Atk
+Timid nature
+- Minimize
+- Substitute / Energy Ball
+- Shadow Ball
+- Flamethrower
+
+# 15. Choice Scarf Chandelure
+Chandelure @ Choice Scarf
+EVs: 76 HP / 4 Def / 164 SpA / 12 SpD / 252 Spe
+IVs: 0 Atk
+Timid nature
+- Flamethrower
+- Shadow Ball
+- Energy Ball
+- Sleep Talk
+
+# 16. Occa Berry Klefki
+Klefki @ Occa Berry
+Ability: Prankster
+EVs: 252 HP / 252 Def / 4 SpD
+IVs: 0 Atk
+Bold nature
+- Thunder Wave
+- Swagger
+- Magnet Rise / Light Screen
+- Foul Play
+
+# 16. Leftovers Klefki
+Klefki @ Leftovers
+Ability: Prankster
+EVs: 252 HP / 252 Def / 4 SpD
+IVs: 0 Atk
+Bold nature
+- Thunder Wave
+- Reflect
+- Light Screen
+- Foul Play
+
+# 17. Standard Gengar
+Gengar @ Focus Sash
+Ability: Levitate
+EVs: 252 SpA / 4 SpD / 252 Spe
+IVs: 0 Atk
+Timid nature
+- Destiny Bond
+- Will-O-Wisp / Taunt / Substitute
+- Shadow Ball
+- Sludge Bomb
+
+# 18. Standard Volcarona
+Volcarona @ Lum Berry
+Ability: Flame Body
+EVs: 4 HP / 252 SpA / 252 Spe
+IVs: 0 Atk
+Modest nature
+- Quiver Dance
+- Fiery Dance / Flamethrower
+- Bug Buzz / Giga Drain
+- Overheat / Psychic / Substitute
+
+# 18. Hidden Power Ice Volcarona
+Volcarona @ Lum Berry
+Ability: Flame Body
+EVs: 4 HP / 252 SpA / 252 Spe
+IVs: 0 Atk / 30 Def
+Modest nature
+- Quiver Dance
+- Fiery Dance / Flamethrower
+- Bug Buzz / Giga Drain
+- Hidden Power Ice
+
+# 19. Choice Scarf Thundurus-T
+Thundurus-Therian @ Choice Scarf
+Ability: Volt Absorb
+EVs: 220 HP / 40 Def / 148 SpA / 100 Spe
+IVs: 0 Atk / 30 Def
+Modest nature
+- Volt Switch
+- Hidden Power Ice
+- Psychic / Focus Blast
+- Thunderbolt
+
+# 20. Mega Chicken
+Blaziken @ Blazikenite
+Ability: Speed Boost
+EVs: 44 HP / 252 Atk / 4 Def / 12 SpD / 196 Spe
+Adamant nature
+- Protect
+- Swords Dance / Baton Pass
+- High Jump Kick
+- Flare Blitz
+
+# 21. Chesto Berry Azumarill
+Azumarill @ Chesto Berry
+Ability: Sap Sipper
+EVs: 252 HP / 108 Def / 28 SpA / 120 SpD
+IVs: 0 Atk
+Sassy nature
+- Scald
+- Toxic
+- Rest
+- Sleep Talk
+
+# 21. Belly Drum Azumarill
+Azumarill @ Sitrus Berry
+Ability: Huge Power
+EVs: 244 HP / 252 Atk / 12 SpD
+Adamant nature
+- Belly Drum
+- Aqua Jet
+- Play Rough
+- Knock Off
+
+# 21. Choice Band
+Azumarill @ Choice Band
+Ability: Huge Power
+EVs: 252 HP / 252 Atk / 4 SpD 
+Adamant nature
+- Aqua Jet
+- Waterfall
+- Play Rough
+- Knock Off / Superpower
+
+# 22. Rocky Helmet Hippowdon
+Hippowdon @ Rocky Helmet
+Ability: Sand Stream
+EVs: 252 HP / 252 Def / 4 SpD 
+Impish nature
+- Slack Off
+- Yawn
+- Earthquake
+- Stealth Rock / Rock Tomb / Whirlwind
+
+# 23. Choice Specs Sylveon
+Sylveon @ Choice Specs
+Ability: Pixilate
+EVs: 140 HP / 92 Def / 248 SpA / 4 SpD / 24 Spe
+IVs: 0 Atk / 30 SpA / 30 Spe
+Modest nature
+- Hyper Voice
+- Hidden Power Fire
+- Hyper Beam
+- Psyshock
+
+# 23. Calm Mind Sylveon
+Sylveon @ Pixie Plate
+Ability: Pixilate
+EVs: 252 HP / 4 Def / 252 SpD 
+IVs: 0 Atk
+Calm nature
+- Wish
+- Calm Mind
+- Hyper Voice
+- Psyshock / Shadow Ball / Hyper Beam
+
+# 24. Dragon Dance Mega Salamence
+Salamence @ Salamencite
+Ability: Intimidate
+EVs: 116 HP / 132 Atk / 4 Def / 4 SpD / 252 Spe
+Adamant nature
+- Dragon Dance
+- Substitute / Roost
+- Double-Edge / Return
+- Earthquake / Dragon Claw
+
+# 24. Mixed Mega Salamence
+Salamence @ Salamencite
+Ability: Intimidate
+EVs: 252 Atk / 4 SpA / 252 Spe
+Naughty Nature
+- Draco Meteor
+- Flamethrower
+- Double-Edge / Return
+- Substitute / Roost
+
+# 24. Special Mega Salamence
+Salamence @ Salamencite
+Ability: Intimidate
+EVs: 4 HP / 4 Def / 244 SpA / 4 SpD / 252 Spe
+IVs: 0 Atk
+Modest nature
+- Draco Meteor / Dragon Pulse
+- Fire Blast / Flamethrower
+- Hydro Pump / Substitute
+- Roost
+
+# 25. Mega Venusaur
+Venusaur @ Venusaurite
+Ability: Chlorophyll
+EVs: 252 HP / 4 SpA / 252 Spe
+IVs: 0 Atk
+Timid nature
+- Sludge Bomb
+- Leaf Storm / Giga Drain / Energy Ball
+- Leech Seed
+- Synthesis / Sleep Powder
+
+# 25. Bulky Venusaur
+Venusaur @ Venusaurite
+Ability: Chlorophyll
+EVs: 252 HP / 4 Def / 36 SpA / 116 SpD / 100 Spe
+IVs: 0 Atk
+Calm nature
+- Sludge Bomb
+- Leaf Storm / Giga Drain / Energy Ball
+- Leech Seed
+- Synthesis / Sleep Powder
+
+# 26. Life Orb Greninja
+Greninja @ Life Orb
+Ability: Protean
+EVs: 4 HP / 252 SpA / 252 Spe
+IVs: 0 Atk
+Timid nature
+- Dark Pulse
+- Ice Beam
+- Surf / Scald / Hydro Pump
+- Grass Knot
+
+# 26. Hidden Power Fire Greninja
+Greninja @ Life Orb
+Ability: Protean
+EVs: 4 HP / 4 Def / 248 SpA / 4 SpD / 248 Spe
+IVs: 0 Atk / 30 SpA / 30 Spe
+Timid nature
+- Dark Pulse
+- Ice Beam
+- Surf / Scald / Hydro Pump
+- Hidden Power Fire
+
+# 26. Choice Specs Greninja
+Greninja @ Choice Specs
+Ability: Protean
+EVs: 4 HP / 252 SpA / 252 Spe
+IVs: 0 Atk
+Timid nature
+- Dark Pulse
+- Ice Beam
+- Surf / Scald / Hydro Pump
+- Grass Knot / U-Turn
+
+# 26. Choice Scarf Greninja
+Greninja @ Choice Scarf
+Ability: Protean
+EVs: 4 HP / 252 SpA / 252 Spe
+IVs: 0 Atk
+Timid nature
+- Dark Pulse
+- Ice Beam
+- Surf / Scald / Hydro Pump
+- Grass Knot / U-Turn
+
+# 27. Standard Mamoswine
+Mamoswine @ Lum Berry
+Ability: Thick Fat
+EVs: 4 HP / 196 Atk / 60 Def / 92 SpD / 156 Spe
+Adamant nature
+- Ice Shard
+- Earthquake
+- Icicle Spear
+- Stealth Rock / Protect
+
+# 28. Choice Band Entei
+Entei @ Choice Band
+Ability: Pressure
+EVs: 132 HP / 252 Atk / 36 Def / 28 SpD / 60 Spe
+Adamant nature
+- Sacred Fire
+- Bulldoze
+- Stone Edge
+- Flame Charge / Will-O-Wisp
+
+# 28. Assault Vest Entei
+Entei @ Assault Vest
+Ability: Pressure
+EVs: 132 HP / 252 Atk / 36 Def / 28 SpD / 60 Spe
+Adamant nature
+- Sacred Fire
+- Bulldoze
+- Stone Edge
+- Flame Charge
+
+# 29. Assault Vest Conkeldurr
+Conkeldurr @ Assault Vest
+Ability: Iron Fist
+EVs: 252 HP / 124 Atk / 92 Def / 36 SpD / 4 Spe
+Adamant nature
+- Drain Punch
+- Knock Off
+- Mach Punch
+- Ice Punch
+
+# 29. Life Orb Conkeldurr
+Conkeldurr @ Life Orb
+Ability: Iron Fist
+EVs: 252 HP / 124 Atk / 92 Def / 36 SpD / 4 Spe
+Adamant nature
+- Drain Punch
+- Knock Off
+- Mach Punch
+- Ice Punch
+
+# 29. Lum Berry Conkeldurr
+Conkeldurr @ Lum Berry
+Ability: Iron Fist
+EVs: 252 HP / 124 Atk / 92 Def / 36 SpD / 4 Spe
+Adamant nature
+- Drain Punch
+- Knock Off
+- Mach Punch
+- Ice Punch
+
+# 29. Flame Orb Conkeldurr
+Conkeldurr @ Flame Orb
+Ability: Guts
+EVs: 252 HP / 124 Atk / 92 Def / 36 SpD / 4 Spe
+Adamant nature
+- Drain Punch
+- Knock Off
+- Mach Punch
+- Ice Punch
+
+# 30. Standard Magnezone
+Magnezone @ Choice Specs
+Ability: Analytic
+EVs: 220 HP / 76 SpA / 212 SpD 
+IVs: 0 Atk
+Modest nature
+- Thunderbolt
+- Flash Cannon
+- Volt Switch
+- Hyper Beam
+
+# 30. Hidden Power Ice Magnezone
+Magnezone @ Choice Specs
+Ability: Analytic
+EVs: 220 HP / 76 SpA / 212 SpD 
+IVs: 0 Atk / 30 Def
+Modest nature
+- Thunderbolt
+- Flash Cannon
+- Volt Switch
+- Hidden Power Ice
+
+# 31. Standard Porygon2
+Porygon2 @ Eviolite
+Ability: Download
+EVs: 244 HP / 12 Def / 248 SpA / 4 SpD 
+IVs: 0 Atk / 30 SpA / 30 Spe
+Modest nature
+- Ice Beam
+- Hidden Power Fire
+- Tri Attack
+- Recover / Trick Room / Thunder Wave
+
+# 32. Standard Raikou
+Raikou @ Light Clay
+Ability: Pressure
+EVs: 252 HP / 4 Def / 252 Spe
+IVs: 0 Atk
+Timid nature
+- Reflect
+- Light Screen
+- Hidden Power Ice
+- Volt Switch
+
+# 33. Lum Berry Cloyster
+Cloyster @ Lum Berry
+Ability: Skill Link
+EVs: 140 HP / 252 Atk / 4 Def / 4 SpD / 108 Spe
+Adamant Nature
+- Shell Smash
+- Icicle Spear
+- Rock Blast
+- Ice Shard
+
+# 33. Focus Sash Cloyster
+Cloyster @ Focus Sash
+Ability: Skill Link
+EVs: 140 HP / 252 Atk / 4 Def / 4 SpD / 108 Spe
+Adamant Nature
+- Shell Smash
+- Icicle Spear
+- Rock Blast
+- Ice Shard

@@ -10,6 +10,7 @@ import constants
 
 env = Env()
 env.read_env(path="env", recurse=False)
+# env.read_env(recurse=True)
 
 
 class CustomFormatter(logging.Formatter):
@@ -60,6 +61,8 @@ class _ShowdownConfig:
     pokemon_mode: str
     run_count: int
     team: str
+    team_mode: str
+    factory: str
     user_to_challenge: str
     save_replay: bool
     room_name: str
@@ -69,6 +72,7 @@ class _ShowdownConfig:
     log_handler: Union[CustomRotatingFileHandler, logging.StreamHandler]
 
     def configure(self):
+
         self.battle_bot_module = env("BATTLE_BOT")
         self.websocket_uri = env("WEBSOCKET_URI")
         self.username = env("PS_USERNAME")
@@ -78,6 +82,8 @@ class _ShowdownConfig:
 
         self.run_count = env.int("RUN_COUNT", 1)
         self.team = env("TEAM_NAME", None)
+        self.team_mode = env("TEAM_MODE", "SAMPLE_TEAM")
+        self.factory = env("FACTORY_NAME", None)
         self.user_to_challenge = env("USER_TO_CHALLENGE", None)
 
         self.save_replay = env.bool("SAVE_REPLAY", False)

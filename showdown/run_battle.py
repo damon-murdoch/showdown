@@ -5,6 +5,8 @@ import concurrent.futures
 from copy import deepcopy
 import logging
 
+from prisma import Prisma
+
 import data
 from data.helpers import get_standard_battle_sets
 import constants
@@ -164,12 +166,50 @@ async def start_standard_battle(ps_websocket_client: PSWebsocketClient, pokemon_
     return battle
 
 
-async def start_battle(ps_websocket_client, pokemon_battle_type):
+async def start_battle(ps_websocket_client, pokemon_battle_type, prisma: Prisma | None = None):
+
     if "random" in pokemon_battle_type:
         Scoring.POKEMON_ALIVE_STATIC = 30  # random battle benefits from a lower static score for an alive pkmn
         battle = await start_random_battle(ps_websocket_client, pokemon_battle_type)
     else:
         battle = await start_standard_battle(ps_websocket_client, pokemon_battle_type)
+
+    # Prisma defined
+    if prisma:
+
+        # Connect to database
+        await prisma.connect()
+
+        # Get the battle opponent data
+        opponent = battle.opponent
+
+        # Get the name for the opponent
+        name = opponent.account_name
+
+        # Check for opponent play record
+        record = await prisma.records.find_first(where={
+            'name': name
+        })
+
+        str = f"Play data for {name}:"
+
+        # Record found
+        if record:
+
+            # Total number of games played
+            total = record.wins + record.losses
+
+            # Calculate the win percentage for the player
+            winPercentage = (record.wins / total) * 100
+
+            str = f"{str} {record.wins}W / {record.losses}L ({round(winPercentage,2)}%) Current Win Streak: {record.winStreak}, Best Win Streak: {record.maxWinStreak}"
+        else: 
+            row = f"{str} No play data for this user yet."
+
+        await ps_websocket_client.send_message(battle.battle_tag, [str])
+
+        # Disconnect from database
+        await prisma.disconnect()
 
     await ps_websocket_client.send_message(battle.battle_tag, ["hf"])
     await ps_websocket_client.send_message(battle.battle_tag, ['/timer on'])
@@ -177,8 +217,11 @@ async def start_battle(ps_websocket_client, pokemon_battle_type):
     return battle
 
 
-async def pokemon_battle(ps_websocket_client, pokemon_battle_type):
-    battle = await start_battle(ps_websocket_client, pokemon_battle_type)
+async def pokemon_battle(ps_websocket_client, pokemon_battle_type, prisma: Prisma | None = None):
+    battle = await start_battle(ps_websocket_client, pokemon_battle_type, prisma)
+
+    # TODO: Get the name of the opponent
+
     while True:
         msg = await ps_websocket_client.receive_message()
         if battle_is_finished(battle.battle_tag, msg):
@@ -187,6 +230,94 @@ async def pokemon_battle(ps_websocket_client, pokemon_battle_type):
             else:
                 winner = None
             logger.debug("Winner: {}".format(winner))
+
+            # Prisma defined
+            if prisma:
+
+                # Connect to database
+                await prisma.connect()
+
+                # Get the battle opponent data
+                opponent = battle.opponent
+
+                loser = None
+
+                # Bot won the game
+                if winner == ShowdownConfig.username:
+                    # Set loser to the opponent
+                    loser = opponent.account_name
+
+                # Opponent won the game
+                elif winner == opponent.account_name:
+                    # Set loser to the bot's name
+                    loser = ShowdownConfig.username
+
+                # Winner found
+                if winner:
+                    # Check for winner record
+                    winner_record = await prisma.records.find_first(where={
+                        'name': winner
+                    })
+
+                    # Winner record found
+                    if winner_record: 
+
+                        # Increment the current win streak
+                        winStreak = winner_record.winStreak + 1
+
+                        # Get current max win streak
+                        maxWinStreak = winner_record.maxWinStreak
+
+                        # Win streak is greater than max win streak
+                        if winStreak > maxWinStreak:
+
+                            # Update the max win streak
+                            maxWinStreak = winStreak
+
+                        await prisma.records.update(where={
+                            'name': winner
+                        }, data={
+                            'wins': winner_record.wins + 1, 
+                            'winStreak': winStreak, 
+                            'maxWinStreak': maxWinStreak
+                        })
+                    else: # No winner record
+                        await prisma.records.create(data={
+                            'name': winner, 
+                            # Set win count to 1
+                            'wins': 1, 
+                            'winStreak': 1, 
+                            'maxWinStreak': 1
+                        })
+
+                # Loser found
+                if loser:
+                    # Check for loser record
+                    loser_record = await prisma.records.find_first(where={
+                        'name': loser
+                    })
+
+                    # Loser record found
+                    if loser_record: 
+                        await prisma.records.update(where={
+                            'name': loser
+                        }, data={
+                            # Add one to the loss count
+                            'losses': loser_record.losses + 1,
+
+                            # Reset the win streak
+                            'winStreak': 0 
+                        })
+                    else: # No loser record
+                        await prisma.records.create(data={
+                            'name': loser,
+                            # Set loss count to 1
+                            'losses': 1
+                        })
+
+                # Disconnect from database
+                await prisma.disconnect()
+
             await ps_websocket_client.send_message(battle.battle_tag, ["gg"])
             await ps_websocket_client.leave_battle(battle.battle_tag, save_replay=ShowdownConfig.save_replay)
             return winner
