@@ -12,7 +12,7 @@ COPY requirements-docker.txt /showdown/requirements-docker.txt
 RUN pip3 install -r requirements.txt
 RUN pip3 install -r requirements-docker.txt
 
-RUN prisma generate --schema ./prisma/schema.prisma
+RUN prisma generate --schema /showdown/prisma/schema.prisma
 
 RUN prisma db push
 
