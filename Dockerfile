@@ -16,6 +16,7 @@ COPY prisma /showdown/prisma
 
 RUN prisma generate && prisma db push
 
+copy database.py /showdown/database.py
 COPY config.py /showdown/config.py
 COPY constants.py /showdown/constants.py
 COPY data /showdown/data
