@@ -167,7 +167,7 @@ async def start_standard_battle(ps_websocket_client: PSWebsocketClient, pokemon_
     return battle
 
 
-async def start_battle(ps_websocket_client, pokemon_battle_type, prisma: Prisma | None = None):
+async def start_battle(ps_websocket_client, pokemon_battle_type, prisma = None):
 
     if "random" in pokemon_battle_type:
         Scoring.POKEMON_ALIVE_STATIC = 30  # random battle benefits from a lower static score for an alive pkmn
@@ -211,7 +211,7 @@ async def start_battle(ps_websocket_client, pokemon_battle_type, prisma: Prisma 
     return battle
 
 
-async def pokemon_battle(ps_websocket_client, pokemon_battle_type, prisma: Prisma | None = None):
+async def pokemon_battle(ps_websocket_client, pokemon_battle_type, prisma = None):
     battle = await start_battle(ps_websocket_client, pokemon_battle_type, prisma)
 
     # TODO: Get the name of the opponent

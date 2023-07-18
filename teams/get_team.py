@@ -4,7 +4,7 @@ from .load_factory import load_factory
 import constants
 from config import ShowdownConfig
 
-def get_team(battle_format: str | None = None):
+def get_team(battle_format = None):
 
     # TODO: Use battle_format variable
 
