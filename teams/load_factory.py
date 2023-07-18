@@ -4,7 +4,7 @@ from .team_converter import export_factory_to_packed
 
 FACTORY_JSON_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "factory")
 
-def load_factory(name: str, opponent_name: str | None):
+def load_factory(name: str):
     if name is None:
         return 'null'
 
@@ -25,4 +25,4 @@ def load_factory(name: str, opponent_name: str | None):
     with open(file_path, 'r') as f:
         factory_json = f.read()
 
-    return export_factory_to_packed(factory_json, opponent_name)
+    return export_factory_to_packed(factory_json)

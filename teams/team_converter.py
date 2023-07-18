@@ -143,7 +143,7 @@ def export_to_packed(export_string):
 
     return json_to_packed(team_dict)
 
-def export_factory_to_packed(export_string, opponent_name: str | None): 
+def export_factory_to_packed(export_string): 
 
     # Number of megas
     megas = 0
