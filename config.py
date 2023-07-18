@@ -77,14 +77,20 @@ class _ShowdownConfig:
         self.websocket_uri = env("WEBSOCKET_URI")
         self.username = env("PS_USERNAME")
         self.password = env("PS_PASSWORD")
+        self.avatar = env("PS_AVATAR")
         self.bot_mode = env("BOT_MODE")
         self.pokemon_mode = env("POKEMON_MODE")
+        self.allowed_formats = env.list("ALLOWED_FORMATS", [env("POKEMON_MODE")])
 
-        self.run_count = env.int("RUN_COUNT", 1)
+        self.run_count = env.int("RUN_COUNT", None)
         self.team = env("TEAM_NAME", None)
         self.team_mode = env("TEAM_MODE", "SAMPLE_TEAM")
         self.factory = env("FACTORY_NAME", None)
         self.user_to_challenge = env("USER_TO_CHALLENGE", None)
+
+        self.start_timer = env.bool("START_TIMER", False)
+        self.pre_battle_msg = env.list("PRE_BATTLE_MSG", ["glhf"])
+        self.post_battle_msg = env.list("POST_BATTLE_MSG", ["ggwp"])
 
         self.save_replay = env.bool("SAVE_REPLAY", False)
         self.room_name = env("ROOM_NAME", None)
@@ -92,6 +98,17 @@ class _ShowdownConfig:
 
         self.log_level = env("LOG_LEVEL", "DEBUG")
         self.log_to_file = env.bool("LOG_TO_FILE", False)
+
+        # Factory Settings
+        self.max_megas = env.int("MAX_MEGAS", 1)
+        self.max_z_holders = env.int("MAX_Z_HOLDERS", 2)
+        
+        self.item_clause = env.bool("ITEM_CLAUSE", True)
+        self.species_clause = env.bool("SPECIES_CLAUSE", True)
+
+        # Prisma Settings
+        self.prisma_enabled = env.bool("PRISMA_ENABLED", False)
+        self.show_play_data = env.bool("SHOW_PLAY_DATA", False)
 
         self.validate_config()
 

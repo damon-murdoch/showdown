@@ -9,7 +9,7 @@ from copy import deepcopy
 import constants
 from config import ShowdownConfig, init_logging
 
-from teams import load_factory, load_team
+from teams import get_team
 from showdown.run_battle import pokemon_battle
 from showdown.websocket_client import PSWebsocketClient
 
@@ -45,15 +45,23 @@ def check_dictionaries_are_unmodified(original_pokedex, original_move_json):
 
 async def showdown():
 
-    # Connect to prisma
-    prisma = Prisma()
-
     ShowdownConfig.configure()
+
     init_logging(
         ShowdownConfig.log_level,
         ShowdownConfig.log_to_file
     )
+
     apply_mods(ShowdownConfig.pokemon_mode)
+
+    # Prisma DB Placeholder
+    prisma = None
+
+    # If prisma is enabled
+    if ShowdownConfig.prisma_enabled:
+
+        # Create the prisma client
+        prisma = Prisma()
 
     original_pokedex = deepcopy(pokedex)
     original_move_json = deepcopy(all_move_json)
@@ -65,6 +73,11 @@ async def showdown():
     )
     await ps_websocket_client.login()
 
+    # Custom avatar is defined
+    if ShowdownConfig.avatar: 
+        # Set the account avatar to the custom avatar
+        await ps_websocket_client.send_message('', [f"/avatar {ShowdownConfig.avatar}"])
+
     battles_run = 0
 
     while True:
@@ -74,22 +87,10 @@ async def showdown():
         # Team Data (None by default)
         team: str | None = None
 
-        # If the team mode is set to 'factory team'
-        if ShowdownConfig.team_mode == constants.FACTORY_TEAM:
-
-            # Generate a team using the factory sets
-            team = load_factory(ShowdownConfig.factory)
-
-        # Mode is set to 'sample team'
-        elif ShowdownConfig.team_mode == constants.SAMPLE_TEAM:
-
-            # Use one of the provided teams
-            team = load_team(ShowdownConfig.team)
-
-        else: 
-            raise ValueError("Invalid Team Mode: {}".format(ShowdownConfig.team_mode))
-
         if ShowdownConfig.bot_mode == constants.CHALLENGE_USER:
+
+            team = get_team(ShowdownConfig.pokemon_mode)
+
             await ps_websocket_client.challenge_user(
                 ShowdownConfig.user_to_challenge,
                 ShowdownConfig.pokemon_mode,
@@ -98,10 +99,12 @@ async def showdown():
         elif ShowdownConfig.bot_mode == constants.ACCEPT_CHALLENGE:
             await ps_websocket_client.accept_challenge(
                 ShowdownConfig.pokemon_mode,
-                team,
                 ShowdownConfig.room_name
             )
         elif ShowdownConfig.bot_mode == constants.SEARCH_LADDER:
+
+            team = get_team(ShowdownConfig.pokemon_mode)
+
             await ps_websocket_client.search_for_match(ShowdownConfig.pokemon_mode, team)
         else:
             raise ValueError("Invalid Bot Mode: {}".format(ShowdownConfig.bot_mode))
@@ -112,8 +115,9 @@ async def showdown():
 
         battles_run += 1
         
-        # if battles_run >= ShowdownConfig.run_count:
-        # break
+        # Limited run count is not zero, and the number of battles exceeds the limit
+        if ShowdownConfig.run_count and battles_run >= ShowdownConfig.run_count:
+            break
 
 
 if __name__ == "__main__":

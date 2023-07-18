@@ -1,2 +1,1 @@
-from .load_team import load_team
-from .load_factory import load_factory
+from .get_team import get_team

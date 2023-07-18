@@ -1,41 +1,4 @@
-###### ORAS Battle Spot Doubles (VGC 2015) ######
-
-# This file contains all of the sets for ORAS battle 
-# spot doubles, and is compiled into JSON format for 
-# use with Pokemon Showdown using a Python script.
-
-##### File Format:
-# Anything enclosed in [] is optional
-# Any line starting with '#' is commented
-# and will be ignored by the compiler 
-
-# Comments do not currently work in the middle of lines!
-
-# Species (Nickname) @ Item1 / Item2 / ... / itemN
-# Ability: Ability1 / Ability2 / ... / AbilityN
-# EVs: [n HP] / [n Atk] / [n Def] / [n SpD] / [n Spe]
-# [IVs: [n HP] / [n Atk] / [n Def] / [n SpD] / [n Spe]]
-# Nature nature
-# - MoveOption1 / MoveOption2 / ... /MoveOptionN
-# - MoveOption1 / MoveOption2 / ... /MoveOptionN
-# - MoveOption1 / MoveOption2 / ... /MoveOptionN
-# - MoveOption1 / MoveOption2 / ... /MoveOptionN
-
-##### Changelog
-
-# 22/10/2022 - Added the first ~30 Pokemon
-# 24/10/2022 - Added descriptive comments, removed scarf Breloom (too toxic)
-
-#### Top 50 Pokemon (Usage) ####
-
-# Weather-reliant Pokemon (i.e. Excadrill, Ludicolo) 
-# have been left out for balance reasons. They may
-# be added in the future. Smeargle has been left out
-# because ... why. 
-
-### 1: Landorus Therian (4 Sets)
-
-# Standard Landorus
+### 1: Landorus Therian (4 Sets)# Standard Landorus
 Landorus-Therian @ Choice Scarf / Assault Vest
 Ability: Intimidate
 EVs: 4 HP / 244 Atk / 4 Def / 4 SpD / 252 Spe
@@ -75,9 +38,7 @@ Adamant nature
 - Rock Slide
 - Superpower / Knock Off
 
-### 2: Mega Kangaskhan (4 Sets)
-
-# Standard Fast Kangaskhan
+### 2: Mega Kangaskhan (4 Sets)# Standard Fast Kangaskhan
 Kangaskhan @ Kangaskhanite
 Ability: Scrappy / Inner Focus
 EVs: 4 HP / 244 Atk / 4 Def / 4 SpD / 252 Spe
@@ -118,7 +79,6 @@ Adamant nature
 - Fake Out / Protect
 
 ### 3: Heatran (5 Sets)
-
 # Standard Bulky Heatran
 Heatran @ Shuca Berry
 Ability: Flash Fire
@@ -175,7 +135,6 @@ Modest nature
 - Earth Power
 
 ### 4: Thundurus (4 Sets)
-
 # Offensive Thundurus
 Thundurus @ Focus Sash / Life Orb
 Ability: Prankster
@@ -219,7 +178,6 @@ Calm nature
 - Protect / Hidden Power Ice
 
 # 5: Amoonguss (3 Sets)
-
 # Physically Bulky Amoonguss
 Amoonguss @ Rocky Helmet
 Ability: Regenerator
@@ -254,7 +212,6 @@ Sassy nature
 - Spore
 
 ### 5: Aegislash (4 Sets)
-
 # Bulky Policy Aegislash
 Aegislash @ Weakness Policy
 Ability: Stance Change
@@ -300,7 +257,6 @@ Modest nature
 - Shadow Ball
 
 ### 6: Cresselia (4 Sets)
-
 # Standard Support Cresselia
 Cresselia @ Sitrus Berry / Safety Goggles / Rocky Helmet / Mental Herb / Leftovers
 Ability: Levitate
@@ -346,7 +302,6 @@ Bold nature
 - Moonlight
 
 # 7: Sylveon (4 Sets)
-
 # Standard Specs Sylveon
 Sylveon @ Choice Specs
 Ability: Pixilate
@@ -391,8 +346,7 @@ Modest nature
 - Hyper Voice
 - Hyper Beam
 
-### 8: Charizard (8 Sets)
-## 6 Mega Y (75%), 2 Mega X (25%)
+### 8: Charizard (8 Sets)## 6 Mega Y (75%), 2 Mega X (25%)
 
 # Fast Zard Y
 Charizard @ Charizardite Y
@@ -481,7 +435,6 @@ Adamant nature
 - Flare Blitz
 
 ### 9: Milotic (2 Sets)
-
 # Standard Bold Milotic
 Milotic @ Maranga Berry / Sitrus Berry / Leftovers
 Ability: Competitive
@@ -505,7 +458,6 @@ Modest nature
 - Icy Wind / Ice Beam / Toxic
 
 ### 10: Gardevoir (4 Sets)
-
 # Fast Offensive Mega Gardevoir
 Gardevoir @ Gardevoirite
 Ability: Trace
@@ -550,8 +502,7 @@ Modest nature
 - Hyper Voice
 - Psychic
 
-### 11: Salamence (6 Sets)
-## 2 Special (33.3%), 2 Physical (33.3%), 2 Mixed (33.3%)
+### 11: Salamence (6 Sets)## 2 Special (33.3%), 2 Physical (33.3%), 2 Mixed (33.3%)
 
 # Special Salamence
 Salamence @ Salamencite
@@ -616,7 +567,6 @@ Naive nature
 - Tailwind / Roost / Flamethrower / Draco Meteor
 
 ### 12: Tyranitar (4 Sets)
-
 # Mega Tyranitar
 Tyranitar @ Tyranitarite
 EVs: 4 HP / 244 Atk / 4 Def / 4 SpD / 252 Spe
@@ -657,7 +607,6 @@ Adamant nature
 - Low Kick / Superpower
 
 ### 13: Conkeldurr (4 Sets)
-
 # Assault Vest Conkeldurr
 Conkeldurr @ Assault Vest
 Ability: Guts / Iron Fist
@@ -700,7 +649,6 @@ Adamant nature
 - Mach Punch
 
 ### 14: Scrafty (4 Sets)
-
 # Bulky Assault Vest Scrafty
 Scrafty @ Assault Vest
 Ability: Intimidate
@@ -742,11 +690,9 @@ Brave nature
 - Knock Off
 - Fake Out
 
-### 15: Rotom-Wash (4 Sets)
-
 # Standard Bulky Rotom-Wash
 Rotom-Wash @ Sitrus Berry
-Ability: Leviate
+Ability: levitate
 EVs: 252 HP / 36 Def / 36 SpA / 44 SpD / 140 Spe
 IVs: 0 Atk
 Calm nature
@@ -757,7 +703,7 @@ Calm nature
 
 # Specially Bulky Rotom-Wash
 Rotom-Wash @ Sitrus Berry
-Ability: Leviate
+Ability: levitate
 EVs: 252 HP / 4 Def / 28 SpA / 92 SpD / 132 Spe
 IVs: 0 Atk
 Calm nature
@@ -768,7 +714,7 @@ Calm nature
 
 # Modest Bulky Rotom-Wash
 Rotom-Wash @ Sitrus Berry
-Ability: Leviate
+Ability: levitate
 EVs: 252 HP / 124 Def / 4 SpA / 96 SpD / 28 Spe
 IVs: 0 Atk
 Modest nature
@@ -789,7 +735,6 @@ Timid nature
 - Thunderbolt / Will-O-Wisp / Thunder Wave
 
 ### 16: Zapdos (4 Sets)
-
 # Fast Offensive Zapdos
 Zapdos @ Sitrus Berry / Safety Goggles / Expert Belt / Life Orb
 Ability: Pressure
@@ -835,7 +780,6 @@ Bold nature
 - Roost
 
 ### 17: Bisharp (2 Sets)
-
 # Standard Bisharp
 Bisharp @ Life Orb / Focus Sash
 Ability: Defiant
@@ -857,7 +801,6 @@ Adamant nature
 - Brick Break / Stone Edge
 
 ### 18: Gengar (4 Sets)
-
 # Perish Mega Gengar
 Gengar @ Gengarite
 Ability: Levitate
@@ -902,7 +845,6 @@ Timid nature
 - Icy Wind / Will-O-Wisp / Taunt
 
 ### 19: Hydreigon (4 Sets)
-
 # Timid Specs Hydreigon
 Hydreigon @ Choice Specs
 Ability: Levitate
@@ -948,7 +890,6 @@ Modest nature
 - Earth Power / Flamethrower / Fire Blast / Tailwind
 
 ### 20: Azumarill (4 Sets)
-
 # Standard Drum Azumarill
 Azumarill @ Sitrus Berry
 Ability: Huge Power
@@ -990,7 +931,6 @@ Adamant nature
 - Knock Off / Return / Superpower
 
 ### 21: Talonflame (4 Sets)
-
 # Jolly Banded Talonflame
 Talonflame @ Choice Band
 Ability: Gale Wings
@@ -1032,7 +972,6 @@ Naughty nature
 - Flare Blitz
 
 ### 22: Volcarona (4 Sets)
-
 # Fast Quiver Dance Volcarona
 Volcarona @ Lum Berry / Rocky Helmet
 Ability: Flame Body
@@ -1078,7 +1017,6 @@ Modest nature
 - Giga Drain / Bug Buzz / Tailwind
 
 ### 23: Suicune (4 Sets)
-
 # Fast Support Suicune
 Suicune @ Sitrus Berry / Leftovers / Rocky Helmet
 Ability: Pressure
@@ -1208,7 +1146,6 @@ Jolly nature
 - Earthquake / Poison Jab / Taunt
 
 ### 26: Ferrothorn (4 Sets)
-
 # Standard Ferrothorn
 Ferrothorn @ Rocky Helmet / Leftovers / Lum Berry
 Ability: Iron Barbs
@@ -1254,7 +1191,6 @@ Brave nature
 - Explosion
 
 ### 27: Breloom (2 Sets)
-
 # Standard Breloom
 Breloom @ Focus Sash
 Ability: Technician
@@ -1278,7 +1214,6 @@ Jolly nature
 # - Superpower / Rock Tomb
 
 ### 28: Gastrodon (2 Sets)
-
 # Physically Defensive Gastrodon
 Gastrodon @ Expert Belt / Sitrus Berry / Rocky Helmet / Leftovers / Rindo Berry
 Ability: Storm Drain
@@ -1302,7 +1237,6 @@ Modest nature
 - Scald / Muddy Water
 
 ### 29: Metagross (4 Sets)
-
 # Standard Mega Metagross
 Metagross @ Metagrossite
 Ability: Clear Body
@@ -1344,7 +1278,6 @@ Adamant Nature
 - Earthquake
 
 ### 30: Mawile (4 Sets)
-
 # Standard Brave Mega Mawile
 Mawile @ Mawilite
 Ability: Intimidate
@@ -1388,7 +1321,6 @@ Adamant nature
 - Iron Head
 
 ### 31: Arcanine (4 Sets)
-
 # Physically Defensive Arcanine
 Arcanine @ Leftovers / Safety Goggles / Sitrus Berry / Rocky Helmet
 Ability: Intimidate
@@ -1430,84 +1362,3 @@ Adamant nature
 - Close Combat
 - Wild Charge
 - Extreme Speed
-
-#### WIP Section
-# All of the sets below are not implemented / WIP, 
-# please feel free to submit requests / suggestions :)
-
-### 32: Garchomp ()
-### 33: Blaziken ()
-### 34: Venusaur ()
-### 35: Entei ()
-### 36: Gothitelle ()
-### 37: Whimsicott ()
-### 38: Jellicent ()
-### 39: Thundurus-Therian ()
-### 40: Scizor ()
-### 41: Togekiss ()
-
-### 42: Hitmontop ()
-### 43: Sableye ()
-### 44: Raichu ()
-### 45: Clefairy ()
-### 46: Latios ()
-### 47: Swampert ()
-### 48: Greninja ()
-### 49: Raikou ()
-### 50: Escavalier ()
-
-#### Mega Evolutions ####
-
-# All viable Mega-Evolution Pokemon
-# (Not included in the list above)
-# are included here.
-
-## XY Megas:
-
-# Megas Excluded: 
-# Ampharos, Aggron, Banette, 
-# Absol, Abomasnow
-
-### 51: Gyarados ()
-### 52: Blastoise ()
-### 53: Alakazam ()
-### 54: Pinsir ()
-### 55: Aerodactyl ()
-### 56: Heracross ()
-### 57: Houndoom ()
-### 58: Medicham ()
-### 59: Manectric ()
-### 60: Latias ()
-### 61: Lucario ()
-
-## ORAS Megas:
-
-# Megas Excluded:
-# Beedrill, Slowbro, Steelix, 
-# Swampert, Sharpedo, Glalie, 
-# Gallade, Audino
-
-### 62: Pidgeot ()
-### 63: Sceptile ()
-### 64: Camerupt ()
-### 65: Altaria ()
-### 66: Lopunny ()
-
-#### Other Pokemon ####
-
-# All other Pokemon that didn't make the cut 
-# based on usage, but I thought were cool 
-# / worth adding, are here. I'm open to 
-# adding new pokemon / sets as they are 
-# suggested, as long as they are at least 
-# somewhat viable and not *too* obscure :)
-
-### 67: Virizion
-### 68: Mamoswine
-### 69: Weavile
-### 70: Liepard
-### 71: Machamp
-### 72: Porygon2
-### 73: Infernape
-### 74: Landorus
-### 75: Porygon-Z

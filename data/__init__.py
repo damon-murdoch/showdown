@@ -18,7 +18,7 @@ random_battle_set_location = os.path.join(PWD, 'random_battle_sets.json')
 with open(random_battle_set_location, 'r') as f:
     random_battle_sets = json.load(f)
 
-
+pokemon_dex = pokedex
 pokemon_sets = random_battle_sets
 effectiveness = {}
 team_datasets = None

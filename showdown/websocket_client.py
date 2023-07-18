@@ -5,6 +5,9 @@ import json
 import time
 
 import logging
+from config import ShowdownConfig
+
+from teams import get_team
 logger = logging.getLogger(__name__)
 
 
@@ -102,6 +105,12 @@ class PSWebsocketClient:
             logger.error("Could not log-in\nDetails:\n{}".format(response.content))
             raise LoginError("Could not log-in")
 
+    async def get_team(self, battle_format): 
+        if not "random" in battle_format:
+            return get_team(ShowdownConfig.pokemon_mode)
+        else: 
+            return None
+
     async def update_team(self, battle_format, team):
         if "random" in battle_format:
             logger.info("Setting team to None because the pokemon mode is {}".format(battle_format))
@@ -120,24 +129,45 @@ class PSWebsocketClient:
         await self.send_message('', message)
         self.last_challenge_time = time.time()
 
-    async def accept_challenge(self, battle_format, team, room_name):
+    async def accept_challenge(self, battle_format, room_name):
         if room_name is not None:
             await self.join_room(room_name)
 
         logger.debug("Waiting for a {} challenge".format(battle_format))
-        await self.update_team(battle_format, team)
+
         username = None
+
         while username is None:
             msg = await self.receive_message()
             split_msg = msg.split('|')
+
             if (
                 len(split_msg) == 9 and
                 split_msg[1] == "pm" and
                 split_msg[3].strip().replace("!", "").replace("‽", "") == self.username and
-                split_msg[4].startswith("/challenge") and
-                split_msg[5] == battle_format
+                split_msg[4].startswith("/challenge")
             ):
-                username = split_msg[2].strip()
+                # Temporary username
+                _username = split_msg[2].strip()
+
+                # Get the format the player was challenged to
+                challenge_format = split_msg[5]
+
+                # If the format is not in the list of allowed formats
+                if challenge_format not in ShowdownConfig.allowed_formats:
+                    # Reject the challenge
+                    await self.send_message('', [f"/reject {_username}"])
+                    # Inform the player of the correct format
+                    await self.send_message('', [f"/msg {_username},I am currently only accepting challenges in the following format(s):", f"'{','.join(battle_format)}'"])
+
+                else: # Passes format check
+                    username = _username
+
+        # Get the team for the chalenge format
+        team = await self.get_team(challenge_format)
+
+        # Update the team for the bot
+        await self.update_team(challenge_format, team)
 
         message = ["/accept " + username]
         await self.send_message('', message)

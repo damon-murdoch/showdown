@@ -1,5 +1,6 @@
 import random 
-
+from data import pokemon_dex
+from config import ShowdownConfig
 from showdown.engine.helpers import normalize_name
 
 def json_to_packed(json_team):
@@ -66,12 +67,27 @@ def single_pokemon_export_to_dict(pkmn_export_string):
         name = name.replace('(F)', '')
     species = get_species(name)
     if species:
-        pkmn_dict["species"] = normalize_name(species)
-        pkmn_dict["name"] = normalize_name(species)
+        name = normalize_name(species)
+
+        pkmn_dict["species"] = name
+        pkmn_dict["name"] = name
     else:
-        pkmn_dict["name"] = normalize_name(name.strip())
+        name = normalize_name(name.strip())
+
+        pkmn_dict["species"] = name
+        pkmn_dict["name"] = name
     if '@' in pkmn_info[0]:
-        pkmn_dict["item"] = normalize_name(pkmn_info[0].split('@')[1])
+
+        # Get the item(s) from the line
+        item = pkmn_info[0].split('@')[1]
+
+        # Multiple items
+        if '/' in item:
+            items = item.split('/')
+            item = random.choice(items)
+
+        pkmn_dict["item"] = normalize_name(item)
+
     for line in map(str.strip, pkmn_info[1:]):
         if line.startswith('Ability: '):
             pkmn_dict["ability"] = normalize_name(line.split('Ability: ')[-1])
@@ -127,14 +143,17 @@ def export_to_packed(export_string):
 
     return json_to_packed(team_dict)
 
-def export_factory_to_packed(export_string): 
+def export_factory_to_packed(export_string, opponent_name: str | None): 
+
+    # Number of megas
+    megas = 0
+
+    # Number of z crystal holders
+    z_holders = 0
 
     # List of items
     items = list()
-
-    # List of species ids
     species = list()
-
     team_dict = list()
 
     factory_dict = get_team_dict(export_string)
@@ -146,25 +165,57 @@ def export_factory_to_packed(export_string):
     # AND there are items left in the factory list
     while len(team_dict) < 6 and len(factory_dict) > 0:
 
-        print(len(team_dict), len(factory_dict))
+        # TODO: Move all of this code to a worker function lol
 
+        # Pokemon is a mega
+        mega = False
+
+        # Pokemon is a z holder
+        z_holder = False
+
+        # Pop the top set from the list
         set = factory_dict.pop()
 
-        # TODO: ONLY CHECK FOR FORMATS WITH SPECIES CLAUSE
+        # Strip any formes from the name
+        set_species = set["species"].split('-')[0]
 
-        name = set["species"]
+        # Get the pokedex entry for the species
+        dex = pokemon_dex[set_species]
 
-        if name == '': name = set["name"]
+        # Base species is defined
+        if "baseSpecies" in dex:
+            # Get the base species from the pokedex
+            set_species = dex["baseSpecies"].lower()
 
-        if name in species:
+        # Skip if species clause and species is already present
+        if ShowdownConfig.species_clause and set_species in species:
             continue # Skip
 
-        # TODO: ONLY CHECK FOR FORMATS WITH ITEM CLAUSE
-
-        if set["item"] in items:
+        # Skip if item clause and item is already present
+        if ShowdownConfig.item_clause and set["item"] in items:
             continue # Skip
 
-        species.append(name)
+        # If the pokemon is holding a mega stone
+        if set["item"] != "eviolite" and set["item"].endswith("ite"):
+            if megas < ShowdownConfig.max_megas: 
+                mega = True # Pokemon is a mega
+            else: 
+                continue # Skip
+
+        # Else if the pokemon is holding a z crystal
+        elif set["item"].endswith("ium Z"):
+            if z_holders < ShowdownConfig.max_z_holders:
+                z_holder = True # Pokemon is a z holder
+            else: 
+                continue # Skip
+
+        # If mega, increment counter
+        if mega: megas += 1
+
+        # If z holder, increment counter
+        if z_holder: z_holders += 1
+
+        species.append(set_species)
         items.append(set["item"])
         team_dict.append(set)
 
