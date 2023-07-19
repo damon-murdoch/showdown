@@ -169,6 +169,7 @@ async def start_standard_battle(ps_websocket_client: PSWebsocketClient, pokemon_
 
 async def start_battle(ps_websocket_client, pokemon_battle_type, prisma = None):
 
+    # Only random battles - CC1v1 / Battle Factory has team preview
     if "random" in pokemon_battle_type:
         Scoring.POKEMON_ALIVE_STATIC = 30  # random battle benefits from a lower static score for an alive pkmn
         battle = await start_random_battle(ps_websocket_client, pokemon_battle_type)

@@ -11,6 +11,8 @@ from config import ShowdownConfig
 from teams import get_team
 logger = logging.getLogger(__name__)
 
+from data.mods.apply_mods import apply_mods
+
 
 class LoginError(Exception):
     pass
@@ -107,13 +109,14 @@ class PSWebsocketClient:
             raise LoginError("Could not log-in")
 
     async def get_team(self, battle_format): 
-        if not "random" in battle_format:
-            return get_team(ShowdownConfig.pokemon_mode)
-        else: 
+        if battle_format in constants.RANDOM_FORMATS:
             return None
+        else: 
+            return get_team(ShowdownConfig.pokemon_mode)
+            
 
     async def update_team(self, battle_format, team):
-        if "random" in battle_format:
+        if battle_format in constants.RANDOM_FORMATS:
             logger.info("Setting team to None because the pokemon mode is {}".format(battle_format))
             message = ["/utm None"]
         else:
@@ -181,8 +184,14 @@ class PSWebsocketClient:
         # Update the team for the bot
         await self.update_team(challenge_format, team)
 
+        # Apply the mods for the format
+        apply_mods(challenge_format)
+
         message = ["/accept " + username]
         await self.send_message('', message)
+
+        # Return the challenge format
+        return challenge_format
 
     async def search_for_match(self, battle_format, team):
         logger.debug("Searching for ranked {} match".format(battle_format))

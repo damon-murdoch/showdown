@@ -1,3 +1,4 @@
+from copy import deepcopy
 import os
 import json
 import logging
@@ -110,24 +111,58 @@ def undo_physical_special_split():
             except KeyError:
                 pass
 
+# Last Generation
+last_gen = None
+
+# Create verification check backups
+pokedex_backup = deepcopy(pokedex)
+all_move_json_backup = deepcopy(all_move_json)
 
 def apply_mods(game_mode):
-    if "gen3" in game_mode:
-        apply_gen_3_mods()
-    if "gen4" in game_mode:
-        apply_gen_4_mods()
-    elif "gen5" in game_mode:
-        apply_gen_5_mods()
-    elif "gen6" in game_mode:
-        apply_gen_6_mods()
-    elif "gen7" in game_mode:
-        apply_gen_7_mods()
-    elif "gen8" in game_mode:
-        apply_gen_8_mods()
 
-    if game_mode[:3] == "gen":
-        if int(game_mode[3]) < 8:
-            set_random_battle_sets(7)
-            damage_calculator.TERRAIN_DAMAGE_BOOST = 1.5  # terrain gave a 1.5x damage boost prior to gen8
-        if int(game_mode[3]) < 9:
-            constants.ICE_WEATHER = constants.HAIL  # ice-type weather was hail prior to gen9
+    global last_gen
+
+    # If the game mode has changed
+    if last_gen == None or (not last_gen in game_mode):
+
+        logger.debug(f"Applying mods for '{game_mode}' ....")
+
+        # Restore the original data
+        pokedex = deepcopy(pokedex_backup)
+        all_move_json = deepcopy(all_move_json_backup)
+
+        if "gen1" in game_mode:
+            last_gen="gen1"
+        elif "gen2" in game_mode:
+            last_gen="gen2"
+        elif "gen3" in game_mode:
+            apply_gen_3_mods()
+            last_gen="gen3"
+        elif "gen4" in game_mode:
+            apply_gen_4_mods()
+            last_gen="gen4"
+        elif "gen5" in game_mode:
+            apply_gen_5_mods()
+            last_gen="gen5"
+        elif "gen6" in game_mode:
+            apply_gen_6_mods()
+            last_gen="gen6"
+        elif "gen7" in game_mode:
+            apply_gen_7_mods()
+            last_gen="gen7"
+        elif "gen8" in game_mode:
+            apply_gen_8_mods()
+            last_gen="gen8"
+        elif "gen9" in game_mode:
+            last_gen="gen9"
+
+        if game_mode[:3] == "gen":
+            if int(game_mode[3]) < 8:
+                set_random_battle_sets(7)
+                damage_calculator.TERRAIN_DAMAGE_BOOST = 1.5  # terrain gave a 1.5x damage boost prior to gen8
+            if int(game_mode[3]) < 9:
+                constants.ICE_WEATHER = constants.HAIL  # ice-type weather was hail prior to gen9
+
+    else: 
+
+        logger.debug("Generation not changed. Mod not modified.")

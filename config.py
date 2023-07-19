@@ -1,21 +1,15 @@
-from copy import deepcopy
 import logging
 import os
 import sys
 from logging.handlers import RotatingFileHandler
 from typing import Union
 
-from data import all_move_json
-from data import pokedex
-
 from environs import Env
 
 import constants
-from data.mods import apply_mods
 
 env = Env()
 env.read_env(path="env", recurse=False)
-# env.read_env(recurse=True)
 
 
 class CustomFormatter(logging.Formatter):
@@ -64,9 +58,7 @@ class _ShowdownConfig:
     password: str
     bot_mode: str
     pokemon_mode: str
-    last_mode: str  # Last mode played
     run_count: int
-    team_path: str
     team_mode: str
     factory: str
     user_to_challenge: str
@@ -78,7 +70,6 @@ class _ShowdownConfig:
     log_handler: Union[CustomRotatingFileHandler, logging.StreamHandler]
 
     def configure(self):
-
         self.battle_bot_module = env("BATTLE_BOT")
         self.websocket_uri = env("WEBSOCKET_URI")
         self.username = env("PS_USERNAME")
@@ -87,7 +78,6 @@ class _ShowdownConfig:
         self.bot_mode = env("BOT_MODE")
         self.pokemon_mode = env("POKEMON_MODE")
 
-        self.team_path = env("TEAM_PATH", None)
         self.run_count = env.int("RUN_COUNT", None)
         self.team_enabled = env.bool("TEAM_ENABLED", True)
         self.factory_enabled = env.bool("FACTORY_ENABLED", True)
@@ -120,30 +110,15 @@ class _ShowdownConfig:
         self.allow_doubles = env.bool("ALLOW_DOUBLES", False)
         self.allow_random = env.bool("ALLOW_RANDOM", False)
 
-        # Track if mods need to be updated
-        self.team_mode = None
-
-        # Backup of pokedex
-        self.pokedex = deepcopy(pokedex)
-
-        # Backup of move json data
-        self.all_move_json = deepcopy(all_move_json)
-
-        # Verify pokdex (set when mod is changed)
-        self.verify_pokedex = None
-
-        # Verify move json (set when mod is changed)
-        self.verify_all_move_json = None
-
         self.validate_config()
 
     def validate_config(self):
         assert self.bot_mode in constants.BOT_MODES
 
         if self.bot_mode == constants.CHALLENGE_USER:
-            assert self.user_to_challenge is not None, (
-                "If bot_mode is `CHALLENGE_USER, you must declare USER_TO_CHALLENGE"
-            )
+            assert (
+                self.user_to_challenge is not None
+            ), "If bot_mode is `CHALLENGE_USER, you must declare USER_TO_CHALLENGE"
 
         # Add singles random formats
         if self.allow_random:
@@ -155,30 +130,6 @@ class _ShowdownConfig:
 
         # Remove duplicates and sort alphabetically
         self.allowed_modes = list(set(self.allowed_modes))
-
-    def apply_mods(self, mode = None):
-
-        # If mode is not defined
-        if mode == None: 
-            # Set to the config mode
-            mode = self.pokemon_mode
-
-        # Current mode does not match the last one
-        if self.last_mode != mode:
-
-            # Revert pokedex / move json to original data
-            pokedex = deepcopy(self.pokedex)
-            all_move_json = deepcopy(self.all_move_json)
-
-            # Apply the mods for the mode
-            apply_mods(mode)
-
-            # Create verification check backups
-            self.verify_pokedex = deepcopy(pokedex)
-            self.verify_all_move_json = deepcopy(all_move_json)
-
-            # Update the last mode
-            self.last_mode = mode
 
 
 ShowdownConfig = _ShowdownConfig()
