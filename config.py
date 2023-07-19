@@ -1,12 +1,17 @@
+from copy import deepcopy
 import logging
 import os
 import sys
 from logging.handlers import RotatingFileHandler
 from typing import Union
 
+from data import all_move_json
+from data import pokedex
+
 from environs import Env
 
 import constants
+from data.mods import apply_mods
 
 env = Env()
 env.read_env(path="env", recurse=False)
@@ -59,8 +64,9 @@ class _ShowdownConfig:
     password: str
     bot_mode: str
     pokemon_mode: str
+    last_mode: str  # Last mode played
     run_count: int
-    team: str
+    team_path: str
     team_mode: str
     factory: str
     user_to_challenge: str
@@ -80,12 +86,11 @@ class _ShowdownConfig:
         self.avatar = env("PS_AVATAR")
         self.bot_mode = env("BOT_MODE")
         self.pokemon_mode = env("POKEMON_MODE")
-        self.allowed_formats = env.list("ALLOWED_FORMATS", [env("POKEMON_MODE")])
 
+        self.team_path = env("TEAM_PATH", None)
         self.run_count = env.int("RUN_COUNT", None)
-        self.team = env("TEAM_NAME", None)
-        self.team_mode = env("TEAM_MODE", "SAMPLE_TEAM")
-        self.factory = env("FACTORY_NAME", None)
+        self.team_enabled = env.bool("TEAM_ENABLED", True)
+        self.factory_enabled = env.bool("FACTORY_ENABLED", True)
         self.user_to_challenge = env("USER_TO_CHALLENGE", None)
 
         self.start_timer = env.bool("START_TIMER", False)
@@ -102,13 +107,33 @@ class _ShowdownConfig:
         # Factory Settings
         self.max_megas = env.int("MAX_MEGAS", 1)
         self.max_z_holders = env.int("MAX_Z_HOLDERS", 2)
-        
+
         self.item_clause = env.bool("ITEM_CLAUSE", True)
         self.species_clause = env.bool("SPECIES_CLAUSE", True)
 
         # Prisma Settings
         self.prisma_enabled = env.bool("PRISMA_ENABLED", False)
-        self.show_play_data = env.bool("SHOW_PLAY_DATA", False)
+        self.show_win_streak = env.bool("SHOW_WIN_STREAK", False)
+
+        # For use in accept_challenge mode only
+        self.allowed_modes = env.list("ALLOWED_MODES", [env("POKEMON_MODE")])
+        self.allow_doubles = env.bool("ALLOW_DOUBLES", False)
+        self.allow_random = env.bool("ALLOW_RANDOM", False)
+
+        # Track if mods need to be updated
+        self.team_mode = None
+
+        # Backup of pokedex
+        self.pokedex = deepcopy(pokedex)
+
+        # Backup of move json data
+        self.all_move_json = deepcopy(all_move_json)
+
+        # Verify pokdex (set when mod is changed)
+        self.verify_pokedex = None
+
+        # Verify move json (set when mod is changed)
+        self.verify_all_move_json = None
 
         self.validate_config()
 
@@ -119,6 +144,41 @@ class _ShowdownConfig:
             assert self.user_to_challenge is not None, (
                 "If bot_mode is `CHALLENGE_USER, you must declare USER_TO_CHALLENGE"
             )
+
+        # Add singles random formats
+        if self.allow_random:
+            self.allowed_modes += constants.RANDOM_SINGLES_FORMATS
+
+        # Add doubles random formats
+        if self.allow_doubles:
+            self.allowed_modes += constants.RANDOM_DOUBLES_FORMATS
+
+        # Remove duplicates and sort alphabetically
+        self.allowed_modes = list(set(self.allowed_modes))
+
+    def apply_mods(self, mode = None):
+
+        # If mode is not defined
+        if mode == None: 
+            # Set to the config mode
+            mode = self.pokemon_mode
+
+        # Current mode does not match the last one
+        if self.last_mode != mode:
+
+            # Revert pokedex / move json to original data
+            pokedex = deepcopy(self.pokedex)
+            all_move_json = deepcopy(self.all_move_json)
+
+            # Apply the mods for the mode
+            apply_mods(mode)
+
+            # Create verification check backups
+            self.verify_pokedex = deepcopy(pokedex)
+            self.verify_all_move_json = deepcopy(all_move_json)
+
+            # Update the last mode
+            self.last_mode = mode
 
 
 ShowdownConfig = _ShowdownConfig()

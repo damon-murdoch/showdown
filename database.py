@@ -49,16 +49,23 @@ async def update_winner(prisma: Prisma, account_name):
             'maxWinStreak': maxWinStreak
         })
     else: # No winner record
+
+        # Fresh win streak
+        winStreak = 1
+
         await prisma.records.create(data={
             'name': account_name, 
             # Set win count to 1
-            'wins': 1, 
-            'winStreak': 1, 
-            'maxWinStreak': 1
+            'wins': winStreak, 
+            'winStreak': winStreak, 
+            'maxWinStreak': winStreak
         })
 
     # Disconnect from database
     await prisma.disconnect()
+
+    # Return win streak
+    return winStreak
 
 async def update_loser(prisma: Prisma, account_name): 
 
@@ -90,3 +97,6 @@ async def update_loser(prisma: Prisma, account_name):
         
     # Disconnect from database
     await prisma.disconnect()
+
+    # Win streak broken
+    return 0

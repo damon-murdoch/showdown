@@ -52,8 +52,6 @@ async def showdown():
         ShowdownConfig.log_to_file
     )
 
-    apply_mods(ShowdownConfig.pokemon_mode)
-
     # Prisma DB Placeholder
     prisma = None
 
@@ -62,9 +60,6 @@ async def showdown():
 
         # Create the prisma client
         prisma = Prisma()
-
-    original_pokedex = deepcopy(pokedex)
-    original_move_json = deepcopy(all_move_json)
 
     ps_websocket_client = await PSWebsocketClient.create(
         ShowdownConfig.username,
@@ -87,31 +82,44 @@ async def showdown():
         # Team Data (None by default)
         team: str | None = None
 
-        if ShowdownConfig.bot_mode == constants.CHALLENGE_USER:
-
-            team = get_team(ShowdownConfig.pokemon_mode)
-
-            await ps_websocket_client.challenge_user(
-                ShowdownConfig.user_to_challenge,
-                ShowdownConfig.pokemon_mode,
-                team
-            )
-        elif ShowdownConfig.bot_mode == constants.ACCEPT_CHALLENGE:
+        # Accept challenge mode
+        if ShowdownConfig.bot_mode == constants.ACCEPT_CHALLENGE:
             await ps_websocket_client.accept_challenge(
-                ShowdownConfig.pokemon_mode,
+                ShowdownConfig.allowed_modes,
                 ShowdownConfig.room_name
             )
-        elif ShowdownConfig.bot_mode == constants.SEARCH_LADDER:
 
+        else: # Any other mode
+
+            # Apply mods for chosen mode
+            ShowdownConfig.apply_mods()
+
+            # Get the team to battle with
             team = get_team(ShowdownConfig.pokemon_mode)
 
-            await ps_websocket_client.search_for_match(ShowdownConfig.pokemon_mode, team)
-        else:
-            raise ValueError("Invalid Bot Mode: {}".format(ShowdownConfig.bot_mode))
+            if ShowdownConfig.bot_mode == constants.CHALLENGE_USER:
+                await ps_websocket_client.challenge_user(
+                    ShowdownConfig.user_to_challenge,
+                    ShowdownConfig.pokemon_mode,
+                    team
+                )
+
+            elif ShowdownConfig.bot_mode == constants.SEARCH_LADDER:
+                await ps_websocket_client.search_for_match(
+                    ShowdownConfig.pokemon_mode, 
+                    team
+                )
+
+            else:
+                raise ValueError("Invalid Bot Mode: {}".format(ShowdownConfig.bot_mode))
 
         await pokemon_battle(ps_websocket_client, ShowdownConfig.pokemon_mode, prisma)
 
-        check_dictionaries_are_unmodified(original_pokedex, original_move_json)
+        # Verify dictionaries are not changed
+        check_dictionaries_are_unmodified(
+            ShowdownConfig.verify_pokedex, 
+            ShowdownConfig.verify_all_move_json
+        )
 
         battles_run += 1
         

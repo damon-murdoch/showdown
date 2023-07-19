@@ -1,4 +1,5 @@
 import asyncio
+import constants
 import websockets
 import requests
 import json
@@ -129,13 +130,15 @@ class PSWebsocketClient:
         await self.send_message('', message)
         self.last_challenge_time = time.time()
 
-    async def accept_challenge(self, battle_format, room_name):
+    async def accept_challenge(self, allowed_formats, room_name):
         if room_name is not None:
             await self.join_room(room_name)
 
-        logger.debug("Waiting for a {} challenge".format(battle_format))
+        logger.debug(f"Waiting for a {','.join(allowed_formats)} challenge ...")
 
         username = None
+
+        team = None
 
         while username is None:
             msg = await self.receive_message()
@@ -154,17 +157,26 @@ class PSWebsocketClient:
                 challenge_format = split_msg[5]
 
                 # If the format is not in the list of allowed formats
-                if challenge_format not in ShowdownConfig.allowed_formats:
+                if challenge_format not in allowed_formats:
                     # Reject the challenge
                     await self.send_message('', [f"/reject {_username}"])
                     # Inform the player of the correct format
-                    await self.send_message('', [f"/msg {_username},I am currently only accepting challenges in the following format(s):", f"'{','.join(battle_format)}'"])
+                    await self.send_message('', [f"/msg {_username},I am currently only accepting challenges in the following format(s):", f"'{','.join(allowed_formats)}'"])
 
                 else: # Passes format check
-                    username = _username
 
-        # Get the team for the chalenge format
-        team = await self.get_team(challenge_format)
+                    # Get the team for the chalenge format
+                    team = await self.get_team(challenge_format)
+
+                    # If no team is returned, and the format is not a random metagame
+                    if team == None and challenge_format not in constants.RANDOM_FORMATS:
+                        # Reject the challenge
+                        await self.send_message('', [f"/reject {_username}"])
+                        # Inform the player of the correct format
+                        await self.send_message('', [f"/msg {_username},No teams found for format '{challenge_format}', sorry! Please challenge me to something else!"])
+
+                    else: # Random format / team found
+                        username = _username
 
         # Update the team for the bot
         await self.update_team(challenge_format, team)

@@ -12,6 +12,37 @@ BOT_MODES = [CHALLENGE_USER, ACCEPT_CHALLENGE, SEARCH_LADDER]
 STANDARD_BATTLE = "standard_battle"
 RANDOM_BATTLE = "random_battle"
 
+# Formats which don't require a team
+RANDOM_SINGLES_FORMATS = [
+    "gen9randombattle",
+    "gen8randombattle",
+    "gen7randombattle",
+    "gen6randombattle",
+    "gen5randombattle",
+    "gen4randombattle",
+    "gen3randombattle",
+    "gen2randombattle",
+    "gen1randombattle",
+
+    "gen9battlefactory",
+    "gen8battlefactory",
+    "gen7battlefactory",
+
+    "gen9bssfactory",
+    "gen8bssfactory",
+    "gen7bssfactory",
+
+    "challengecup1v1"
+]
+
+# Doubles formats which don't require a team
+RANDOM_DOUBLES_FORMATS = [
+
+]
+
+# Both of the arrays, combined
+RANDOM_FORMATS = RANDOM_SINGLES_FORMATS + RANDOM_DOUBLES_FORMATS
+
 NO_TEAM_PREVIEW_GENS = {
     "gen1",
     "gen2",
