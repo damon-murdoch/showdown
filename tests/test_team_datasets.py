@@ -31,7 +31,7 @@ class TestTeamDatasets(TestCase):
             "rockyhelmet",
             "jolly",
             (0, 0, 252, 0, 4, 252),
-            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock"))
+            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock")),
         )
 
         self.assertEqual(expected_set, predicted_garchomp_set)
@@ -53,7 +53,7 @@ class TestTeamDatasets(TestCase):
             "rockyhelmet",
             "adamant",  # adamant is more common
             (0, 0, 252, 0, 4, 252),
-            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock"))
+            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock")),
         )
 
         self.assertEqual(expected_set, predicted_garchomp_set)
@@ -66,9 +66,7 @@ class TestTeamDatasets(TestCase):
             }
         }
         garchomp = Pokemon("garchomp", 100)
-        garchomp.moves = [
-            Move("watergun")  # none of the above sets have this
-        ]
+        garchomp.moves = [Move("watergun")]  # none of the above sets have this
 
         predicted_garchomp_set = self.team_datasets.predict_set(garchomp)
         self.assertIsNone(predicted_garchomp_set)
@@ -81,9 +79,7 @@ class TestTeamDatasets(TestCase):
             }
         }
         garchomp = Pokemon("garchomp", 100)
-        garchomp.moves = [
-            Move("earthquake")
-        ]
+        garchomp.moves = [Move("earthquake")]
 
         predicted_garchomp_set = self.team_datasets.predict_set(garchomp)
 
@@ -93,7 +89,7 @@ class TestTeamDatasets(TestCase):
             "rockyhelmet",
             "adamant",
             (0, 0, 252, 0, 4, 252),
-            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock"))
+            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock")),
         )
 
         self.assertEqual(expected_set, predicted_garchomp_set)
@@ -114,7 +110,7 @@ class TestTeamDatasets(TestCase):
             "rockyhelmet",
             "adamant",
             (0, 0, 252, 0, 4, 252),
-            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock"))
+            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock")),
         )
         self.assertEqual(expected_set, predicted_garchomp_set)
 
@@ -146,7 +142,7 @@ class TestTeamDatasets(TestCase):
             "rockyhelmet",
             "adamant",
             (0, 0, 252, 0, 4, 252),
-            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock"))
+            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock")),
         )
         self.assertEqual(expected_set, predicted_garchomp_set)
 
@@ -166,7 +162,7 @@ class TestTeamDatasets(TestCase):
             "rockyhelmet",
             "adamant",
             (0, 0, 252, 0, 4, 252),
-            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock"))
+            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock")),
         )
         self.assertEqual(expected_set, predicted_garchomp_set)
 
@@ -198,7 +194,7 @@ class TestTeamDatasets(TestCase):
             "rockyhelmet",
             "adamant",
             (0, 0, 252, 0, 4, 252),
-            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock"))
+            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock")),
         )
         self.assertEqual(expected_set, predicted_garchomp_set)
 
@@ -211,14 +207,16 @@ class TestTeamDatasets(TestCase):
         garchomp = Pokemon("garchomp", 100)
         garchomp.ability = "some_mismatch"
 
-        predicted_garchomp_set = self.team_datasets.predict_set(garchomp, match_ability=False)
+        predicted_garchomp_set = self.team_datasets.predict_set(
+            garchomp, match_ability=False
+        )
         expected_set = PokemonSet(
             "water",
             "roughskin",
             "rockyhelmet",
             "adamant",
             (0, 0, 252, 0, 4, 252),
-            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock"))
+            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock")),
         )
         self.assertEqual(expected_set, predicted_garchomp_set)
 
@@ -231,14 +229,16 @@ class TestTeamDatasets(TestCase):
         garchomp = Pokemon("garchomp", 100)
         garchomp.item = "some_mismatch"
 
-        predicted_garchomp_set = self.team_datasets.predict_set(garchomp, match_item=False)
+        predicted_garchomp_set = self.team_datasets.predict_set(
+            garchomp, match_item=False
+        )
         expected_set = PokemonSet(
             "water",
             "roughskin",
             "rockyhelmet",
             "adamant",
             (0, 0, 252, 0, 4, 252),
-            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock"))
+            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock")),
         )
         self.assertEqual(expected_set, predicted_garchomp_set)
 
@@ -252,14 +252,16 @@ class TestTeamDatasets(TestCase):
         garchomp.ability = "some_mismatch"
         garchomp.item = "some_mismatch"
 
-        predicted_garchomp_set = self.team_datasets.predict_set(garchomp, match_item=False, match_ability=False)
+        predicted_garchomp_set = self.team_datasets.predict_set(
+            garchomp, match_item=False, match_ability=False
+        )
         expected_set = PokemonSet(
             "water",
             "roughskin",
             "rockyhelmet",
             "adamant",
             (0, 0, 252, 0, 4, 252),
-            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock"))
+            PokemonMoveset(("dragontail", "earthquake", "spikes", "stealthrock")),
         )
         self.assertEqual(expected_set, predicted_garchomp_set)
 
@@ -323,7 +325,9 @@ class TestTeamDatasets(TestCase):
             }
         }
         garchomp = Pokemon("garchomp", 100)
-        garchomp.speed_range = StatRange(min=300, max=float("inf"))  # should invalidate the first set
+        garchomp.speed_range = StatRange(
+            min=300, max=float("inf")
+        )  # should invalidate the first set
 
         predicted_garchomp_set = self.team_datasets.predict_set(garchomp)
         self.assertEqual("rockyhelmet", predicted_garchomp_set.item)
@@ -336,7 +340,9 @@ class TestTeamDatasets(TestCase):
             }
         }
         garchomp = Pokemon("garchomp", 100)
-        garchomp.speed_range = StatRange(min=0, max=300)  # should invalidate the second set
+        garchomp.speed_range = StatRange(
+            min=0, max=300
+        )  # should invalidate the second set
 
         predicted_garchomp_set = self.team_datasets.predict_set(garchomp)
         self.assertEqual("choiceband", predicted_garchomp_set.item)
@@ -349,7 +355,9 @@ class TestTeamDatasets(TestCase):
             }
         }
         garchomp = Pokemon("garchomp", 100)
-        garchomp.speed_range = StatRange(min=0, max=400)  # should invalidate the choicescarf set
+        garchomp.speed_range = StatRange(
+            min=0, max=400
+        )  # should invalidate the choicescarf set
 
         predicted_garchomp_set = self.team_datasets.predict_set(garchomp)
         self.assertEqual("choiceband", predicted_garchomp_set.item)
@@ -362,7 +370,9 @@ class TestTeamDatasets(TestCase):
             }
         }
         garchomp = Pokemon("garchomp", 100)
-        garchomp.speed_range = StatRange(min=0, max=400)  # should invalidate the choicescarf set
+        garchomp.speed_range = StatRange(
+            min=0, max=400
+        )  # should invalidate the choicescarf set
 
         predicted_garchomp_set = self.team_datasets.predict_set(garchomp)
         self.assertEqual("choiceband", predicted_garchomp_set.item)
@@ -393,7 +403,7 @@ class TestTeamDatasets(TestCase):
             "choicescarf",
             "adamant",
             (0, 252, 0, 0, 4, 252),
-            PokemonMoveset(("dragontail", "earthquake"))
+            PokemonMoveset(("dragontail", "earthquake")),
         )
 
         predicted_garchomp_set = self.team_datasets.predict_set(garchomp)

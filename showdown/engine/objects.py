@@ -6,24 +6,24 @@ from data import all_move_json
 
 
 boost_multiplier_lookup = {
-    -6: 2/8,
-    -5: 2/7,
-    -4: 2/6,
-    -3: 2/5,
-    -2: 2/4,
-    -1: 2/3,
-    0: 2/2,
-    1: 3/2,
-    2: 4/2,
-    3: 5/2,
-    4: 6/2,
-    5: 7/2,
-    6: 8/2
+    -6: 2 / 8,
+    -5: 2 / 7,
+    -4: 2 / 6,
+    -3: 2 / 5,
+    -2: 2 / 4,
+    -1: 2 / 3,
+    0: 2 / 2,
+    1: 3 / 2,
+    2: 4 / 2,
+    3: 5 / 2,
+    4: 6 / 2,
+    5: 7 / 2,
+    6: 8 / 2,
 }
 
 
 class State(object):
-    __slots__ = ('user', 'opponent', 'weather', 'field', 'trick_room')
+    __slots__ = ("user", "opponent", "weather", "field", "trick_room")
 
     def __init__(self, user, opponent, weather, field, trick_room):
         self.user = user
@@ -40,7 +40,11 @@ class State(object):
         if force_switch:
             possible_moves = []
         else:
-            possible_moves = [m[constants.ID] for m in self.user.active.moves if not m[constants.DISABLED]]
+            possible_moves = [
+                m[constants.ID]
+                for m in self.user.active.moves
+                if not m[constants.DISABLED]
+            ]
 
         if self.user.trapped(self.opponent.active):
             possible_switches = []
@@ -57,7 +61,11 @@ class State(object):
         if self.opponent.active.hp <= 0:
             possible_moves = []
         else:
-            possible_moves = [m[constants.ID] for m in self.opponent.active.moves if not m[constants.DISABLED]]
+            possible_moves = [
+                m[constants.ID]
+                for m in self.opponent.active.moves
+                if not m[constants.DISABLED]
+            ]
 
         if self.opponent.trapped(self.user.active):
             possible_switches = []
@@ -72,8 +80,12 @@ class State(object):
 
         # double faint or team preview
         if force_switch and wait:
-            user_options = self.get_self_options(force_switch) or [constants.DO_NOTHING_MOVE]
-            opponent_options = self.get_opponent_options() or [constants.DO_NOTHING_MOVE]
+            user_options = self.get_self_options(force_switch) or [
+                constants.DO_NOTHING_MOVE
+            ]
+            opponent_options = self.get_opponent_options() or [
+                constants.DO_NOTHING_MOVE
+            ]
             return user_options, opponent_options
 
         if force_switch:
@@ -100,9 +112,15 @@ class State(object):
         #   -1 if the opponent has won
         #    False if the battle is not over
 
-        if self.user.active.hp <= 0 and not any(pkmn.hp for pkmn in self.user.reserve.values()):
+        if self.user.active.hp <= 0 and not any(
+            pkmn.hp for pkmn in self.user.reserve.values()
+        ):
             return -1
-        elif self.opponent.active.hp <= 0 and not any(pkmn.hp for pkmn in self.opponent.reserve.values()) and len(self.opponent.reserve) == 5:
+        elif (
+            self.opponent.active.hp <= 0
+            and not any(pkmn.hp for pkmn in self.opponent.reserve.values())
+            and len(self.opponent.reserve) == 5
+        ):
             return 1
 
         return False
@@ -114,7 +132,7 @@ class State(object):
             Side.from_dict(state_dict[constants.OPPONENT]),
             state_dict[constants.WEATHER],
             state_dict[constants.FIELD],
-            state_dict[constants.TRICK_ROOM]
+            state_dict[constants.TRICK_ROOM],
         )
 
     def __repr__(self):
@@ -124,13 +142,13 @@ class State(object):
                 constants.OPPONENT: self.opponent,
                 constants.WEATHER: self.weather,
                 constants.FIELD: self.field,
-                constants.TRICK_ROOM: self.trick_room
+                constants.TRICK_ROOM: self.trick_room,
             }
         )
 
 
 class Side(object):
-    __slots__ = ('active', 'reserve', 'wish', 'side_conditions', 'future_sight')
+    __slots__ = ("active", "reserve", "wish", "side_conditions", "future_sight")
 
     def __init__(self, active, reserve, wish, side_conditions, future_sight):
         self.active = active
@@ -147,15 +165,15 @@ class Side(object):
         return switches
 
     def trapped(self, opponent_active):
-        if self.active.item == 'shedshell' or 'ghost' in self.active.types:
+        if self.active.item == "shedshell" or "ghost" in self.active.types:
             return False
         elif constants.PARTIALLY_TRAPPED in self.active.volatile_status:
             return True
-        elif opponent_active.ability == 'shadowtag':
+        elif opponent_active.ability == "shadowtag":
             return True
-        elif opponent_active.ability == 'magnetpull' and 'steel' in self.active.types:
+        elif opponent_active.ability == "magnetpull" and "steel" in self.active.types:
             return True
-        elif opponent_active.ability == 'arenatrap' and self.active.is_grounded():
+        elif opponent_active.ability == "arenatrap" and self.active.is_grounded():
             return True
         else:
             return False
@@ -164,50 +182,55 @@ class Side(object):
     def from_dict(cls, side_dict):
         return Side(
             Pokemon.from_dict(side_dict[constants.ACTIVE]),
-            {p[constants.ID]: Pokemon.from_dict(p) for p in side_dict[constants.RESERVE].values()},
+            {
+                p[constants.ID]: Pokemon.from_dict(p)
+                for p in side_dict[constants.RESERVE].values()
+            },
             side_dict[constants.WISH],
             defaultdict(int, side_dict[constants.SIDE_CONDITIONS]),
-            side_dict[constants.FUTURE_SIGHT]
+            side_dict[constants.FUTURE_SIGHT],
         )
 
     def __repr__(self):
-        return str({
-            constants.ACTIVE: self.active,
-            constants.RESERVE: self.reserve,
-            constants.WISH: self.wish,
-            constants.SIDE_CONDITIONS: dict(self.side_conditions),
-            constants.FUTURE_SIGHT: self.future_sight
-        })
+        return str(
+            {
+                constants.ACTIVE: self.active,
+                constants.RESERVE: self.reserve,
+                constants.WISH: self.wish,
+                constants.SIDE_CONDITIONS: dict(self.side_conditions),
+                constants.FUTURE_SIGHT: self.future_sight,
+            }
+        )
 
 
 class Pokemon(object):
     __slots__ = (
-        'id',
-        'level',
-        'types',
-        'hp',
-        'maxhp',
-        'ability',
-        'item',
-        'attack',
-        'defense',
-        'special_attack',
-        'special_defense',
-        'speed',
-        'nature',
-        'evs',
-        'attack_boost',
-        'defense_boost',
-        'special_attack_boost',
-        'special_defense_boost',
-        'speed_boost',
-        'accuracy_boost',
-        'evasion_boost',
-        'status',
-        'volatile_status',
-        'moves',
-        'terastallized',
-        'burn_multiplier'
+        "id",
+        "level",
+        "types",
+        "hp",
+        "maxhp",
+        "ability",
+        "item",
+        "attack",
+        "defense",
+        "special_attack",
+        "special_defense",
+        "speed",
+        "nature",
+        "evs",
+        "attack_boost",
+        "defense_boost",
+        "special_attack_boost",
+        "special_defense_boost",
+        "speed_boost",
+        "accuracy_boost",
+        "evasion_boost",
+        "status",
+        "volatile_status",
+        "moves",
+        "terastallized",
+        "burn_multiplier",
     )
 
     def __init__(
@@ -236,7 +259,7 @@ class Pokemon(object):
         status=None,
         terastallized=False,
         volatile_status=None,
-        moves=None
+        moves=None,
     ):
         self.id = identifier
         self.level = level
@@ -270,11 +293,18 @@ class Pokemon(object):
 
     def calculate_burn_multiplier(self):
         # this will result in a positive evaluation for a burned pokemon
-        if self.ability in ['guts', 'marvelscale', 'quickfeet']:
+        if self.ability in ["guts", "marvelscale", "quickfeet"]:
             return -2
 
         # +1 to the multiplier for each physical move
-        burn_multiplier = len([m for m in self.moves if all_move_json[m[constants.ID]][constants.CATEGORY] == constants.PHYSICAL])
+        burn_multiplier = len(
+            [
+                m
+                for m in self.moves
+                if all_move_json[m[constants.ID]][constants.CATEGORY]
+                == constants.PHYSICAL
+            ]
+        )
 
         # evaluation could use more than 4 moves for opponent's pokemon - dont go over 4
         burn_multiplier = min(4, burn_multiplier)
@@ -286,13 +316,16 @@ class Pokemon(object):
         return burn_multiplier
 
     def get_highest_stat(self):
-        return max({
-           constants.ATTACK: self.attack,
-           constants.DEFENSE: self.defense,
-           constants.SPECIAL_ATTACK: self.special_attack,
-           constants.SPECIAL_DEFENSE: self.special_defense,
-           constants.SPEED: self.speed,
-       }.items(), key=lambda x: x[1])[0]
+        return max(
+            {
+                constants.ATTACK: self.attack,
+                constants.DEFENSE: self.defense,
+                constants.SPECIAL_ATTACK: self.special_attack,
+                constants.SPECIAL_DEFENSE: self.special_defense,
+                constants.SPEED: self.speed,
+            }.items(),
+            key=lambda x: x[1],
+        )[0]
 
     def get_boost_from_boost_string(self, boost_string):
         if boost_string == constants.ATTACK:
@@ -329,16 +362,23 @@ class Pokemon(object):
 
     def item_can_be_removed(self):
         if (
-            self.item is None or
-            self.ability == 'stickyhold' or
-            'substitute' in self.volatile_status or
-            self.id in constants.POKEMON_CANNOT_HAVE_ITEMS_REMOVED or
-            self.id.endswith('mega') and self.id != 'yanmega' or  # yeah this is hacky but who are you to judge?
-            self.id.startswith("genesect") and self.item.endswith("drive") or
-            self.id.startswith("arceus") and self.item.endswith("plate") or
-            self.id.startswith("silvally") and self.item.endswith("memory") or
+            self.item is None
+            or self.ability == "stickyhold"
+            or "substitute" in self.volatile_status
+            or self.id in constants.POKEMON_CANNOT_HAVE_ITEMS_REMOVED
+            or self.id.endswith("mega")
+            and self.id != "yanmega"
+            or self.id.startswith(  # yeah this is hacky but who are you to judge?
+                "genesect"
+            )
+            and self.item.endswith("drive")
+            or self.id.startswith("arceus")
+            and self.item.endswith("plate")
+            or self.id.startswith("silvally")
+            and self.item.endswith("memory")
+            or
             # any(self.id.startswith(i) and self.id != i for i in constants.UNKOWN_POKEMON_FORMES) or
-            self.item.endswith('iumz')
+            self.item.endswith("iumz")
         ):
             return False
 
@@ -371,7 +411,7 @@ class Pokemon(object):
             d[constants.STATUS],
             d[constants.TERASTALLIZED],
             d[constants.VOLATILE_STATUS],
-            d[constants.MOVES]
+            d[constants.MOVES],
         )
 
     @classmethod
@@ -401,20 +441,29 @@ class Pokemon(object):
             d[constants.STATUS],
             d[constants.TERASTALLIZED],
             set(d[constants.VOLATILE_STATUS]),
-            d[constants.MOVES]
+            d[constants.MOVES],
         )
 
     def calculate_boosted_stats(self):
         return {
             constants.ATTACK: boost_multiplier_lookup[self.attack_boost] * self.attack,
-            constants.DEFENSE: boost_multiplier_lookup[self.defense_boost] * self.defense,
-            constants.SPECIAL_ATTACK: boost_multiplier_lookup[self.special_attack_boost] * self.special_attack,
-            constants.SPECIAL_DEFENSE: boost_multiplier_lookup[self.special_defense_boost] * self.special_defense,
+            constants.DEFENSE: boost_multiplier_lookup[self.defense_boost]
+            * self.defense,
+            constants.SPECIAL_ATTACK: boost_multiplier_lookup[self.special_attack_boost]
+            * self.special_attack,
+            constants.SPECIAL_DEFENSE: boost_multiplier_lookup[
+                self.special_defense_boost
+            ]
+            * self.special_defense,
             constants.SPEED: boost_multiplier_lookup[self.speed_boost] * self.speed,
         }
 
     def is_grounded(self):
-        if 'flying' in self.types or self.ability == 'levitate' or self.item == 'airballoon':
+        if (
+            "flying" in self.types
+            or self.ability == "levitate"
+            or self.item == "airballoon"
+        ):
             return False
         return True
 
@@ -445,13 +494,13 @@ class Pokemon(object):
                 constants.STATUS: self.status,
                 constants.TERASTALLIZED: self.terastallized,
                 constants.VOLATILE_STATUS: list(self.volatile_status),
-                constants.MOVES: self.moves
+                constants.MOVES: self.moves,
             }
         )
 
 
 class TransposeInstruction:
-    __slots__ = ('percentage', 'instructions', 'frozen')
+    __slots__ = ("percentage", "instructions", "frozen")
 
     def __init__(self, percentage, instructions, frozen=False):
         self.percentage = percentage
@@ -468,19 +517,22 @@ class TransposeInstruction:
         return self.instructions == other.instructions
 
     def __copy__(self):
-        return TransposeInstruction(self.percentage, copy(self.instructions), self.frozen)
+        return TransposeInstruction(
+            self.percentage, copy(self.instructions), self.frozen
+        )
 
     def __repr__(self):
         return "{}: {}".format(self.percentage, str(self.instructions))
 
     def __eq__(self, other):
-        return self.percentage == other.percentage and \
-            self.instructions == other.instructions and \
-            self.frozen == other.frozen
+        return (
+            self.percentage == other.percentage
+            and self.instructions == other.instructions
+            and self.frozen == other.frozen
+        )
 
 
 class StateMutator:
-
     def __init__(self, state):
         self.state = state
         self.apply_instructions = {
@@ -507,7 +559,7 @@ class StateMutator:
             constants.MUTATOR_TOGGLE_TRICKROOM: self.toggle_trickroom,
             constants.MUTATOR_CHANGE_TYPE: self.change_types,
             constants.MUTATOR_CHANGE_ITEM: self.change_item,
-            constants.MUTATOR_CHANGE_STATS: self.change_stats
+            constants.MUTATOR_CHANGE_STATS: self.change_stats,
         }
         self.reverse_instructions = {
             constants.MUTATOR_SWITCH: self.reverse_switch,
@@ -533,7 +585,7 @@ class StateMutator:
             constants.MUTATOR_TOGGLE_TRICKROOM: self.toggle_trickroom,
             constants.MUTATOR_CHANGE_TYPE: self.reverse_change_types,
             constants.MUTATOR_CHANGE_ITEM: self.reverse_change_item,
-            constants.MUTATOR_CHANGE_STATS: self.reverse_change_stats
+            constants.MUTATOR_CHANGE_STATS: self.reverse_change_stats,
         }
 
     def apply_one(self, instruction):
@@ -556,18 +608,26 @@ class StateMutator:
     def disable_move(self, side, move_name):
         side = self.get_side(side)
         try:
-            move = next(filter(lambda x: x[constants.ID] == move_name, side.active.moves))
+            move = next(
+                filter(lambda x: x[constants.ID] == move_name, side.active.moves)
+            )
         except StopIteration:
-            raise ValueError("{} not in pokemon's moves: {}".format(move_name, side.active.moves))
+            raise ValueError(
+                "{} not in pokemon's moves: {}".format(move_name, side.active.moves)
+            )
 
         move[constants.DISABLED] = True
 
     def enable_move(self, side, move_name):
         side = self.get_side(side)
         try:
-            move = next(filter(lambda x: x[constants.ID] == move_name, side.active.moves))
+            move = next(
+                filter(lambda x: x[constants.ID] == move_name, side.active.moves)
+            )
         except StopIteration:
-            raise ValueError("{} not in pokemon's moves: {}".format(move_name, side.active.moves))
+            raise ValueError(
+                "{} not in pokemon's moves: {}".format(move_name, side.active.moves)
+            )
 
         move[constants.DISABLED] = False
 
@@ -618,7 +678,7 @@ class StateMutator:
             raise ValueError("Invalid stat: {}".format(stat))
 
     def unboost(self, side, stat, amount):
-        self.boost(side, stat, -1*amount)
+        self.boost(side, stat, -1 * amount)
 
     def apply_status(self, side, status):
         side = self.get_side(side)

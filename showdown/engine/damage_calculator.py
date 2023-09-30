@@ -7,71 +7,131 @@ from data import pokedex
 
 
 pokemon_type_indicies = {
-    'normal': 0,
-    'fire': 1,
-    'water': 2,
-    'electric': 3,
-    'grass': 4,
-    'ice': 5,
-    'fighting': 6,
-    'poison': 7,
-    'ground': 8,
-    'flying': 9,
-    'psychic': 10,
-    'bug': 11,
-    'rock': 12,
-    'ghost': 13,
-    'dragon': 14,
-    'dark': 15,
-    'steel': 16,
-    'fairy': 17,
-
+    "normal": 0,
+    "fire": 1,
+    "water": 2,
+    "electric": 3,
+    "grass": 4,
+    "ice": 5,
+    "fighting": 6,
+    "poison": 7,
+    "ground": 8,
+    "flying": 9,
+    "psychic": 10,
+    "bug": 11,
+    "rock": 12,
+    "ghost": 13,
+    "dragon": 14,
+    "dark": 15,
+    "steel": 16,
+    "fairy": 17,
     # ??? and typeless are the same thing
-    'typeless': 18,
-    '???': 18,
+    "typeless": 18,
+    "???": 18,
 }
 
-damage_multipication_array = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1/2, 0, 1, 1, 1/2, 1, 1],
-                              [1, 1/2, 1/2, 1, 2, 2, 1, 1, 1, 1, 1, 2, 1/2, 1, 1/2, 1, 2, 1, 1],
-                              [1, 2, 1/2, 1, 1/2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1/2, 1, 1, 1, 1],
-                              [1, 1, 2, 1/2, 1/2, 1, 1, 1, 0, 2, 1, 1, 1, 1, 1/2, 1, 1, 1, 1],
-                              [1, 1/2, 2, 1, 1/2, 1, 1, 1/2, 2, 1/2, 1, 1/2, 2, 1, 1/2, 1, 1/2, 1, 1],
-                              [1, 1/2, 1/2, 1, 2, 1/2, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 1/2, 1, 1],
-                              [2, 1, 1, 1, 1, 2, 1, 1/2, 1, 1/2, 1/2, 1/2, 2, 0, 1, 2, 2, 1/2, 1],
-                              [1, 1, 1, 1, 2, 1, 1, 1/2, 1/2, 1, 1, 1, 1/2, 1/2, 1, 1, 0, 2, 1],
-                              [1, 2, 1, 2, 1/2, 1, 1, 2, 1, 0, 1, 1/2, 2, 1, 1, 1, 2, 1, 1],
-                              [1, 1, 1, 1/2, 2, 1, 2, 1, 1, 1, 1, 2, 1/2, 1, 1, 1, 1/2, 1, 1],
-                              [1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1/2, 1, 1, 1, 1, 0, 1/2, 1, 1],
-                              [1, 1/2, 1, 1, 2, 1, 1/2, 1/2, 1, 1/2, 2, 1, 1, 1/2, 1, 2, 1/2, 1/2, 1],
-                              [1, 2, 1, 1, 1, 2, 1/2, 1, 1/2, 2, 1, 2, 1, 1, 1, 1, 1/2, 1, 1],
-                              [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1/2, 1, 1, 1],
-                              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1/2, 0, 1],
-                              [1, 1, 1, 1, 1, 1, 1/2, 1, 1, 1, 2, 1, 1, 2, 1, 1/2, 1, 1/2, 1],
-                              [1, 1/2, 1/2, 1/2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1/2, 2, 1],
-                              [1, 1/2, 1, 1, 1, 1, 2, 1/2, 1, 1, 1, 1, 1, 1, 2, 2, 1/2, 1, 1],
-                              [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+damage_multipication_array = [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 / 2, 0, 1, 1, 1 / 2, 1, 1],
+    [1, 1 / 2, 1 / 2, 1, 2, 2, 1, 1, 1, 1, 1, 2, 1 / 2, 1, 1 / 2, 1, 2, 1, 1],
+    [1, 2, 1 / 2, 1, 1 / 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1 / 2, 1, 1, 1, 1],
+    [1, 1, 2, 1 / 2, 1 / 2, 1, 1, 1, 0, 2, 1, 1, 1, 1, 1 / 2, 1, 1, 1, 1],
+    [
+        1,
+        1 / 2,
+        2,
+        1,
+        1 / 2,
+        1,
+        1,
+        1 / 2,
+        2,
+        1 / 2,
+        1,
+        1 / 2,
+        2,
+        1,
+        1 / 2,
+        1,
+        1 / 2,
+        1,
+        1,
+    ],
+    [1, 1 / 2, 1 / 2, 1, 2, 1 / 2, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 1 / 2, 1, 1],
+    [2, 1, 1, 1, 1, 2, 1, 1 / 2, 1, 1 / 2, 1 / 2, 1 / 2, 2, 0, 1, 2, 2, 1 / 2, 1],
+    [1, 1, 1, 1, 2, 1, 1, 1 / 2, 1 / 2, 1, 1, 1, 1 / 2, 1 / 2, 1, 1, 0, 2, 1],
+    [1, 2, 1, 2, 1 / 2, 1, 1, 2, 1, 0, 1, 1 / 2, 2, 1, 1, 1, 2, 1, 1],
+    [1, 1, 1, 1 / 2, 2, 1, 2, 1, 1, 1, 1, 2, 1 / 2, 1, 1, 1, 1 / 2, 1, 1],
+    [1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1 / 2, 1, 1, 1, 1, 0, 1 / 2, 1, 1],
+    [
+        1,
+        1 / 2,
+        1,
+        1,
+        2,
+        1,
+        1 / 2,
+        1 / 2,
+        1,
+        1 / 2,
+        2,
+        1,
+        1,
+        1 / 2,
+        1,
+        2,
+        1 / 2,
+        1 / 2,
+        1,
+    ],
+    [1, 2, 1, 1, 1, 2, 1 / 2, 1, 1 / 2, 2, 1, 2, 1, 1, 1, 1, 1 / 2, 1, 1],
+    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1 / 2, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1 / 2, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1 / 2, 1, 1, 1, 2, 1, 1, 2, 1, 1 / 2, 1, 1 / 2, 1],
+    [1, 1 / 2, 1 / 2, 1 / 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1 / 2, 2, 1],
+    [1, 1 / 2, 1, 1, 1, 1, 2, 1 / 2, 1, 1, 1, 1, 1, 1, 2, 2, 1 / 2, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+]
 
 
 SPECIAL_LOGIC_MOVES = {
-    "seismictoss": lambda attacker, defender: [int(attacker.level)] if "ghost" not in defender.types else None,
-    "nightshade": lambda attacker, defender: [int(attacker.level)] if "normal" not in defender.types else None,
-    "superfang": lambda attacker, defender: [int(defender.hp / 2)] if "ghost" not in defender.types else None,
+    "seismictoss": lambda attacker, defender: [int(attacker.level)]
+    if "ghost" not in defender.types
+    else None,
+    "nightshade": lambda attacker, defender: [int(attacker.level)]
+    if "normal" not in defender.types
+    else None,
+    "superfang": lambda attacker, defender: [int(defender.hp / 2)]
+    if "ghost" not in defender.types
+    else None,
     "naturesmadness": lambda attacker, defender: [int(defender.hp / 2)],
     "ruination": lambda attacker, defender: [int(defender.hp / 2)],
-    "finalgambit": lambda attacker, defender: [int(attacker.hp)] if "ghost" not in defender.types else None,
-    "endeavor": lambda attacker, defender: [int(defender.hp - attacker.hp)] if defender.hp > attacker.hp and "ghost" not in defender.types else None,
-    "painsplit": lambda attacker, defender: [defender.hp - (attacker.hp + defender.hp)/2],
+    "finalgambit": lambda attacker, defender: [int(attacker.hp)]
+    if "ghost" not in defender.types
+    else None,
+    "endeavor": lambda attacker, defender: [int(defender.hp - attacker.hp)]
+    if defender.hp > attacker.hp and "ghost" not in defender.types
+    else None,
+    "painsplit": lambda attacker, defender: [
+        defender.hp - (attacker.hp + defender.hp) / 2
+    ],
 }
 
 
 TERRAIN_DAMAGE_BOOST = 1.3
 
 
-def _calculate_damage(attacker, defender, move, conditions=None, calc_type='average'):
+def _calculate_damage(attacker, defender, move, conditions=None, calc_type="average"):
     # This function assumes the `move` dictionary has already been updated to account for move/item/ability special-effects
     # You may want to use `calculate_damage`
 
-    acceptable_calc_types = ['average', 'min', 'max', 'min_max', 'min_max_average', 'all']
+    acceptable_calc_types = [
+        "average",
+        "min",
+        "max",
+        "min_max",
+        "min_max_average",
+        "all",
+    ]
     if calc_type not in acceptable_calc_types:
         raise ValueError("{} is not one of {}".format(calc_type, acceptable_calc_types))
 
@@ -103,35 +163,44 @@ def _calculate_damage(attacker, defender, move, conditions=None, calc_type='aver
     attacking_stats = attacker.calculate_boosted_stats()
     defending_stats = defender.calculate_boosted_stats()
 
-    if attacker.ability == 'unaware':
+    if attacker.ability == "unaware":
         if defense == constants.DEFENSE:
             defending_stats[defense] = defender.defense
         elif defense == constants.SPECIAL_DEFENSE:
             defending_stats[defense] = defender.special_defense
-    if defender.ability == 'unaware':
+    if defender.ability == "unaware":
         if attack == constants.ATTACK:
             attacking_stats[attack] = attacker.attack
         elif defense == constants.SPECIAL_ATTACK:
             attacking_stats[attack] = attacker.special_attack
 
     defending_types = defender.types
-    if attacking_move[constants.ID] == 'thousandarrows' and 'flying' in defending_types:
+    if attacking_move[constants.ID] == "thousandarrows" and "flying" in defending_types:
         defending_types = copy(defender.types)
-        defending_types.remove('flying')
-    if attacking_move[constants.TYPE] == 'ground' and constants.ROOST in defender.volatile_status:
+        defending_types.remove("flying")
+    if (
+        attacking_move[constants.TYPE] == "ground"
+        and constants.ROOST in defender.volatile_status
+    ):
         defending_types = copy(defender.types)
         try:
-            defending_types.remove('flying')
+            defending_types.remove("flying")
         except ValueError:
             pass
 
     # rock types get 1.5x SPDEF in sand
     # ice types get 1.5x DEF in snow
     try:
-        if conditions[constants.WEATHER] == constants.SAND and 'rock' in defender.types:
-            defending_stats[constants.SPECIAL_DEFENSE] = int(defending_stats[constants.SPECIAL_DEFENSE] * 1.5)
-        elif conditions[constants.WEATHER] == constants.SNOW and 'ice' in defender.types:
-            defending_stats[constants.DEFENSE] = int(defending_stats[constants.DEFENSE] * 1.5)
+        if conditions[constants.WEATHER] == constants.SAND and "rock" in defender.types:
+            defending_stats[constants.SPECIAL_DEFENSE] = int(
+                defending_stats[constants.SPECIAL_DEFENSE] * 1.5
+            )
+        elif (
+            conditions[constants.WEATHER] == constants.SNOW and "ice" in defender.types
+        ):
+            defending_stats[constants.DEFENSE] = int(
+                defending_stats[constants.DEFENSE] * 1.5
+            )
     except KeyError:
         pass
 
@@ -144,10 +213,14 @@ def _calculate_damage(attacker, defender, move, conditions=None, calc_type='aver
     elif attacker.ability == "beadsofruin":
         defending_stats[constants.SPECIAL_DEFENSE] *= 0.75
 
-    damage = int(int((2 * attacker.level) / 5) + 2) * attacking_move[constants.BASE_POWER]
+    damage = (
+        int(int((2 * attacker.level) / 5) + 2) * attacking_move[constants.BASE_POWER]
+    )
     damage = int(damage * attacking_stats[attack] / defending_stats[defense])
     damage = int(damage / 50) + 2
-    damage *= calculate_modifier(attacker, defender, defending_types, attacking_move, conditions)
+    damage *= calculate_modifier(
+        attacker, defender, defending_types, attacking_move, conditions
+    )
 
     damage_rolls = get_damage_rolls(damage, calc_type)
 
@@ -165,17 +238,22 @@ def is_not_very_effective(move_type, defending_pokemon_types):
 
 
 def calculate_modifier(attacker, defender, defending_types, attacking_move, conditions):
-
     modifier = 1
-    modifier *= type_effectiveness_modifier(attacking_move[constants.TYPE], defending_types)
+    modifier *= type_effectiveness_modifier(
+        attacking_move[constants.TYPE], defending_types
+    )
     modifier *= weather_modifier(attacking_move, conditions.get(constants.WEATHER))
     modifier *= stab_modifier(attacker, attacking_move)
     modifier *= burn_modifier(attacker, attacking_move)
-    modifier *= terrain_modifier(attacker, defender, attacking_move, conditions.get(constants.TERRAIN))
+    modifier *= terrain_modifier(
+        attacker, defender, attacking_move, conditions.get(constants.TERRAIN)
+    )
     modifier *= volatile_status_modifier(attacking_move, attacker, defender)
 
-    if attacker.ability != 'infiltrator':
-        modifier *= light_screen_modifier(attacking_move, conditions.get(constants.LIGHT_SCREEN))
+    if attacker.ability != "infiltrator":
+        modifier *= light_screen_modifier(
+            attacking_move, conditions.get(constants.LIGHT_SCREEN)
+        )
         modifier *= reflect_modifier(attacking_move, conditions.get(constants.REFLECT))
         modifier *= aurora_veil_modifier(conditions.get(constants.AURORA_VEIL))
 
@@ -192,25 +270,18 @@ def get_move(move):
 
 
 def get_damage_rolls(damage, calc_type):
-    if calc_type == 'average':
+    if calc_type == "average":
         damage *= 0.925
         return [int(damage)]
-    elif calc_type == 'min':
+    elif calc_type == "min":
         return [int(damage * 0.85)]
-    elif calc_type == 'max':
+    elif calc_type == "max":
         return [int(damage)]
-    elif calc_type == 'min_max':
-        return [
-            int(damage * 0.85),
-            int(damage)
-        ]
-    elif calc_type == 'min_max_average':
-        return [
-            int(damage * 0.85),
-            int(damage * 0.925),
-            int(damage)
-        ]
-    elif calc_type == 'all':
+    elif calc_type == "min_max":
+        return [int(damage * 0.85), int(damage)]
+    elif calc_type == "min_max_average":
+        return [int(damage * 0.85), int(damage * 0.925), int(damage)]
+    elif calc_type == "all":
         return [
             int(damage * 0.85),
             int(damage * 0.86),
@@ -227,7 +298,7 @@ def get_damage_rolls(damage, calc_type):
             int(damage * 0.97),
             int(damage * 0.98),
             int(damage * 0.99),
-            int(damage)
+            int(damage),
         ]
 
 
@@ -236,7 +307,9 @@ def type_effectiveness_modifier(attacking_move_type, defending_types):
     attacking_type_index = pokemon_type_indicies[attacking_move_type]
     for pkmn_type in defending_types:
         defending_type_index = pokemon_type_indicies[pkmn_type]
-        modifier *= damage_multipication_array[attacking_type_index][defending_type_index]
+        modifier *= damage_multipication_array[attacking_type_index][
+            defending_type_index
+        ]
 
     return modifier
 
@@ -245,21 +318,25 @@ def weather_modifier(attacking_move, weather):
     if not isinstance(weather, str):
         return 1
 
-    if weather == constants.SUN and attacking_move[constants.TYPE] == 'fire':
+    if weather == constants.SUN and attacking_move[constants.TYPE] == "fire":
         return 1.5
-    elif weather == constants.SUN and attacking_move[constants.TYPE] == 'water':
+    elif weather == constants.SUN and attacking_move[constants.TYPE] == "water":
         return 0.5
-    elif weather == constants.RAIN and attacking_move[constants.TYPE] == 'water':
+    elif weather == constants.RAIN and attacking_move[constants.TYPE] == "water":
         return 1.5
-    elif weather == constants.RAIN and attacking_move[constants.TYPE] == 'fire':
+    elif weather == constants.RAIN and attacking_move[constants.TYPE] == "fire":
         return 0.5
-    elif weather == constants.HEAVY_RAIN and attacking_move[constants.TYPE] == 'fire':
+    elif weather == constants.HEAVY_RAIN and attacking_move[constants.TYPE] == "fire":
         return 0
-    elif weather == constants.HEAVY_RAIN and attacking_move[constants.TYPE] == 'water':
+    elif weather == constants.HEAVY_RAIN and attacking_move[constants.TYPE] == "water":
         return 1.5
-    elif weather == constants.DESOLATE_LAND and attacking_move[constants.TYPE] == 'water':
+    elif (
+        weather == constants.DESOLATE_LAND and attacking_move[constants.TYPE] == "water"
+    ):
         return 0
-    elif weather == constants.DESOLATE_LAND and attacking_move[constants.TYPE] == 'fire':
+    elif (
+        weather == constants.DESOLATE_LAND and attacking_move[constants.TYPE] == "fire"
+    ):
         return 1.5
     return 1
 
@@ -267,16 +344,18 @@ def weather_modifier(attacking_move, weather):
 def stab_modifier(attacking_pokemon, attacking_move):
     if attacking_move[constants.TYPE] in [t for t in attacking_pokemon.types]:
         if (
-            attacking_pokemon.terastallized and
-            attacking_pokemon.types[0] in pokedex[attacking_pokemon.id][constants.TYPES]
+            attacking_pokemon.terastallized
+            and attacking_pokemon.types[0]
+            in pokedex[attacking_pokemon.id][constants.TYPES]
         ):
             return 2
         else:
             return 1.5
 
     elif (
-        attacking_pokemon.terastallized and
-        attacking_move[constants.TYPE] in pokedex[attacking_pokemon.id][constants.TYPES]
+        attacking_pokemon.terastallized
+        and attacking_move[constants.TYPE]
+        in pokedex[attacking_pokemon.id][constants.TYPES]
     ):
         return 1.5
 
@@ -284,7 +363,10 @@ def stab_modifier(attacking_pokemon, attacking_move):
 
 
 def burn_modifier(attacking_pokemon, attacking_move):
-    if constants.BURN == attacking_pokemon.status and attacking_move[constants.CATEGORY] == constants.PHYSICAL:
+    if (
+        constants.BURN == attacking_pokemon.status
+        and attacking_move[constants.CATEGORY] == constants.PHYSICAL
+    ):
         return 0.5
     return 1
 
@@ -308,84 +390,145 @@ def aurora_veil_modifier(aurora_veil):
 
 
 def terrain_modifier(attacker, defender, attacking_move, terrain):
-    if terrain == constants.ELECTRIC_TERRAIN and attacking_move[constants.TYPE] == 'electric' and attacker.is_grounded():
+    if (
+        terrain == constants.ELECTRIC_TERRAIN
+        and attacking_move[constants.TYPE] == "electric"
+        and attacker.is_grounded()
+    ):
         return TERRAIN_DAMAGE_BOOST
-    elif terrain == constants.GRASSY_TERRAIN and attacking_move[constants.TYPE] == 'grass' and attacker.is_grounded():
+    elif (
+        terrain == constants.GRASSY_TERRAIN
+        and attacking_move[constants.TYPE] == "grass"
+        and attacker.is_grounded()
+    ):
         return TERRAIN_DAMAGE_BOOST
-    elif terrain == constants.GRASSY_TERRAIN and attacking_move[constants.ID] == 'earthquake':
+    elif (
+        terrain == constants.GRASSY_TERRAIN
+        and attacking_move[constants.ID] == "earthquake"
+    ):
         return 0.5
-    elif terrain == constants.MISTY_TERRAIN and attacking_move[constants.TYPE] == 'dragon' and defender.is_grounded():
+    elif (
+        terrain == constants.MISTY_TERRAIN
+        and attacking_move[constants.TYPE] == "dragon"
+        and defender.is_grounded()
+    ):
         return 0.5
-    elif terrain == constants.PSYCHIC_TERRAIN and attacking_move[constants.TYPE] == 'psychic' and attacker.is_grounded():
+    elif (
+        terrain == constants.PSYCHIC_TERRAIN
+        and attacking_move[constants.TYPE] == "psychic"
+        and attacker.is_grounded()
+    ):
         return TERRAIN_DAMAGE_BOOST
-    elif terrain == constants.PSYCHIC_TERRAIN and attacking_move[constants.PRIORITY] > 0 and defender.is_grounded():
+    elif (
+        terrain == constants.PSYCHIC_TERRAIN
+        and attacking_move[constants.PRIORITY] > 0
+        and defender.is_grounded()
+    ):
         return 0
     return 1
 
 
 def volatile_status_modifier(attacking_move, attacker, defender):
     modifier = 1
-    if 'magnetrise' in defender.volatile_status and attacking_move[constants.TYPE] == 'ground' and attacking_move[constants.ID] != 'thousandarrows':
+    if (
+        "magnetrise" in defender.volatile_status
+        and attacking_move[constants.TYPE] == "ground"
+        and attacking_move[constants.ID] != "thousandarrows"
+    ):
         modifier *= 0
-    if 'flashfire' in attacker.volatile_status and attacking_move[constants.TYPE] == 'fire':
+    if (
+        "flashfire" in attacker.volatile_status
+        and attacking_move[constants.TYPE] == "fire"
+    ):
         modifier *= 1.5
-    if 'tarshot' in defender.volatile_status and attacking_move[constants.TYPE] == 'fire':
+    if (
+        "tarshot" in defender.volatile_status
+        and attacking_move[constants.TYPE] == "fire"
+    ):
         modifier *= 2
-    if 'phantomforce' in defender.volatile_status:
+    if "phantomforce" in defender.volatile_status:
         modifier *= 0
-    if 'shadowforce' in defender.volatile_status:
+    if "shadowforce" in defender.volatile_status:
         modifier *= 0
     if (
-        'dive' in defender.volatile_status and
-        attacker.ability != "noguard" and
-        defender.ability != "noguard" and
-        attacking_move[constants.ID] not in [
-            "surf", "whirlpool"
-        ]
+        "dive" in defender.volatile_status
+        and attacker.ability != "noguard"
+        and defender.ability != "noguard"
+        and attacking_move[constants.ID] not in ["surf", "whirlpool"]
     ):
         modifier *= 0
     if (
-        'dig' in defender.volatile_status and
-        attacker.ability != "noguard" and
-        defender.ability != "noguard" and
-        attacking_move[constants.ID] not in [
-            "earthquake", "magnitude", "fissure"
-        ]
+        "dig" in defender.volatile_status
+        and attacker.ability != "noguard"
+        and defender.ability != "noguard"
+        and attacking_move[constants.ID] not in ["earthquake", "magnitude", "fissure"]
     ):
         modifier *= 0
     if (
-        (
-            "fly" in defender.volatile_status or
-            "bounce" in defender.volatile_status
-        ) and
-        attacker.ability != "noguard" and
-        defender.ability != "noguard" and
-        attacking_move[constants.ID] not in [
-            "gust", "thunder", "twister", "skyuppercut", "hurricane", "thousandarrows", "smackdown"
+        ("fly" in defender.volatile_status or "bounce" in defender.volatile_status)
+        and attacker.ability != "noguard"
+        and defender.ability != "noguard"
+        and attacking_move[constants.ID]
+        not in [
+            "gust",
+            "thunder",
+            "twister",
+            "skyuppercut",
+            "hurricane",
+            "thousandarrows",
+            "smackdown",
         ]
     ):
         modifier *= 0
-    if 'glaiverush' in defender.volatile_status:
+    if "glaiverush" in defender.volatile_status:
         modifier *= 2
-    if any(vs in attacker.volatile_status for vs in ['quarkdriveatk', "protosynthesisatk"]) and attacking_move[constants.CATEGORY] == constants.PHYSICAL:
+    if (
+        any(
+            vs in attacker.volatile_status
+            for vs in ["quarkdriveatk", "protosynthesisatk"]
+        )
+        and attacking_move[constants.CATEGORY] == constants.PHYSICAL
+    ):
         modifier *= 1.3
-    if any(vs in attacker.volatile_status for vs in ['quarkdrivespa', "protosynthesisspa"]) and attacking_move[constants.CATEGORY] == constants.SPECIAL:
+    if (
+        any(
+            vs in attacker.volatile_status
+            for vs in ["quarkdrivespa", "protosynthesisspa"]
+        )
+        and attacking_move[constants.CATEGORY] == constants.SPECIAL
+    ):
         modifier *= 1.3
-    if any(vs in defender.volatile_status for vs in ['quarkdrivedef', "protosynthesisdef"]) and attacking_move[constants.CATEGORY] == constants.PHYSICAL:
-        modifier *= (1/1.3)
-    if any(vs in defender.volatile_status for vs in ['quarkdrivespd', "protosynthesisspd"]) and attacking_move[constants.CATEGORY] == constants.SPECIAL:
-        modifier *= (1/1.3)
+    if (
+        any(
+            vs in defender.volatile_status
+            for vs in ["quarkdrivedef", "protosynthesisdef"]
+        )
+        and attacking_move[constants.CATEGORY] == constants.PHYSICAL
+    ):
+        modifier *= 1 / 1.3
+    if (
+        any(
+            vs in defender.volatile_status
+            for vs in ["quarkdrivespd", "protosynthesisspd"]
+        )
+        and attacking_move[constants.CATEGORY] == constants.SPECIAL
+    ):
+        modifier *= 1 / 1.3
     return modifier
 
 
-def calculate_damage(state, attacking_side_string, attacking_move, defending_move, calc_type='average'):
+def calculate_damage(
+    state, attacking_side_string, attacking_move, defending_move, calc_type="average"
+):
     # a wrapper for `_calculate_damage` that takes into account move/item/ability special-effects
     from showdown.engine.find_state_instructions import update_attacking_move
     from showdown.engine.find_state_instructions import user_moves_first
 
     attacking_move_dict = get_move(attacking_move)
     if defending_move.startswith(constants.SWITCH_STRING + " "):
-        defending_move_dict = {constants.SWITCH_STRING: defending_move.split(constants.SWITCH_STRING)[-1]}
+        defending_move_dict = {
+            constants.SWITCH_STRING: defending_move.split(constants.SWITCH_STRING)[-1]
+        }
     else:
         defending_move_dict = get_move(defending_move)
 
@@ -403,10 +546,12 @@ def calculate_damage(state, attacking_side_string, attacking_move, defending_mov
         constants.LIGHT_SCREEN: defending_side.side_conditions[constants.LIGHT_SCREEN],
         constants.AURORA_VEIL: defending_side.side_conditions[constants.AURORA_VEIL],
         constants.WEATHER: state.weather,
-        constants.TERRAIN: state.field
+        constants.TERRAIN: state.field,
     }
 
-    attacker_moves_first = user_moves_first(state, attacking_move_dict, defending_move_dict)
+    attacker_moves_first = user_moves_first(
+        state, attacking_move_dict, defending_move_dict
+    )
 
     if constants.CHARGE in attacking_move_dict[constants.FLAGS]:
         attacking_move_dict = attacking_move_dict.copy()
@@ -421,13 +566,21 @@ def calculate_damage(state, attacking_side_string, attacking_move, defending_mov
         defending_move_dict,
         attacker_moves_first,
         state.weather,
-        state.field
+        state.field,
     )
 
-    return _calculate_damage(attacking_side.active, defending_side.active, attacking_move_dict, conditions=conditions, calc_type=calc_type)
+    return _calculate_damage(
+        attacking_side.active,
+        defending_side.active,
+        attacking_move_dict,
+        conditions=conditions,
+        calc_type=calc_type,
+    )
 
 
-def calculate_futuresight_damage(state, attacking_side_string, future_sight_user, calc_type='average'):
+def calculate_futuresight_damage(
+    state, attacking_side_string, future_sight_user, calc_type="average"
+):
     if attacking_side_string == constants.USER:
         attacking_side = state.user
         defending_side = state.opponent
@@ -453,7 +606,7 @@ def calculate_futuresight_damage(state, attacking_side_string, future_sight_user
         "secondary": False,
         "target": "normal",
         "type": "psychic",
-        "pp": 10
+        "pp": 10,
     }
 
     conditions = {
@@ -461,7 +614,7 @@ def calculate_futuresight_damage(state, attacking_side_string, future_sight_user
         constants.LIGHT_SCREEN: defending_side.side_conditions[constants.LIGHT_SCREEN],
         constants.AURORA_VEIL: defending_side.side_conditions[constants.AURORA_VEIL],
         constants.WEATHER: state.weather,
-        constants.TERRAIN: state.field
+        constants.TERRAIN: state.field,
     }
 
     return _calculate_damage(
@@ -469,5 +622,5 @@ def calculate_futuresight_damage(state, attacking_side_string, future_sight_user
         defender,
         attacking_move_dict,
         conditions=conditions,
-        calc_type=calc_type
+        calc_type=calc_type,
     )

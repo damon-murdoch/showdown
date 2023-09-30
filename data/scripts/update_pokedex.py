@@ -49,9 +49,7 @@ for k, v in data_json.items():
         "special-defense": v["baseStats"]["spd"],
         "speed": v["baseStats"]["spe"],
     }
-    v["types"] = [
-        i.lower() for i in v["types"]
-    ]
+    v["types"] = [i.lower() for i in v["types"]]
     v["name"] = v["name"].lower()
 
 # re-create the dictionary in order of pokedex numbers

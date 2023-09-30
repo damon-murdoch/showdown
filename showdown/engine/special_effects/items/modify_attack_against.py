@@ -25,14 +25,21 @@ def assaultvest(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 def airballoon(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'ground' and attacking_move[constants.ID] != 'thousandarrows':
+    if (
+        attacking_move[constants.TYPE] == "ground"
+        and attacking_move[constants.ID] != "thousandarrows"
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.BASE_POWER] = 0
     return attacking_move
 
 
 def weaknesspolicy(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.CATEGORY] in constants.DAMAGING_CATEGORIES and is_super_effective(attacking_move[constants.TYPE], defending_pokemon.types):
+    if attacking_move[
+        constants.CATEGORY
+    ] in constants.DAMAGING_CATEGORIES and is_super_effective(
+        attacking_move[constants.TYPE], defending_pokemon.types
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.BOOSTS] = {
             constants.ATTACK: 2,
@@ -42,7 +49,10 @@ def weaknesspolicy(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 def covertcloak(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.SECONDARY] and constants.SELF not in attacking_move[constants.SECONDARY]:
+    if (
+        attacking_move[constants.SECONDARY]
+        and constants.SELF not in attacking_move[constants.SECONDARY]
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.SECONDARY] = None
 
@@ -50,16 +60,18 @@ def covertcloak(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 item_lookup = {
-    'covertcloak': covertcloak,
-    'weaknesspolicy': weaknesspolicy,
-    'eviolite': eviolite,
-    'rockyhelmet': rockyhelmet,
-    'assaultvest': assaultvest,
-    'airballoon': airballoon
+    "covertcloak": covertcloak,
+    "weaknesspolicy": weaknesspolicy,
+    "eviolite": eviolite,
+    "rockyhelmet": rockyhelmet,
+    "assaultvest": assaultvest,
+    "airballoon": airballoon,
 }
 
 
-def item_modify_attack_against(item_name, attacking_move, attacking_pokemon, defending_pokemon):
+def item_modify_attack_against(
+    item_name, attacking_move, attacking_pokemon, defending_pokemon
+):
     item_func = item_lookup.get(item_name)
     if item_func is not None:
         return item_func(attacking_move, attacking_pokemon, defending_pokemon)

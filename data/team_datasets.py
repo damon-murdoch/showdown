@@ -56,28 +56,41 @@ class PokemonSet:
         elif self.item == "choicespecs" and pkmn.can_not_have_specs:
             return False
         else:
-            return self.item == pkmn.item or pkmn.item is None or pkmn.item == constants.UNKNOWN_ITEM
+            return (
+                self.item == pkmn.item
+                or pkmn.item is None
+                or pkmn.item == constants.UNKNOWN_ITEM
+            )
 
     def speed_check(self, pkmn: Pokemon):
         """
         The only non-observable speed modifier that should allow a
         Pokemon's speed_range to be set is choicescarf
         """
-        stats = calculate_stats(pkmn.base_stats, pkmn.level, evs=self.evs, nature=self.nature)
+        stats = calculate_stats(
+            pkmn.base_stats, pkmn.level, evs=self.evs, nature=self.nature
+        )
         speed = stats[constants.SPEED]
         if self.item == "choicescarf":
             speed = int(speed * 1.5)
 
         return pkmn.speed_range.min <= speed <= pkmn.speed_range.max
 
-    def pkmn_can_contain_set(self, pkmn: Pokemon, match_ability=True, match_item=True, speed_check=True) -> bool:
+    def pkmn_can_contain_set(
+        self, pkmn: Pokemon, match_ability=True, match_item=True, speed_check=True
+    ) -> bool:
         ability_check = not match_ability or (
             self.ability == pkmn.ability or pkmn.ability is None
         )
         item_check = not match_item or self.item_check(pkmn)
         speed_check = not speed_check or self.speed_check(pkmn)
 
-        return ability_check and item_check and speed_check and self.moves.pkmn_can_have_moves(pkmn)
+        return (
+            ability_check
+            and item_check
+            and speed_check
+            and self.moves.pkmn_can_have_moves(pkmn)
+        )
 
 
 class _TeamDatasets:
@@ -95,8 +108,8 @@ class _TeamDatasets:
         self.append_to_team_datasets(pkmn_names)
 
     def append_to_team_datasets(self, pkmn_names):
-        sets = os.path.join(PWD, 'team_datasets.json')
-        with open(sets, 'r') as f:
+        sets = os.path.join(PWD, "team_datasets.json")
+        with open(sets, "r") as f:
             sets_dict = json.load(f)["pokemon"]
 
         for pkmn in pkmn_names:
@@ -107,8 +120,8 @@ class _TeamDatasets:
 
     @staticmethod
     def get_exact_team(pkmn_names):
-        sets = os.path.join(PWD, 'team_datasets.json')
-        with open(sets, 'r') as f:
+        sets = os.path.join(PWD, "team_datasets.json")
+        with open(sets, "r") as f:
             teams_dict = json.load(f)["teams"]
 
         pkmn_lookup = "|".join(pkmn_names)
@@ -134,10 +147,12 @@ class _TeamDatasets:
                 int(split_evs[4]),
                 int(split_evs[5]),
             ),
-            PokemonMoveset(tuple(moves))
+            PokemonMoveset(tuple(moves)),
         )
 
-    def predict_set(self, pkmn: Pokemon, match_ability=True, match_item=True) -> Optional[PokemonSet]:
+    def predict_set(
+        self, pkmn: Pokemon, match_ability=True, match_item=True
+    ) -> Optional[PokemonSet]:
         """
         Finds the most likely PokemonSet that this Pokemon can have from self.team_datasets
 
@@ -153,7 +168,9 @@ class _TeamDatasets:
 
         for pkmn_set, _ in sorted(pkmn_data.items(), key=lambda x: x[1], reverse=True):
             pkmn_set = self.to_pokemon_set(pkmn_set)
-            if pkmn_set.pkmn_can_contain_set(pkmn, match_ability=match_ability, match_item=match_item):
+            if pkmn_set.pkmn_can_contain_set(
+                pkmn, match_ability=match_ability, match_item=match_item
+            ):
                 return pkmn_set
 
         return None

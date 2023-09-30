@@ -38,7 +38,7 @@ PRE_PHYSICAL_SPECIAL_SPLIT_CATEGORY_LOOKUP = {
 def apply_move_mods(gen_number):
     logger.debug("Applying move mod for gen {}".format(gen_number))
     for gen_number in reversed(range(gen_number, CURRENT_GEN)):
-        with open("{}/gen{}_move_mods.json".format(PWD, gen_number), 'r') as f:
+        with open("{}/gen{}_move_mods.json".format(PWD, gen_number), "r") as f:
             move_mods = json.load(f)
         for move, modifications in move_mods.items():
             all_move_json[move].update(modifications)
@@ -47,7 +47,7 @@ def apply_move_mods(gen_number):
 def apply_pokedex_mods(gen_number):
     logger.debug("Applying dex mod for gen {}".format(gen_number))
     for gen_number in reversed(range(gen_number, CURRENT_GEN)):
-        with open("{}/gen{}_pokedex_mods.json".format(PWD, gen_number), 'r') as f:
+        with open("{}/gen{}_pokedex_mods.json".format(PWD, gen_number), "r") as f:
             pokedex_mods = json.load(f)
         for pokemon, modifications in pokedex_mods.items():
             pokedex[pokemon].update(modifications)
@@ -55,7 +55,7 @@ def apply_pokedex_mods(gen_number):
 
 def set_random_battle_sets(gen_number):
     logger.debug("Setting random battle sets for gen {}".format(gen_number))
-    with open("{}/random_battle_sets_gen{}.json".format(PWD, gen_number), 'r') as f:
+    with open("{}/random_battle_sets_gen{}.json".format(PWD, gen_number), "r") as f:
         data.random_battle_sets = json.load(f)
 
 
@@ -107,9 +107,14 @@ def undo_physical_special_split():
     for move_name, move_data in all_move_json.items():
         if move_data[constants.CATEGORY] in constants.DAMAGING_CATEGORIES:
             try:
-                move_data[constants.CATEGORY] = PRE_PHYSICAL_SPECIAL_SPLIT_CATEGORY_LOOKUP[move_data[constants.TYPE]]
+                move_data[
+                    constants.CATEGORY
+                ] = PRE_PHYSICAL_SPECIAL_SPLIT_CATEGORY_LOOKUP[
+                    move_data[constants.TYPE]
+                ]
             except KeyError:
                 pass
+
 
 # Last Generation
 last_gen = None
@@ -118,13 +123,12 @@ last_gen = None
 pokedex_backup = deepcopy(pokedex)
 all_move_json_backup = deepcopy(all_move_json)
 
-def apply_mods(game_mode):
 
+def apply_mods(game_mode):
     global last_gen
 
     # If the game mode has changed
     if last_gen == None or (not last_gen in game_mode):
-
         logger.debug(f"Applying mods for '{game_mode}' ....")
 
         # Restore the original data
@@ -132,37 +136,40 @@ def apply_mods(game_mode):
         all_move_json = deepcopy(all_move_json_backup)
 
         if "gen1" in game_mode:
-            last_gen="gen1"
+            last_gen = "gen1"
         elif "gen2" in game_mode:
-            last_gen="gen2"
+            last_gen = "gen2"
         elif "gen3" in game_mode:
             apply_gen_3_mods()
-            last_gen="gen3"
+            last_gen = "gen3"
         elif "gen4" in game_mode:
             apply_gen_4_mods()
-            last_gen="gen4"
+            last_gen = "gen4"
         elif "gen5" in game_mode:
             apply_gen_5_mods()
-            last_gen="gen5"
+            last_gen = "gen5"
         elif "gen6" in game_mode:
             apply_gen_6_mods()
-            last_gen="gen6"
+            last_gen = "gen6"
         elif "gen7" in game_mode:
             apply_gen_7_mods()
-            last_gen="gen7"
+            last_gen = "gen7"
         elif "gen8" in game_mode:
             apply_gen_8_mods()
-            last_gen="gen8"
+            last_gen = "gen8"
         elif "gen9" in game_mode:
-            last_gen="gen9"
+            last_gen = "gen9"
 
         if game_mode[:3] == "gen":
             if int(game_mode[3]) < 8:
                 set_random_battle_sets(7)
-                damage_calculator.TERRAIN_DAMAGE_BOOST = 1.5  # terrain gave a 1.5x damage boost prior to gen8
+                damage_calculator.TERRAIN_DAMAGE_BOOST = (
+                    1.5  # terrain gave a 1.5x damage boost prior to gen8
+                )
             if int(game_mode[3]) < 9:
-                constants.ICE_WEATHER = constants.HAIL  # ice-type weather was hail prior to gen9
+                constants.ICE_WEATHER = (
+                    constants.HAIL
+                )  # ice-type weather was hail prior to gen9
 
-    else: 
-
+    else:
         logger.debug("Generation not changed. Mod not modified.")

@@ -3,12 +3,6 @@ FACTORY_TEAM = "FACTORY_TEAM"
 
 TEAM_MODES = [SAMPLE_TEAM, FACTORY_TEAM]
 
-CHALLENGE_USER = "CHALLENGE_USER"
-ACCEPT_CHALLENGE = "ACCEPT_CHALLENGE"
-SEARCH_LADDER = "SEARCH_LADDER"
-
-BOT_MODES = [CHALLENGE_USER, ACCEPT_CHALLENGE, SEARCH_LADDER]
-
 STANDARD_BATTLE = "standard_battle"
 RANDOM_BATTLE = "random_battle"
 
@@ -23,38 +17,28 @@ RANDOM_SINGLES_FORMATS = [
     "gen3randombattle",
     "gen2randombattle",
     "gen1randombattle",
-
     "gen9battlefactory",
     "gen8battlefactory",
     "gen7battlefactory",
-
     "gen9bssfactory",
     "gen8bssfactory",
     "gen7bssfactory",
-
-    "challengecup1v1"
+    "challengecup1v1",
 ]
 
 # Doubles formats which don't require a team
-RANDOM_DOUBLES_FORMATS = [
-
-]
+RANDOM_DOUBLES_FORMATS = []
 
 # Both of the arrays, combined
 RANDOM_FORMATS = RANDOM_SINGLES_FORMATS + RANDOM_DOUBLES_FORMATS
 
-NO_TEAM_PREVIEW_GENS = {
-    "gen1",
-    "gen2",
-    "gen3",
-    "gen4"
-}
+NO_TEAM_PREVIEW_GENS = {"gen1", "gen2", "gen3", "gen4"}
 
 PICK_SAFEST = "safest"
 PICK_NASH_EQUILIBRIUM = "nash"
 
 START_STRING = "|start"
-RQID = 'rqid'
+RQID = "rqid"
 TEAM_PREVIEW_POKE = "poke"
 START_TEAM_PREVIEW = "clearpoke"
 
@@ -66,16 +50,25 @@ SETS = "sets"
 
 UNKNOWN_ITEM = "unknown_item"
 
-UNKOWN_POKEMON_FORMES = ['silvally', 'arceus', 'genesect', 'urshifu']
+UNKOWN_POKEMON_FORMES = ["silvally", "arceus", "genesect", "urshifu"]
 
-SMOGON_HAS_STATS_PAGE_SUFFIXES = ["ubers", "ou", "uu", "ru", "nu", "pu", "lc", "oublitz", "nationaldexbeta", "nationaldex", "monotype"]
+SMOGON_HAS_STATS_PAGE_SUFFIXES = [
+    "ubers",
+    "ou",
+    "uu",
+    "ru",
+    "nu",
+    "pu",
+    "lc",
+    "oublitz",
+    "nationaldexbeta",
+    "nationaldex",
+    "monotype",
+]
 
 # a lookup for the opponent's name given the bot's name
 # this has to do with the Pokemon-Showdown PROTOCOL
-ID_LOOKUP = {
-    "p1": "p2",
-    "p2": "p1"
-}
+ID_LOOKUP = {"p1": "p2", "p2": "p1"}
 
 # mutator strings
 MUTATOR_SWITCH = "switch"
@@ -105,13 +98,13 @@ MUTATOR_CHANGE_ITEM = "change_item"
 MUTATOR_CHANGE_STATS = "change_stats"
 
 
-DAMAGE = 'damage'
+DAMAGE = "damage"
 HEAL = "heal"
 HEAL_TARGET = "heal_target"
 
-FORCE_SWITCH = 'forceSwitch'
-REVIVING = 'reviving'
-WAIT = 'wait'
+FORCE_SWITCH = "forceSwitch"
+REVIVING = "reviving"
+WAIT = "wait"
 TRAPPED = "trapped"
 MAYBE_TRAPPED = "maybeTrapped"
 ITEM = "item"
@@ -119,11 +112,11 @@ ITEM = "item"
 CONDITION = "condition"
 DISABLED = "disabled"
 PP = "pp"
-CURRENT_PP = 'current_pp'
+CURRENT_PP = "current_pp"
 
 SELF = "self"
 USER = "user"
-NORMAL = 'normal'
+NORMAL = "normal"
 OPPONENT = "opponent"
 ALLY_SIDE = "allySide"
 ALL_ADJACENT_FOES = "allAdjacentFoes"
@@ -134,12 +127,19 @@ RANDOM_NORMAL = "randomNormal"
 
 REFLECTABLE = "reflectable"
 
-FLAGS = 'flags'
+FLAGS = "flags"
 
 MOVE_TARGET_SELF = [SELF, ALLY_SIDE, ALL]
-MOVE_TARGET_OPPONENT = [NORMAL, OPPONENT, ALL_ADJACENT, ALL_ADJACENT_FOES, ALL, RANDOM_NORMAL]
+MOVE_TARGET_OPPONENT = [
+    NORMAL,
+    OPPONENT,
+    ALL_ADJACENT,
+    ALL_ADJACENT_FOES,
+    ALL,
+    RANDOM_NORMAL,
+]
 
-DO_NOTHING_MOVE = 'splash'
+DO_NOTHING_MOVE = "splash"
 
 ID = "id"
 BASESTATS = "baseStats"
@@ -166,10 +166,7 @@ TIME_LEFT = "Time left:"
 DETAILS = "details"
 IDENT = "ident"
 
-MEGA_EVOLVE_GENERATIONS = [
-    "gen6",
-    "gen7"
-]
+MEGA_EVOLVE_GENERATIONS = ["gen6", "gen7"]
 CAN_MEGA_EVO = "canMegaEvo"
 CAN_ULTRA_BURST = "canUltraBurst"
 CAN_DYNAMAX = "canDynamax"
@@ -209,7 +206,7 @@ SPEED_BOOST = "speed_boost"
 ACCURACY_BOOST = "accuracy_boost"
 EVASION_BOOST = "evasion_boost"
 
-ABILITY = 'ability'
+ABILITY = "ability"
 REQUEST_DICT_ABILITY = ABILITY
 
 MAX_BOOSTS = 6
@@ -221,7 +218,7 @@ STAT_ABBREVIATION_LOOKUPS = {
     "spd": SPECIAL_DEFENSE,
     "spe": SPEED,
     "accuracy": ACCURACY,
-    "evasion": EVASION
+    "evasion": EVASION,
 }
 
 STAT_ABBREVIATION_REVERSE_LOOKUPS = {
@@ -231,12 +228,12 @@ STAT_ABBREVIATION_REVERSE_LOOKUPS = {
     SPECIAL_DEFENSE: "spd",
     SPEED: "spe",
     ACCURACY: "accuracy",
-    EVASION: "evasion"
+    EVASION: "evasion",
 }
 
 STAT_STRINGS = [ATTACK, DEFENSE, SPECIAL_ATTACK, SPECIAL_DEFENSE, SPEED]
 
-HIDDEN_POWER = 'hiddenpower'
+HIDDEN_POWER = "hiddenpower"
 HIDDEN_POWER_TYPE_STRING_INDEX = -1
 HIDDEN_POWER_ACTIVE_MOVE_BASE_DAMAGE_STRING = "60"
 HIDDEN_POWER_RESERVE_MOVE_BASE_DAMAGE_STRING = ""
@@ -264,15 +261,15 @@ CHANCE = "chance"
 LOCKED_MOVE = "lockedmove"
 
 # Side-Effects
-REFLECT = 'reflect'
-LIGHT_SCREEN = 'lightscreen'
-AURORA_VEIL = 'auroraveil'
-SAFEGUARD = 'safeguard'
-TAILWIND = 'tailwind'
-STICKY_WEB = 'stickyweb'
+REFLECT = "reflect"
+LIGHT_SCREEN = "lightscreen"
+AURORA_VEIL = "auroraveil"
+SAFEGUARD = "safeguard"
+TAILWIND = "tailwind"
+STICKY_WEB = "stickyweb"
 WISH = "wish"
 FUTURE_SIGHT = "futuresight"
-HEALING_WISH = 'healingwish'
+HEALING_WISH = "healingwish"
 
 # weather
 RAIN = "raindance"
@@ -288,64 +285,49 @@ IRREVERSIBLE_WEATHER = {DESOLATE_LAND, HEAVY_RAIN}
 HAIL_OR_SNOW = {HAIL, SNOW}
 
 POKEMON_CANNOT_HAVE_ITEMS_REMOVED = {
-    'kyogreprimal',
-    'groudonprimal',
-    'giratinaorigin',
-    'zaciancrowned',
-    'zamazentacrowned'
+    "kyogreprimal",
+    "groudonprimal",
+    "giratinaorigin",
+    "zaciancrowned",
+    "zamazentacrowned",
 }
 
 # Hazards
-STEALTH_ROCK = 'stealthrock'
-SPIKES = 'spikes'
-TOXIC_SPIKES = 'toxicspikes'
-COURT_CHANGE = 'courtchange'
+STEALTH_ROCK = "stealthrock"
+SPIKES = "spikes"
+TOXIC_SPIKES = "toxicspikes"
+COURT_CHANGE = "courtchange"
 
-TYPECHANGE = 'typechange'
-TYPE_CHANGE_ABILITIES = {
-    'protean',
-    'libero'
-}
+TYPECHANGE = "typechange"
+TYPE_CHANGE_ABILITIES = {"protean", "libero"}
 
-FIRST_TURN_MOVES = {
-    'fakeout',
-    'firstimpression'
-}
+FIRST_TURN_MOVES = {"fakeout", "firstimpression"}
 
-BOOST_RESET_MOVES = {
-    'haze',
-    'clearsmog'
-}
+BOOST_RESET_MOVES = {"haze", "clearsmog"}
 
-ABILITY_AFTER_MOVE = {
-    "static",
-    "flamebody"
-}
+ABILITY_AFTER_MOVE = {"static", "flamebody"}
 
 WEIGHT_BASED_MOVES = {
-    'heavyslam',
-    'heatcrash',
-    'lowkick',
-    'grassknot',
+    "heavyslam",
+    "heatcrash",
+    "lowkick",
+    "grassknot",
 }
 
-SPEED_BASED_MOVES = {
-    'gyroball',
-    'electroball'
-}
+SPEED_BASED_MOVES = {"gyroball", "electroball"}
 
 COURT_CHANGE_SWAPS = {
-    'spikes',
-    'toxicspikes',
-    'stealthrock',
-    'stickyweb',
-    'lightscreen',
-    'reflect',
-    'auroraveil',
-    'tailwind'
+    "spikes",
+    "toxicspikes",
+    "stealthrock",
+    "stickyweb",
+    "lightscreen",
+    "reflect",
+    "auroraveil",
+    "tailwind",
 }
 
-HAZARD_CLEARING_MOVES = ['rapidspin', 'defog', 'courtchange', 'mortalspin', 'tidyup']
+HAZARD_CLEARING_MOVES = ["rapidspin", "defog", "courtchange", "mortalspin", "tidyup"]
 
 SPIN_TIDYUP_CLEARS = [
     STEALTH_ROCK,
@@ -361,7 +343,7 @@ DEFOG_CLEARS = [
     STICKY_WEB,
     REFLECT,
     LIGHT_SCREEN,
-    AURORA_VEIL
+    AURORA_VEIL,
 ]
 
 TRICK_ROOM = "trickroom"
@@ -373,7 +355,14 @@ MISTY_TERRAIN = "mistyterrain"
 PSYCHIC_TERRAIN = "psychicterrain"
 
 # switch-out moves
-SWITCH_OUT_MOVES = {"uturn", "voltswitch", "partingshot", "teleport", 'flipturn', 'chillyreception'}
+SWITCH_OUT_MOVES = {
+    "uturn",
+    "voltswitch",
+    "partingshot",
+    "teleport",
+    "flipturn",
+    "chillyreception",
+}
 
 # volatile statuses
 FLINCH = "flinch"
@@ -389,7 +378,7 @@ SPIKY_SHIELD = "spikyshield"
 DYNAMAX = "dynamax"
 TERASTALLIZE = "terastallize"
 PARTIALLY_TRAPPED = "partiallytrapped"
-TRANSFORM = 'transform'
+TRANSFORM = "transform"
 
 PROTECT_VOLATILE_STATUSES = [PROTECT, BANEFUL_BUNKER, SPIKY_SHIELD, SILK_TRAP]
 
@@ -408,103 +397,100 @@ WAKE_UP_PERCENT = 0.33
 THAW_PERCENT = 0.20
 FULLY_PARALYZED_PERCENT = 0.25
 
-THAW_IF_USES = {'scald', 'flamewheel', 'sacredfire', 'flareblitz', 'fusionflare', 'steameruption', 'scorchingsands'}
-THAW_IF_HIT_BY = {'scald', 'steameruption', 'scorchingsands'}
-
-IMMUNE_TO_STAT_LOWERING_ABILITIES = {
-    'clearbody',
-    'whitesmoke',
-    'fullmetalbody'
+THAW_IF_USES = {
+    "scald",
+    "flamewheel",
+    "sacredfire",
+    "flareblitz",
+    "fusionflare",
+    "steameruption",
+    "scorchingsands",
 }
+THAW_IF_HIT_BY = {"scald", "steameruption", "scorchingsands"}
 
-IMMUNE_TO_STAT_LOWERING_ITEMS = {
-    "clearamulet"
-}
+IMMUNE_TO_STAT_LOWERING_ABILITIES = {"clearbody", "whitesmoke", "fullmetalbody"}
 
-IMMUNE_TO_SLEEP_ABILITIES = {'insomnia', 'sweetveil', 'vitalspirit'}
-IMMUNE_TO_BURN_ABILITIES = {'waterveil', 'waterbubble'}
-IMMUNE_TO_FROZEN_ABILITIES = {'magmaarmor'}
-IMMUNE_TO_POISON_ABILITIES = {'immunity', 'pastelveil'}
-IMMUNE_TO_PARALYSIS_ABILITIES = {'limber'}
+IMMUNE_TO_STAT_LOWERING_ITEMS = {"clearamulet"}
 
-ABILITIES_THAT_IGNORE_OTHER_ABILITIES = {
-    'moldbreaker',
-    'turboblaze',
-    'teravolt'
-}
+IMMUNE_TO_SLEEP_ABILITIES = {"insomnia", "sweetveil", "vitalspirit"}
+IMMUNE_TO_BURN_ABILITIES = {"waterveil", "waterbubble"}
+IMMUNE_TO_FROZEN_ABILITIES = {"magmaarmor"}
+IMMUNE_TO_POISON_ABILITIES = {"immunity", "pastelveil"}
+IMMUNE_TO_PARALYSIS_ABILITIES = {"limber"}
+
+ABILITIES_THAT_IGNORE_OTHER_ABILITIES = {"moldbreaker", "turboblaze", "teravolt"}
 
 BYPASSABLE_ABILITIES = {
     # gen8 (probably)
-    'pastelveil',
-    'iceface',
-    'punkrock',
-
+    "pastelveil",
+    "iceface",
+    "punkrock",
     # https://pokemondb.net/ability/mold-breaker
     # https://pokemondb.net/ability/turboblaze
     # https://pokemondb.net/ability/teravolt/
-    'aromaveil',
-    'battlearmor',
-    'bigpecks',
-    'bulletproof',
-    'clearbody',
-    'contrary',
-    'damp',
-    'dazzling',
-    'disguise',
-    'dryskin',
-    'filter',
-    'flashfire',
-    'flowergift',
-    'flowerveil',
-    'fluffy',
-    'friendguard',
-    'furcoat',
-    'heatproof',
-    'heavymetal',
-    'hypercutter',
-    'immunity',
-    'innerfocus',
-    'insomnia',
-    'keeneye',
-    'leafguard',
-    'levitate',
-    'lightmetal',
-    'lightningrod',
-    'limber',
-    'magicbounce',
-    'magmaarmor',
-    'marvelscale',
-    'motordrive',
-    'multiscale',
-    'oblivious',
-    'overcoat',
-    'owntempo',
-    'queenlymajesty',
-    'sandveil',
-    'sapsipper',
-    'shellarmor',
-    'shielddust',
-    'simple',
-    'snowcloak',
-    'solidrock',
-    'soundproof',
-    'stickyhold',
-    'stormdrain',
-    'sturdy',
-    'suctioncups',
-    'sweetveil',
-    'tangledfeet',
-    'telepathy',
-    'thickfat',
-    'unaware',
-    'vitalspirit',
-    'voltabsorb',
-    'waterabsorb',
-    'waterbubble',
-    'waterveil',
-    'whitesmoke',
-    'wonderguard',
-    'wonderskin'
+    "aromaveil",
+    "battlearmor",
+    "bigpecks",
+    "bulletproof",
+    "clearbody",
+    "contrary",
+    "damp",
+    "dazzling",
+    "disguise",
+    "dryskin",
+    "filter",
+    "flashfire",
+    "flowergift",
+    "flowerveil",
+    "fluffy",
+    "friendguard",
+    "furcoat",
+    "heatproof",
+    "heavymetal",
+    "hypercutter",
+    "immunity",
+    "innerfocus",
+    "insomnia",
+    "keeneye",
+    "leafguard",
+    "levitate",
+    "lightmetal",
+    "lightningrod",
+    "limber",
+    "magicbounce",
+    "magmaarmor",
+    "marvelscale",
+    "motordrive",
+    "multiscale",
+    "oblivious",
+    "overcoat",
+    "owntempo",
+    "queenlymajesty",
+    "sandveil",
+    "sapsipper",
+    "shellarmor",
+    "shielddust",
+    "simple",
+    "snowcloak",
+    "solidrock",
+    "soundproof",
+    "stickyhold",
+    "stormdrain",
+    "sturdy",
+    "suctioncups",
+    "sweetveil",
+    "tangledfeet",
+    "telepathy",
+    "thickfat",
+    "unaware",
+    "vitalspirit",
+    "voltabsorb",
+    "waterabsorb",
+    "waterbubble",
+    "waterveil",
+    "whitesmoke",
+    "wonderguard",
+    "wonderskin",
 }
 
-CHOICE_ITEMS = {'choicescarf', 'choiceband', 'choicespecs'}
+CHOICE_ITEMS = {"choicescarf", "choiceband", "choicespecs"}

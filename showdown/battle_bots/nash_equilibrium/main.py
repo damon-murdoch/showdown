@@ -40,7 +40,7 @@ def append_items_to_string(matrix, string):
     this_string = ""
     for row in np.transpose(matrix):
         for value in row:
-            this_string += "%s %s " % (value, value*-1)
+            this_string += "%s %s " % (value, value * -1)
     return item_to_add % (string, this_string)
 
 
@@ -52,7 +52,7 @@ def convert_from_list(my_list, num_rows):
 def find_best_nash_equilibrium(equilibria, df):
     game = Game(df)
 
-    score = float('-inf')
+    score = float("-inf")
     best_eq = None
     for eq in equilibria:
         outcome = game[eq][0]
@@ -73,11 +73,11 @@ def find_all_equilibria(matrix):
     string = format_string_for_options(num_rows, num_cols)
     string = append_items_to_string(matrix, string).encode()
 
-    cmd = ["gambit-enummixed", '-q', '-d', '2']
+    cmd = ["gambit-enummixed", "-q", "-d", "2"]
 
     # sometimes this call fails and stdout is empty - repeating until completion seems to have fixed the issue
-    stdout = ''
-    stderr = ''
+    stdout = ""
+    stderr = ""
     attempted = 0
     while not stdout:
         # for unknown and seemingly random reasons this subprocess communication sometimes fails
@@ -87,15 +87,15 @@ def find_all_equilibria(matrix):
             raise CouldNotFindEquilibriumError(stderr)
         sp = subprocess.Popen(cmd, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
         stdout, stderr = sp.communicate(string)
-        stdout = stdout.decode('utf-8').replace('\r', '')
+        stdout = stdout.decode("utf-8").replace("\r", "")
         attempted += 1
 
-    lines = stdout.split('\n')
+    lines = stdout.split("\n")
 
     equilibria = []
     for line in lines:
         if line.startswith("NE"):
-            ne = line[3:].split(',')
+            ne = line[3:].split(",")
             ne = convert_from_list(ne, num_rows)
             equilibria.append(ne)
 
@@ -120,7 +120,9 @@ def find_nash_equilibrium(score_lookup):
     return bot_choices, opponent_choices, bot_percentages, opponent_percentages, score
 
 
-def log_nash_equilibria(bot_choices, opponent_choices, bot_percentages, opponent_percentages, payoff):
+def log_nash_equilibria(
+    bot_choices, opponent_choices, bot_percentages, opponent_percentages, payoff
+):
     bot_options = []
     for i, percentage in enumerate(bot_percentages):
         if percentage:
@@ -139,7 +141,7 @@ def get_weighted_choices_from_multiple_score_lookups(score_lookups):
         eq = find_nash_equilibrium(sl)
         log_nash_equilibria(*eq)
         for i, bot_choice in enumerate(eq[0]):
-            bot_choice_percentages[bot_choice] += eq[2][i]/number_of_score_lookups
+            bot_choice_percentages[bot_choice] += eq[2][i] / number_of_score_lookups
 
     return list(bot_choice_percentages.items())
 
@@ -151,10 +153,14 @@ def pick_move_in_equilibrium_from_multiple_score_lookups(score_lookups):
     # The games should be modelled properly based on incomplete information (see Harsanyi Transform),
     # however that would require the bot to keep track of what it has revealed to the opponent
     try:
-        weighted_choices = get_weighted_choices_from_multiple_score_lookups(score_lookups)
+        weighted_choices = get_weighted_choices_from_multiple_score_lookups(
+            score_lookups
+        )
     except CouldNotFindEquilibriumError as e:
         logger.warning("Problem finding equilibria: {}".format(e))
-        return random.choice([pick_safest(sl, remove_guaranteed=True)[0][0] for sl in score_lookups])
+        return random.choice(
+            [pick_safest(sl, remove_guaranteed=True)[0][0] for sl in score_lookups]
+        )
 
     s = sum([wc[1] for wc in weighted_choices])
     bot_choices = [wc[0] for wc in weighted_choices]
@@ -175,7 +181,9 @@ class BattleBot(Battle):
     def find_best_move(self):
         battles = self.prepare_battles()
         if len(battles) > 7:
-            logger.debug("Not enough is known about the opponent's active pokemon - falling back to safest decision making")
+            logger.debug(
+                "Not enough is known about the opponent's active pokemon - falling back to safest decision making"
+            )
             battles = self.prepare_battles(join_moves_together=True)
             decision = pick_safest_move_from_battles(battles)
         else:
@@ -183,11 +191,17 @@ class BattleBot(Battle):
             for b in battles:
                 state = b.create_state()
                 mutator = StateMutator(state)
-                logger.debug("Attempting to find best move from: {}".format(mutator.state))
+                logger.debug(
+                    "Attempting to find best move from: {}".format(mutator.state)
+                )
                 user_options, opponent_options = b.get_all_options()
-                scores = get_payoff_matrix(mutator, user_options, opponent_options, prune=False)
+                scores = get_payoff_matrix(
+                    mutator, user_options, opponent_options, prune=False
+                )
                 list_of_payoffs.append(scores)
 
-            decision = pick_move_in_equilibrium_from_multiple_score_lookups(list_of_payoffs)
+            decision = pick_move_in_equilibrium_from_multiple_score_lookups(
+                list_of_payoffs
+            )
 
         return format_decision(self, decision)

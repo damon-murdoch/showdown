@@ -54,50 +54,72 @@ def init_logging(level, log_to_file):
 class _ShowdownConfig:
     battle_bot_module: str
     websocket_uri: str
+
+    room_name: str
     username: str
     password: str
-    bot_mode: str
-    pokemon_mode: str
-    run_count: int
-    team_mode: str
-    factory: str
-    user_to_challenge: str
-    save_replay: bool
-    room_name: str
+    avatar: str
+
+    post_battle_msg: str
+    pre_battle_msg: str
+
     damage_calc_type: str
-    log_level: str
+    pokemon_mode: str
+    save_replay: bool
+    start_timer: str
+
+    max_z_holders: int
+    max_megas: int
+
+    species_clause: bool
+    item_clause: bool
+
+    show_win_streak: bool
+    prisma_enabled: bool
+
+    allowed_modes: list
+    allow_doubles: bool
+    allow_random: bool
+
     log_to_file: bool
+    log_level: str
     log_handler: Union[CustomRotatingFileHandler, logging.StreamHandler]
 
+    factory_enabled: bool
+    team_enabled: bool
+
     def configure(self):
+        # General Bot Settings
         self.battle_bot_module = env("BATTLE_BOT")
         self.websocket_uri = env("WEBSOCKET_URI")
+
+        # Showdown Login Settings
+        self.room_name = env("ROOM_NAME", None)
         self.username = env("PS_USERNAME")
         self.password = env("PS_PASSWORD")
         self.avatar = env("PS_AVATAR")
-        self.bot_mode = env("BOT_MODE")
-        self.pokemon_mode = env("POKEMON_MODE")
 
-        self.run_count = env.int("RUN_COUNT", None)
+        # Showdown Battle Messages
+        self.post_battle_msg = env.list("POST_BATTLE_MSG", ["ggwp"])
+        self.pre_battle_msg = env.list("PRE_BATTLE_MSG", ["glhf"])
+
+        # Other Showdown Settings
+        self.damage_calc_type = env("DAMAGE_CALC_TYPE", "average")
+        self.pokemon_mode = env("POKEMON_MODE")
+        self.save_replay = env.bool("SAVE_REPLAY", False)
+        self.start_timer = env.bool("START_TIMER", False)
+
+        # Log Settings
+        self.log_to_file = env.bool("LOG_TO_FILE", False)
+        self.log_level = env("LOG_LEVEL", "DEBUG")
+
+        # Team / Factory Battles Enabled
         self.team_enabled = env.bool("TEAM_ENABLED", True)
         self.factory_enabled = env.bool("FACTORY_ENABLED", True)
-        self.user_to_challenge = env("USER_TO_CHALLENGE", None)
-
-        self.start_timer = env.bool("START_TIMER", False)
-        self.pre_battle_msg = env.list("PRE_BATTLE_MSG", ["glhf"])
-        self.post_battle_msg = env.list("POST_BATTLE_MSG", ["ggwp"])
-
-        self.save_replay = env.bool("SAVE_REPLAY", False)
-        self.room_name = env("ROOM_NAME", None)
-        self.damage_calc_type = env("DAMAGE_CALC_TYPE", "average")
-
-        self.log_level = env("LOG_LEVEL", "DEBUG")
-        self.log_to_file = env.bool("LOG_TO_FILE", False)
 
         # Factory Settings
         self.max_megas = env.int("MAX_MEGAS", 1)
         self.max_z_holders = env.int("MAX_Z_HOLDERS", 2)
-
         self.item_clause = env.bool("ITEM_CLAUSE", True)
         self.species_clause = env.bool("SPECIES_CLAUSE", True)
 
@@ -110,16 +132,10 @@ class _ShowdownConfig:
         self.allow_doubles = env.bool("ALLOW_DOUBLES", False)
         self.allow_random = env.bool("ALLOW_RANDOM", False)
 
+        # Validate Config Data
         self.validate_config()
 
     def validate_config(self):
-        assert self.bot_mode in constants.BOT_MODES
-
-        if self.bot_mode == constants.CHALLENGE_USER:
-            assert (
-                self.user_to_challenge is not None
-            ), "If bot_mode is `CHALLENGE_USER, you must declare USER_TO_CHALLENGE"
-
         # Add singles random formats
         if self.allow_random:
             self.allowed_modes += constants.RANDOM_SINGLES_FORMATS

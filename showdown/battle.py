@@ -41,22 +41,21 @@ from showdown.engine.helpers import calculate_stats
 logger = logging.getLogger(__name__)
 
 
-LastUsedMove = namedtuple('LastUsedMove', ['pokemon_name', 'move', 'turn'])
-DamageDealt = namedtuple('DamageDealt', ['attacker', 'defender', 'move', 'percent_damage', 'crit'])
+LastUsedMove = namedtuple("LastUsedMove", ["pokemon_name", "move", "turn"])
+DamageDealt = namedtuple(
+    "DamageDealt", ["attacker", "defender", "move", "percent_damage", "crit"]
+)
 StatRange = namedtuple("Range", ["min", "max"])
 
 
 # Based on the format, this dict controls which pokemon will be replaced during team preview
 # Some pokemon's forms are not revealed in team preview
 smart_team_preview = {
-    "gen8ou": {
-        "urshifu": "urshifurapidstrike"  # urshifu banned in gen8ou
-    }
+    "gen8ou": {"urshifu": "urshifurapidstrike"}  # urshifu banned in gen8ou
 }
 
 
 class Battle(ABC):
-
     def __init__(self, battle_tag):
         self.battle_tag = battle_tag
         self.user = Battler()
@@ -91,8 +90,7 @@ class Battle(ABC):
                 new_pokemon_name = smart_team_preview[battle_type][pokemon.name]
                 logger.info(
                     "Smart team preview: Replaced {} with {}".format(
-                        pokemon.name,
-                        new_pokemon_name
+                        pokemon.name, new_pokemon_name
                     )
                 )
                 pokemon = Pokemon(new_pokemon_name, pokemon.level)
@@ -108,7 +106,7 @@ class Battle(ABC):
     def start_non_team_preview_battle(self, user_json, opponent_switch_string):
         self.user.from_json(user_json, first_turn=True)
 
-        pkmn_information = opponent_switch_string.split('|')[3]
+        pkmn_information = opponent_switch_string.split("|")[3]
         pkmn = Pokemon.from_switch_string(pkmn_information)
         self.opponent.active = pkmn
 
@@ -117,8 +115,8 @@ class Battle(ABC):
 
     def mega_evolve_possible(self):
         return (
-                any(g in self.generation for g in constants.MEGA_EVOLVE_GENERATIONS) or
-                'nationaldex' in ShowdownConfig.pokemon_mode
+            any(g in self.generation for g in constants.MEGA_EVOLVE_GENERATIONS)
+            or "nationaldex" in ShowdownConfig.pokemon_mode
         )
 
     def prepare_battles(self, guess_mega_evo_opponent=True, join_moves_together=False):
@@ -133,9 +131,15 @@ class Battle(ABC):
             # mega-evolving here gives the pkmn the random-battle spread (Serious + 85s)
             # unfortunately the correct spread is not stored anywhere as of this being written
             # this only happens on the turn the pkmn mega-evolves - the next turn will be fine
-            battle_copy.user.active.forme_change(get_mega_pkmn_name(battle_copy.user.active.name))
+            battle_copy.user.active.forme_change(
+                get_mega_pkmn_name(battle_copy.user.active.name)
+            )
 
-        if guess_mega_evo_opponent and not battle_copy.opponent.mega_revealed() and self.mega_evolve_possible():
+        if (
+            guess_mega_evo_opponent
+            and not battle_copy.opponent.mega_revealed()
+            and self.mega_evolve_possible()
+        ):
             check_in_sets = battle_copy.battle_type == constants.STANDARD_BATTLE
             battle_copy.opponent.active.try_convert_to_mega(check_in_sets=check_in_sets)
 
@@ -146,27 +150,49 @@ class Battle(ABC):
         try:
             pokemon_sets = get_pokemon_sets(battle_copy.opponent.active.name)
         except KeyError:
-            logger.warning("No sets for {}, trying to find most likely attributes".format(battle_copy.opponent.active.name))
+            logger.warning(
+                "No sets for {}, trying to find most likely attributes".format(
+                    battle_copy.opponent.active.name
+                )
+            )
             battle_copy.opponent.active.guess_most_likely_attributes()
             return [battle_copy]
 
-        possible_spreads = sorted(pokemon_sets[SPREADS_STRING], key=lambda x: x[2], reverse=True)
-        possible_abilities = sorted(pokemon_sets[ABILITY_STRING], key=lambda x: x[1], reverse=True)
-        possible_items = sorted(pokemon_sets[ITEM_STRING], key=lambda x: x[1], reverse=True)
-        possible_moves = sorted(pokemon_sets[MOVES_STRING], key=lambda x: x[1], reverse=True)
+        possible_spreads = sorted(
+            pokemon_sets[SPREADS_STRING], key=lambda x: x[2], reverse=True
+        )
+        possible_abilities = sorted(
+            pokemon_sets[ABILITY_STRING], key=lambda x: x[1], reverse=True
+        )
+        possible_items = sorted(
+            pokemon_sets[ITEM_STRING], key=lambda x: x[1], reverse=True
+        )
+        possible_moves = sorted(
+            pokemon_sets[MOVES_STRING], key=lambda x: x[1], reverse=True
+        )
 
         spreads = battle_copy.opponent.active.get_possible_spreads(possible_spreads)
         items = battle_copy.opponent.active.get_possible_items(possible_items)
-        abilities = battle_copy.opponent.active.get_possible_abilities(possible_abilities)
-        expected_moves, chance_moves = battle_copy.opponent.active.get_possible_moves(possible_moves, battle_copy.battle_type)
+        abilities = battle_copy.opponent.active.get_possible_abilities(
+            possible_abilities
+        )
+        expected_moves, chance_moves = battle_copy.opponent.active.get_possible_moves(
+            possible_moves, battle_copy.battle_type
+        )
 
         if join_moves_together:
             chance_move_combinations = [chance_moves]
         else:
-            number_of_unknown_moves = max(4 - len(battle_copy.opponent.active.moves) - len(expected_moves), 0)
-            chance_move_combinations = list(itertools.combinations(chance_moves, number_of_unknown_moves))
+            number_of_unknown_moves = max(
+                4 - len(battle_copy.opponent.active.moves) - len(expected_moves), 0
+            )
+            chance_move_combinations = list(
+                itertools.combinations(chance_moves, number_of_unknown_moves)
+            )
 
-        combinations = list(itertools.product(spreads, items, abilities, chance_move_combinations))
+        combinations = list(
+            itertools.product(spreads, items, abilities, chance_move_combinations)
+        )
 
         # create battle clones for each of the combinations
         battles = list()
@@ -178,9 +204,11 @@ class Battle(ABC):
             all_moves += c[3]
             all_moves = [Move(m) for m in all_moves]
 
-            if join_moves_together or set_makes_sense(c[0][0], c[0][1], c[1], c[2], all_moves):
+            if join_moves_together or set_makes_sense(
+                c[0][0], c[0][1], c[1], c[2], all_moves
+            ):
                 new_battle.opponent.active.set_spread(c[0][0], c[0][1])
-                if new_battle.opponent.active.name == 'ditto':
+                if new_battle.opponent.active.name == "ditto":
                     new_battle.opponent.active.stats = battle_copy.opponent.active.stats
                 new_battle.opponent.active.item = c[1]
                 new_battle.opponent.active.ability = c[2]
@@ -189,7 +217,16 @@ class Battle(ABC):
                 for m in c[3]:
                     new_battle.opponent.active.add_move(m)
 
-                logger.debug("Possible set for opponent's {}:\t{} {} {} {} {}".format(battle_copy.opponent.active.name, c[0][0], c[0][1], c[1], c[2], all_moves))
+                logger.debug(
+                    "Possible set for opponent's {}:\t{} {} {} {} {}".format(
+                        battle_copy.opponent.active.name,
+                        c[0][0],
+                        c[0][1],
+                        c[1],
+                        c[2],
+                        all_moves,
+                    )
+                )
                 battles.append(new_battle)
 
             new_battle.opponent.lock_moves()
@@ -197,18 +234,38 @@ class Battle(ABC):
         return battles if battles else [battle_copy]
 
     def create_state(self):
-        user_active = TransposePokemon.from_state_pokemon_dict(self.user.active.to_dict())
+        user_active = TransposePokemon.from_state_pokemon_dict(
+            self.user.active.to_dict()
+        )
         user_reserve = dict()
         for mon in self.user.reserve:
-            user_reserve[mon.name] = TransposePokemon.from_state_pokemon_dict(mon.to_dict())
+            user_reserve[mon.name] = TransposePokemon.from_state_pokemon_dict(
+                mon.to_dict()
+            )
 
-        opponent_active = TransposePokemon.from_state_pokemon_dict(self.opponent.active.to_dict())
+        opponent_active = TransposePokemon.from_state_pokemon_dict(
+            self.opponent.active.to_dict()
+        )
         opponent_reserve = dict()
         for mon in self.opponent.reserve:
-            opponent_reserve[mon.name] = TransposePokemon.from_state_pokemon_dict(mon.to_dict())
+            opponent_reserve[mon.name] = TransposePokemon.from_state_pokemon_dict(
+                mon.to_dict()
+            )
 
-        user = Side(user_active, user_reserve, copy(self.user.wish), copy(self.user.side_conditions), copy(self.user.future_sight))
-        opponent = Side(opponent_active, opponent_reserve, copy(self.opponent.wish), copy(self.opponent.side_conditions), copy(self.opponent.future_sight))
+        user = Side(
+            user_active,
+            user_reserve,
+            copy(self.user.wish),
+            copy(self.user.side_conditions),
+            copy(self.user.future_sight),
+        )
+        opponent = Side(
+            opponent_active,
+            opponent_reserve,
+            copy(self.opponent.wish),
+            copy(self.opponent.side_conditions),
+            copy(self.opponent.future_sight),
+        )
 
         state = State(user, opponent, self.weather, self.field, self.trick_room)
         return state
@@ -223,14 +280,15 @@ class Battle(ABC):
 
             # edge-case for uturn or voltswitch killing
             if (
-                    self.user.last_used_move.move in constants.SWITCH_OUT_MOVES and
-                    self.opponent.active.hp <= 0 and
-                    self.user.last_used_move.turn == self.turn
-
+                self.user.last_used_move.move in constants.SWITCH_OUT_MOVES
+                and self.opponent.active.hp <= 0
+                and self.user.last_used_move.turn == self.turn
             ):
                 opponent_options = [constants.DO_NOTHING_MOVE]
             else:
-                opponent_options = self.opponent.get_switches() or [constants.DO_NOTHING_MOVE]
+                opponent_options = self.opponent.get_switches() or [
+                    constants.DO_NOTHING_MOVE
+                ]
 
             return user_options, opponent_options
 
@@ -239,11 +297,13 @@ class Battle(ABC):
 
             # uturn or voltswitch
             if (
-                    self.user.last_used_move.move in constants.SWITCH_OUT_MOVES and
-                    self.opponent.last_used_move.turn != self.turn and
-                    self.user.last_used_move.turn == self.turn
+                self.user.last_used_move.move in constants.SWITCH_OUT_MOVES
+                and self.opponent.last_used_move.turn != self.turn
+                and self.user.last_used_move.turn == self.turn
             ):
-                opponent_options = [m.name for m in self.opponent.active.moves if not m.disabled] or [constants.DO_NOTHING_MOVE]
+                opponent_options = [
+                    m.name for m in self.opponent.active.moves if not m.disabled
+                ] or [constants.DO_NOTHING_MOVE]
             else:
                 opponent_options = [constants.DO_NOTHING_MOVE]
         elif wait:
@@ -254,14 +314,18 @@ class Battle(ABC):
             if user_forced_move:
                 user_options = [user_forced_move]
             else:
-                user_options = [m.name for m in self.user.active.moves if not m.disabled]
+                user_options = [
+                    m.name for m in self.user.active.moves if not m.disabled
+                ]
                 user_options += self.user.get_switches()
 
             opponent_forced_move = self.opponent.active.forced_move()
             if opponent_forced_move:
                 opponent_options = [opponent_forced_move]
             else:
-                opponent_options = [m.name for m in self.opponent.active.moves if not m.disabled] or [constants.DO_NOTHING_MOVE]
+                opponent_options = [
+                    m.name for m in self.opponent.active.moves if not m.disabled
+                ] or [constants.DO_NOTHING_MOVE]
                 opponent_options += self.opponent.get_switches()
 
         return user_options, opponent_options
@@ -272,7 +336,6 @@ class Battle(ABC):
 
 
 class Battler:
-
     def __init__(self):
         self.active = None
         self.reserve = []
@@ -285,7 +348,7 @@ class Battler:
 
         self.account_name = None
 
-        self.last_used_move = LastUsedMove('', '', 0)
+        self.last_used_move = LastUsedMove("", "", 0)
 
     def mega_revealed(self):
         return self.active.is_mega or any(p.is_mega for p in self.reserve)
@@ -298,14 +361,17 @@ class Battler:
                     m.disabled = True
 
     def lock_active_pkmn_status_moves_if_active_has_assaultvest(self):
-        if self.active.item == 'assaultvest':
+        if self.active.item == "assaultvest":
             for m in self.active.moves:
                 if all_move_json[m.name][constants.CATEGORY] == constants.STATUS:
                     m.disabled = True
 
     def choice_lock_moves(self):
         # if the active pokemon has a choice item and their last used move was by this pokemon -> lock their other moves
-        if self.active.item in constants.CHOICE_ITEMS and self.last_used_move.pokemon_name == self.active.name:
+        if (
+            self.active.item in constants.CHOICE_ITEMS
+            and self.last_used_move.pokemon_name == self.active.name
+        ):
             for m in self.active.moves:
                 if m.name != self.last_used_move.move:
                     m.disabled = True
@@ -323,7 +389,6 @@ class Battler:
         self.taunt_lock_moves()
 
     def from_json(self, user_json, first_turn=False):
-
         # user_json does not track boosts or volatile statuses
         # they must be taken from the current battle
         if first_turn:
@@ -334,12 +399,14 @@ class Battler:
                 self.active.boosts,
                 self.active.volatile_statuses,
                 self.active.terastallized,
-                self.active.types
+                self.active.types,
             )
 
         try:
             trapped = user_json[constants.ACTIVE][0].get(constants.TRAPPED, False)
-            maybe_trapped = user_json[constants.ACTIVE][0].get(constants.MAYBE_TRAPPED, False)
+            maybe_trapped = user_json[constants.ACTIVE][0].get(
+                constants.MAYBE_TRAPPED, False
+            )
             self.trapped = trapped or maybe_trapped
         except KeyError:
             self.trapped = False
@@ -347,19 +414,22 @@ class Battler:
         self.name = user_json[constants.SIDE][constants.ID]
         self.reserve.clear()
         for index, pkmn_dict in enumerate(user_json[constants.SIDE][constants.POKEMON]):
-
             nickname = pkmn_dict[constants.IDENT]
-            pkmn = Pokemon.from_switch_string(pkmn_dict[constants.DETAILS], nickname=nickname)
-            
+            pkmn = Pokemon.from_switch_string(
+                pkmn_dict[constants.DETAILS], nickname=nickname
+            )
+
             # Handle edge case
             if "baseAbility" in pkmn_dict:
                 pkmn.ability = pkmn_dict["baseAbility"]
-            else: 
+            else:
                 pkmn.ability = pkmn_dict[constants.REQUEST_DICT_ABILITY]
 
             pkmn.index = index + 1
             pkmn.reviving = pkmn_dict.get(constants.REVIVING, False)
-            pkmn.hp, pkmn.max_hp, pkmn.status = get_pokemon_info_from_condition(pkmn_dict[constants.CONDITION])
+            pkmn.hp, pkmn.max_hp, pkmn.status = get_pokemon_info_from_condition(
+                pkmn_dict[constants.CONDITION]
+            )
             for stat, number in pkmn_dict[constants.STATS].items():
                 pkmn.stats[constants.STAT_ABBREVIATION_LOOKUPS[stat]] = number
 
@@ -384,22 +454,30 @@ class Battler:
             return
 
         try:
-            self.active.can_mega_evo = user_json[constants.ACTIVE][0][constants.CAN_MEGA_EVO]
+            self.active.can_mega_evo = user_json[constants.ACTIVE][0][
+                constants.CAN_MEGA_EVO
+            ]
         except KeyError:
             self.active.can_mega_evo = False
 
         try:
-            self.active.can_ultra_burst = user_json[constants.ACTIVE][0][constants.CAN_ULTRA_BURST]
+            self.active.can_ultra_burst = user_json[constants.ACTIVE][0][
+                constants.CAN_ULTRA_BURST
+            ]
         except KeyError:
             self.active.can_ultra_burst = False
 
         try:
-            self.active.can_dynamax = user_json[constants.ACTIVE][0][constants.CAN_DYNAMAX]
+            self.active.can_dynamax = user_json[constants.ACTIVE][0][
+                constants.CAN_DYNAMAX
+            ]
         except KeyError:
             self.active.can_dynamax = False
 
         try:
-            self.active.can_terastallize = user_json[constants.ACTIVE][0][constants.CAN_TERASTALLIZE]
+            self.active.can_terastallize = user_json[constants.ACTIVE][0][
+                constants.CAN_TERASTALLIZE
+            ]
         except KeyError:
             self.active.can_terastallize = False
 
@@ -412,9 +490,12 @@ class Battler:
             # hidden power's ID is always 'hiddenpower' regardless of the type
             # the type needs to be parsed separately from the 'move' attribute
             if move[constants.ID] == constants.HIDDEN_POWER:
-                self.active.add_move('{}{}'.format(
+                self.active.add_move(
+                    "{}{}".format(
                         constants.HIDDEN_POWER,
-                        move['move'].split()[constants.HIDDEN_POWER_TYPE_STRING_INDEX].lower()
+                        move["move"]
+                        .split()[constants.HIDDEN_POWER_TYPE_STRING_INDEX]
+                        .lower(),
                     )
                 )
             else:
@@ -423,7 +504,9 @@ class Battler:
             self.active.moves[-1].current_pp = move.get(constants.PP, 1)
 
             try:
-                self.active.moves[index].can_z = user_json[constants.ACTIVE][0][constants.CAN_Z_MOVE][index]
+                self.active.moves[index].can_z = user_json[constants.ACTIVE][0][
+                    constants.CAN_Z_MOVE
+                ][index]
             except KeyError:
                 pass
 
@@ -448,12 +531,11 @@ class Battler:
             constants.RESERVE: [p.to_dict() for p in self.reserve],
             constants.WISH: copy(self.wish),
             constants.FUTURE_SIGHT: copy(self.future_sight),
-            constants.SIDE_CONDITIONS: copy(self.side_conditions)
+            constants.SIDE_CONDITIONS: copy(self.side_conditions),
         }
 
 
 class Pokemon:
-
     def __init__(self, name: str, level: int, nature="serious", evs=(85,) * 6):
         self.name = normalize_name(name)
         self.nickname = None
@@ -471,11 +553,13 @@ class Pokemon:
             logger.info("Using {} instead".format(self.name))
             self.base_stats = pokedex[self.name][constants.BASESTATS]
 
-        self.stats = calculate_stats(self.base_stats, self.level, nature=nature, evs=evs)
+        self.stats = calculate_stats(
+            self.base_stats, self.level, nature=nature, evs=evs
+        )
 
         self.max_hp = self.stats.pop(constants.HITPOINTS)
         self.hp = self.max_hp
-        if self.name == 'shedinja':
+        if self.name == "shedinja":
             self.max_hp = 1
             self.hp = 1
 
@@ -519,7 +603,9 @@ class Pokemon:
         mega_pkmn_name = get_mega_pkmn_name(self.name)
         in_sets_data = mega_pkmn_name in data.pokemon_sets
 
-        if (mega_pkmn_name and check_in_sets and in_sets_data) or (mega_pkmn_name and not check_in_sets):
+        if (mega_pkmn_name and check_in_sets and in_sets_data) or (
+            mega_pkmn_name and not check_in_sets
+        ):
             logger.debug("Guessing mega-evolution: {}".format(mega_pkmn_name))
             self.forme_change(mega_pkmn_name)
 
@@ -535,10 +621,10 @@ class Pokemon:
         if nickname is not None:
             nickname = cls.extract_nickname_from_pokemonshowdown_string(nickname)
 
-        details = switch_string.split(',')
+        details = switch_string.split(",")
         name = details[0]
         try:
-            level = int(details[1].replace('L', '').strip())
+            level = int(details[1].replace("L", "").strip())
         except (IndexError, ValueError):
             level = 100
         pkmn = Pokemon(name, level)
@@ -547,9 +633,11 @@ class Pokemon:
 
     def set_spread(self, nature, evs):
         if isinstance(evs, str):
-            evs = [int(e) for e in evs.split(',')]
+            evs = [int(e) for e in evs.split(",")]
         hp_percent = self.hp / self.max_hp
-        self.stats = calculate_stats(self.base_stats, self.level, evs=evs, nature=nature)
+        self.stats = calculate_stats(
+            self.base_stats, self.level, evs=evs, nature=nature
+        )
         self.nature = nature
         self.evs = evs
         self.max_hp = self.stats.pop(constants.HITPOINTS)
@@ -622,18 +710,20 @@ class Pokemon:
             possible_items = []
             for i in items:
                 if i[1] < 10 or cumulative_percentage >= 80:
-                    return possible_items if possible_items else [constants.UNKNOWN_ITEM]
+                    return (
+                        possible_items if possible_items else [constants.UNKNOWN_ITEM]
+                    )
                 elif i[0] in constants.CHOICE_ITEMS and not self.can_have_choice_item:
                     pass
-                elif i[0] == 'lifeorb' and not self.can_have_life_orb:
+                elif i[0] == "lifeorb" and not self.can_have_life_orb:
                     pass
-                elif i[0] == 'assaultvest' and not self.can_have_assaultvest:
+                elif i[0] == "assaultvest" and not self.can_have_assaultvest:
                     pass
-                elif i[0] == 'heavydutyboots' and not self.can_have_heavydutyboots:
+                elif i[0] == "heavydutyboots" and not self.can_have_heavydutyboots:
                     pass
-                elif i[0] == 'choiceband' and self.can_not_have_band:
+                elif i[0] == "choiceband" and self.can_not_have_band:
                     pass
-                elif i[0] == 'choicespecs' and self.can_not_have_specs:
+                elif i[0] == "choicespecs" and self.can_not_have_specs:
                     pass
                 elif i[0] not in PASS_ITEMS:
                     possible_items.append(i[0])
@@ -666,7 +756,9 @@ class Pokemon:
             if len(self.moves) == 4:
                 return [], []
             known_move_names = [m.name for m in self.moves]
-            return [], get_all_possible_moves_for_random_battle(self.name, known_move_names)
+            return [], get_all_possible_moves_for_random_battle(
+                self.name, known_move_names
+            )
 
         moves_remaining = 4 - len(self.moves)
         expected_moves = list()
@@ -717,14 +809,14 @@ class Pokemon:
             constants.STATUS: self.status,
             constants.TERASTALLIZED: self.terastallized,
             constants.VOLATILE_STATUS: set(self.volatile_statuses),
-            constants.MOVES: [m.to_dict() for m in self.moves]
+            constants.MOVES: [m.to_dict() for m in self.moves],
         }
 
     @classmethod
     def get_dummy(cls):
-        p = Pokemon('pikachu', 100)
+        p = Pokemon("pikachu", 100)
         p.hp = 0
-        p.name = ''
+        p.name = ""
         p.ability = None
         p.fainted = True
         return p
@@ -739,8 +831,12 @@ class Pokemon:
 class Move:
     def __init__(self, name):
         name = normalize_name(name)
-        if constants.HIDDEN_POWER in name and not name.endswith(constants.HIDDEN_POWER_ACTIVE_MOVE_BASE_DAMAGE_STRING):
-            name = "{}{}".format(name, constants.HIDDEN_POWER_ACTIVE_MOVE_BASE_DAMAGE_STRING)
+        if constants.HIDDEN_POWER in name and not name.endswith(
+            constants.HIDDEN_POWER_ACTIVE_MOVE_BASE_DAMAGE_STRING
+        ):
+            name = "{}{}".format(
+                name, constants.HIDDEN_POWER_ACTIVE_MOVE_BASE_DAMAGE_STRING
+            )
         move_json = all_move_json[name]
         self.name = name
         self.max_pp = int(move_json.get(constants.PP) * 1.6)
@@ -753,7 +849,7 @@ class Move:
         return {
             "id": self.name,
             "disabled": self.disabled,
-            "current_pp": self.current_pp
+            "current_pp": self.current_pp,
         }
 
     def __eq__(self, other):

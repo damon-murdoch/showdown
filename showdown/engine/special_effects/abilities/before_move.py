@@ -3,12 +3,14 @@ import constants
 from showdown.engine.helpers import calculate_stats
 
 
-def stancechange(state, attacking_side, attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_pokemon.id in ['aegislash', 'aegislashblade']:
+def stancechange(
+    state, attacking_side, attacking_move, attacking_pokemon, defending_pokemon
+):
+    if attacking_pokemon.id in ["aegislash", "aegislashblade"]:
         if attacking_move[constants.CATEGORY] in constants.DAMAGING_CATEGORIES:
-            change_stats_into = 'aegislashblade'
-        elif attacking_move[constants.ID] == 'kingsshield':
-            change_stats_into = 'aegislash'
+            change_stats_into = "aegislashblade"
+        elif attacking_move[constants.ID] == "kingsshield":
+            change_stats_into = "aegislash"
         else:
             return None
 
@@ -16,7 +18,7 @@ def stancechange(state, attacking_side, attacking_move, attacking_pokemon, defen
             pokedex[change_stats_into][constants.BASESTATS],
             attacking_pokemon.level,
             nature=attacking_pokemon.nature,
-            evs=attacking_pokemon.evs
+            evs=attacking_pokemon.evs,
         )
 
         return [
@@ -29,7 +31,7 @@ def stancechange(state, attacking_side, attacking_move, attacking_pokemon, defen
                     new_stats[constants.DEFENSE],
                     new_stats[constants.SPECIAL_ATTACK],
                     new_stats[constants.SPECIAL_DEFENSE],
-                    attacking_pokemon.speed
+                    attacking_pokemon.speed,
                 ),
                 (
                     attacking_pokemon.hp,
@@ -37,39 +39,49 @@ def stancechange(state, attacking_side, attacking_move, attacking_pokemon, defen
                     attacking_pokemon.defense,
                     attacking_pokemon.special_attack,
                     attacking_pokemon.special_defense,
-                    attacking_pokemon.speed
-                )
+                    attacking_pokemon.speed,
+                ),
             )
-
         ]
     return None
 
 
-def protean(state, attacking_side, attacking_move, attacking_pokemon, defending_pokemon):
+def protean(
+    state, attacking_side, attacking_move, attacking_pokemon, defending_pokemon
+):
     if (
-        [attacking_move[constants.TYPE]] != attacking_pokemon.types and
-        constants.TYPECHANGE not in attacking_pokemon.volatile_status
+        [attacking_move[constants.TYPE]] != attacking_pokemon.types
+        and constants.TYPECHANGE not in attacking_pokemon.volatile_status
     ):
         return [
             (
                 constants.MUTATOR_CHANGE_TYPE,
                 attacking_side,
                 [attacking_move[constants.TYPE]],
-                attacking_pokemon.types
+                attacking_pokemon.types,
             ),
             (
                 constants.MUTATOR_APPLY_VOLATILE_STATUS,
                 attacking_side,
-                constants.TYPECHANGE
-            )
+                constants.TYPECHANGE,
+            ),
         ]
 
 
 libero = protean
 
 
-def ability_before_move(ability_name, state, attacking_side, attacking_move, attacking_pokemon, defending_pokemon):
+def ability_before_move(
+    ability_name,
+    state,
+    attacking_side,
+    attacking_move,
+    attacking_pokemon,
+    defending_pokemon,
+):
     try:
-        return globals()[ability_name](state, attacking_side, attacking_move, attacking_pokemon, defending_pokemon)
+        return globals()[ability_name](
+            state, attacking_side, attacking_move, attacking_pokemon, defending_pokemon
+        )
     except KeyError:
         return None

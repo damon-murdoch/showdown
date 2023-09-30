@@ -13,7 +13,7 @@ class Scoring:
         constants.SPECIAL_DEFENSE: 15,
         constants.SPEED: 25,
         constants.ACCURACY: 3,
-        constants.EVASION: 3
+        constants.EVASION: 3,
     }
 
     POKEMON_BOOST_DIMINISHING_RETURNS = {
@@ -38,19 +38,19 @@ class Scoring:
         constants.PARALYZED: -25,
         constants.TOXIC: -30,
         constants.POISON: -10,
-        None: 0
+        None: 0,
     }
 
     MATCHUP_BONUS = 20
 
     @staticmethod
     def BURN(burn_multiplier):
-        return -25*burn_multiplier
+        return -25 * burn_multiplier
 
     POKEMON_VOLATILE_STATUSES = {
         constants.LEECH_SEED: -30,
         constants.SUBSTITUTE: 40,
-        constants.CONFUSION: -20
+        constants.CONFUSION: -20,
     }
 
     STATIC_SCORED_SIDE_CONDITIONS = {
@@ -78,13 +78,34 @@ def evaluate_pokemon(pkmn):
     score += Scoring.POKEMON_HP * (float(pkmn.hp) / pkmn.maxhp)
 
     # boosts have diminishing returns
-    score += Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.attack_boost] * Scoring.POKEMON_BOOSTS[constants.ATTACK]
-    score += Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.defense_boost] * Scoring.POKEMON_BOOSTS[constants.DEFENSE]
-    score += Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.special_attack_boost] * Scoring.POKEMON_BOOSTS[constants.SPECIAL_ATTACK]
-    score += Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.special_defense_boost] * Scoring.POKEMON_BOOSTS[constants.SPECIAL_DEFENSE]
-    score += Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.speed_boost] * Scoring.POKEMON_BOOSTS[constants.SPEED]
-    score += Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.accuracy_boost] * Scoring.POKEMON_BOOSTS[constants.ACCURACY]
-    score += Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.evasion_boost] * Scoring.POKEMON_BOOSTS[constants.EVASION]
+    score += (
+        Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.attack_boost]
+        * Scoring.POKEMON_BOOSTS[constants.ATTACK]
+    )
+    score += (
+        Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.defense_boost]
+        * Scoring.POKEMON_BOOSTS[constants.DEFENSE]
+    )
+    score += (
+        Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.special_attack_boost]
+        * Scoring.POKEMON_BOOSTS[constants.SPECIAL_ATTACK]
+    )
+    score += (
+        Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.special_defense_boost]
+        * Scoring.POKEMON_BOOSTS[constants.SPECIAL_DEFENSE]
+    )
+    score += (
+        Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.speed_boost]
+        * Scoring.POKEMON_BOOSTS[constants.SPEED]
+    )
+    score += (
+        Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.accuracy_boost]
+        * Scoring.POKEMON_BOOSTS[constants.ACCURACY]
+    )
+    score += (
+        Scoring.POKEMON_BOOST_DIMINISHING_RETURNS[pkmn.evasion_boost]
+        * Scoring.POKEMON_BOOSTS[constants.EVASION]
+    )
 
     try:
         score += Scoring.POKEMON_STATIC_STATUSES[pkmn.status]
@@ -105,8 +126,12 @@ def evaluate(state):
     score = 0
 
     number_of_opponent_reserve_revealed = len(state.opponent.reserve) + 1
-    bot_alive_reserve_count = len([p.hp for p in state.user.reserve.values() if p.hp > 0])
-    opponent_alive_reserves_count = len([p for p in state.opponent.reserve.values() if p.hp > 0]) + (6-number_of_opponent_reserve_revealed)
+    bot_alive_reserve_count = len(
+        [p.hp for p in state.user.reserve.values() if p.hp > 0]
+    )
+    opponent_alive_reserves_count = len(
+        [p for p in state.opponent.reserve.values() if p.hp > 0]
+    ) + (6 - number_of_opponent_reserve_revealed)
 
     # evaluate the bot's pokemon
     score += evaluate_pokemon(state.user.active)
@@ -125,18 +150,32 @@ def evaluate(state):
         if condition in Scoring.STATIC_SCORED_SIDE_CONDITIONS:
             score += count * Scoring.STATIC_SCORED_SIDE_CONDITIONS[condition]
         elif condition in Scoring.POKEMON_COUNT_SCORED_SIDE_CONDITIONS:
-            score += count * Scoring.POKEMON_COUNT_SCORED_SIDE_CONDITIONS[condition] * bot_alive_reserve_count
+            score += (
+                count
+                * Scoring.POKEMON_COUNT_SCORED_SIDE_CONDITIONS[condition]
+                * bot_alive_reserve_count
+            )
 
     # evaluate the side-conditions for the opponent
     for condition, count in state.opponent.side_conditions.items():
         if condition in Scoring.STATIC_SCORED_SIDE_CONDITIONS:
             score -= count * Scoring.STATIC_SCORED_SIDE_CONDITIONS[condition]
         elif condition in Scoring.POKEMON_COUNT_SCORED_SIDE_CONDITIONS:
-            score -= count * Scoring.POKEMON_COUNT_SCORED_SIDE_CONDITIONS[condition] * opponent_alive_reserves_count
+            score -= (
+                count
+                * Scoring.POKEMON_COUNT_SCORED_SIDE_CONDITIONS[condition]
+                * opponent_alive_reserves_count
+            )
 
     try:
-        matchup_score = Scoring.MATCHUP_BONUS * effectiveness[state.user.active.id][state.opponent.active.id]
-        matchup_score -= Scoring.MATCHUP_BONUS * effectiveness[state.opponent.active.id][state.user.active.id]
+        matchup_score = (
+            Scoring.MATCHUP_BONUS
+            * effectiveness[state.user.active.id][state.opponent.active.id]
+        )
+        matchup_score -= (
+            Scoring.MATCHUP_BONUS
+            * effectiveness[state.opponent.active.id][state.user.active.id]
+        )
         score += matchup_score
     except KeyError:
         pass

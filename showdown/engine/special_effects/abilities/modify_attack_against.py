@@ -4,35 +4,41 @@ from ...damage_calculator import is_super_effective
 
 
 def levitate(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'ground' and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT and attacking_move[constants.ID] != 'thousandarrows':
+    if (
+        attacking_move[constants.TYPE] == "ground"
+        and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT
+        and attacking_move[constants.ID] != "thousandarrows"
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.BASE_POWER] = 0
     return attacking_move
 
 
 def lightningrod(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'electric' and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT:
+    if (
+        attacking_move[constants.TYPE] == "electric"
+        and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.ACCURACY] = True
         attacking_move[constants.BASE_POWER] = 0
         attacking_move[constants.TARGET] = constants.NORMAL
         attacking_move[constants.CATEGORY] = constants.STATUS
-        attacking_move[constants.BOOSTS] = {
-            constants.SPECIAL_ATTACK: 1
-        }
+        attacking_move[constants.BOOSTS] = {constants.SPECIAL_ATTACK: 1}
     return attacking_move
 
 
 def stormdrain(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'water' and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT:
+    if (
+        attacking_move[constants.TYPE] == "water"
+        and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.ACCURACY] = True
         attacking_move[constants.BASE_POWER] = 0
         attacking_move[constants.TARGET] = constants.NORMAL
         attacking_move[constants.CATEGORY] = constants.STATUS
-        attacking_move[constants.BOOSTS] = {
-            constants.SPECIAL_ATTACK: 1
-        }
+        attacking_move[constants.BOOSTS] = {constants.SPECIAL_ATTACK: 1}
     return attacking_move
 
 
@@ -44,81 +50,86 @@ def goodasgold(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 def voltabsorb(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'electric' and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT:
+    if (
+        attacking_move[constants.TYPE] == "electric"
+        and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.ACCURACY] = True
         attacking_move[constants.BASE_POWER] = 0
         attacking_move[constants.HEAL_TARGET] = constants.NORMAL
         attacking_move[constants.CATEGORY] = constants.STATUS
-        attacking_move[constants.HEAL] = [
-            1,
-            4
-        ]
+        attacking_move[constants.HEAL] = [1, 4]
     return attacking_move
 
 
 def waterabsorb(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'water' and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT:
+    if (
+        attacking_move[constants.TYPE] == "water"
+        and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.ACCURACY] = True
         attacking_move[constants.BASE_POWER] = 0
         attacking_move[constants.HEAL_TARGET] = constants.NORMAL
         attacking_move[constants.CATEGORY] = constants.STATUS
-        attacking_move[constants.HEAL] = [
-            1,
-            4
-        ]
+        attacking_move[constants.HEAL] = [1, 4]
     return attacking_move
 
 
 def eartheater(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'ground' and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT:
+    if (
+        attacking_move[constants.TYPE] == "ground"
+        and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.ACCURACY] = True
         attacking_move[constants.BASE_POWER] = 0
         attacking_move[constants.HEAL_TARGET] = constants.NORMAL
         attacking_move[constants.CATEGORY] = constants.STATUS
-        attacking_move[constants.HEAL] = [
-            1,
-            4
-        ]
+        attacking_move[constants.HEAL] = [1, 4]
     return attacking_move
 
 
 def thermalexchange(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'fire' and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT:
+    if (
+        attacking_move[constants.TYPE] == "fire"
+        and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.SECONDARY] = {
             constants.CHANCE: 100,
-            constants.BOOSTS: {constants.ATTACK: 1}
+            constants.BOOSTS: {constants.ATTACK: 1},
         }
     return attacking_move
 
 
 def motordrive(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'electric' and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT:
+    if (
+        attacking_move[constants.TYPE] == "electric"
+        and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.ACCURACY] = True
         attacking_move[constants.BASE_POWER] = 0
         attacking_move[constants.TARGET] = constants.NORMAL
         attacking_move[constants.CATEGORY] = constants.STATUS
-        attacking_move[constants.BOOSTS] = {
-            constants.SPEED: 1
-        }
+        attacking_move[constants.BOOSTS] = {constants.SPEED: 1}
     return attacking_move
 
 
 def sapsipper(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'grass' and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT:
+    if (
+        attacking_move[constants.TYPE] == "grass"
+        and attacking_move[constants.TARGET] in constants.MOVE_TARGET_OPPONENT
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.ACCURACY] = True
         attacking_move[constants.BASE_POWER] = 0
         attacking_move[constants.VOLATILE_STATUS] = None
         attacking_move[constants.TARGET] = constants.NORMAL
         attacking_move[constants.CATEGORY] = constants.STATUS
-        attacking_move[constants.BOOSTS] = {
-            constants.ATTACK: 1
-        }
+        attacking_move[constants.BOOSTS] = {constants.ATTACK: 1}
     return attacking_move
 
 
@@ -131,7 +142,7 @@ def multiscale(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 def thickfat(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] in ['fire', 'ice']:
+    if attacking_move[constants.TYPE] in ["fire", "ice"]:
         attacking_move = attacking_move.copy()
         attacking_move[constants.BASE_POWER] /= 2
     return attacking_move
@@ -140,7 +151,7 @@ def thickfat(attacking_move, attacking_pokemon, defending_pokemon):
 def solidrock(attacking_move, attacking_pokemon, defending_pokemon):
     if is_super_effective(attacking_move[constants.TYPE], defending_pokemon.types):
         attacking_move = attacking_move.copy()
-        attacking_move[constants.BASE_POWER] *= (3/4)
+        attacking_move[constants.BASE_POWER] *= 3 / 4
     return attacking_move
 
 
@@ -150,12 +161,19 @@ def contrary(attacking_move, attacking_pokemon, defending_pokemon):
         if constants.BOOSTS in attacking_move:
             attacking_move[constants.BOOSTS] = attacking_move[constants.BOOSTS].copy()
             for k, v in attacking_move[constants.BOOSTS].items():
-                attacking_move[constants.BOOSTS][k] = -1*v
-        if attacking_move[constants.SECONDARY] and constants.BOOSTS in attacking_move[constants.SECONDARY]:
-            attacking_move[constants.SECONDARY] = attacking_move[constants.SECONDARY].copy()
-            attacking_move[constants.SECONDARY][constants.BOOSTS] = attacking_move[constants.SECONDARY][constants.BOOSTS].copy()
+                attacking_move[constants.BOOSTS][k] = -1 * v
+        if (
+            attacking_move[constants.SECONDARY]
+            and constants.BOOSTS in attacking_move[constants.SECONDARY]
+        ):
+            attacking_move[constants.SECONDARY] = attacking_move[
+                constants.SECONDARY
+            ].copy()
+            attacking_move[constants.SECONDARY][constants.BOOSTS] = attacking_move[
+                constants.SECONDARY
+            ][constants.BOOSTS].copy()
             for k, v in attacking_move[constants.SECONDARY][constants.BOOSTS].items():
-                attacking_move[constants.SECONDARY][constants.BOOSTS][k] = -1*v
+                attacking_move[constants.SECONDARY][constants.BOOSTS][k] = -1 * v
 
     return attacking_move
 
@@ -168,7 +186,7 @@ def noguard(attacking_move, attacking_pokemon, defending_pokemon):
 
 def flashfire(attacking_move, attacking_pokemon, defending_pokemon):
     # does not account for the 'flashfire' volatile status
-    if attacking_move[constants.TYPE] == 'fire':
+    if attacking_move[constants.TYPE] == "fire":
         attacking_move = attacking_move.copy()
         attacking_move[constants.BASE_POWER] = 0
         attacking_move[constants.STATUS] = None
@@ -176,7 +194,7 @@ def flashfire(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 def wellbakedbody(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'fire':
+    if attacking_move[constants.TYPE] == "fire":
         attacking_move = attacking_move.copy()
         attacking_move[constants.BASE_POWER] = 0
         attacking_move[constants.STATUS] = None
@@ -194,14 +212,17 @@ def armortail(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 def bulletproof(attacking_move, attacking_pokemon, defending_pokemon):
-    if 'bullet' in attacking_move[constants.FLAGS]:
+    if "bullet" in attacking_move[constants.FLAGS]:
         attacking_move = attacking_move.copy()
         attacking_move[constants.BASE_POWER] = 0
     return attacking_move
 
 
 def windrider(attacking_move, attacking_pokemon, defending_pokemon):
-    if 'wind' in attacking_move[constants.FLAGS] and attacking_move[constants.CATEGORY] in constants.DAMAGING_CATEGORIES:
+    if (
+        "wind" in attacking_move[constants.FLAGS]
+        and attacking_move[constants.CATEGORY] in constants.DAMAGING_CATEGORIES
+    ):
         attacking_move = attacking_move.copy()
 
         if constants.BOOSTS in attacking_move:
@@ -228,7 +249,7 @@ def fluffy(attacking_move, attacking_pokemon, defending_pokemon):
     if constants.CONTACT in attacking_move[constants.FLAGS]:
         attacking_move = attacking_move.copy()
         attacking_move[constants.BASE_POWER] *= 0.5
-    if attacking_move[constants.TYPE] == 'fire':
+    if attacking_move[constants.TYPE] == "fire":
         attacking_move = attacking_move.copy()
         attacking_move[constants.BASE_POWER] *= 2
     return attacking_move
@@ -274,7 +295,7 @@ def stamina(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 def waterbubble(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'fire':
+    if attacking_move[constants.TYPE] == "fire":
         attacking_move = attacking_move.copy()
         attacking_move[constants.BASE_POWER] /= 2
 
@@ -298,7 +319,9 @@ def tanglinghair(attacking_move, attacking_pokemon, defending_pokemon):
             attacking_move[constants.SELF] = dict()
 
         if constants.BOOSTS in attacking_move[constants.SELF]:
-            attacking_move[constants.SELF][constants.BOOSTS] = attacking_move[constants.SELF][constants.BOOSTS].copy()
+            attacking_move[constants.SELF][constants.BOOSTS] = attacking_move[
+                constants.SELF
+            ][constants.BOOSTS].copy()
         else:
             attacking_move[constants.SELF][constants.BOOSTS] = dict()
 
@@ -318,7 +341,9 @@ def cottondown(attacking_move, attacking_pokemon, defending_pokemon):
         attacking_move[constants.SELF] = dict()
 
     if constants.BOOSTS in attacking_move[constants.SELF]:
-        attacking_move[constants.SELF][constants.BOOSTS] = attacking_move[constants.SELF][constants.BOOSTS].copy()
+        attacking_move[constants.SELF][constants.BOOSTS] = attacking_move[
+            constants.SELF
+        ][constants.BOOSTS].copy()
     else:
         attacking_move[constants.SELF][constants.BOOSTS] = dict()
 
@@ -331,7 +356,10 @@ def cottondown(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 def marvelscale(attacking_move, attacking_pokemon, defending_pokemon):
-    if defending_pokemon.status is not None and attacking_move[constants.CATEGORY] == constants.PHYSICAL:
+    if (
+        defending_pokemon.status is not None
+        and attacking_move[constants.CATEGORY] == constants.PHYSICAL
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.BASE_POWER] /= 1.5
 
@@ -339,9 +367,14 @@ def marvelscale(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 def justified(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'dark' and attacking_move[constants.CATEGORY] in constants.DAMAGING_CATEGORIES:
+    if (
+        attacking_move[constants.TYPE] == "dark"
+        and attacking_move[constants.CATEGORY] in constants.DAMAGING_CATEGORIES
+    ):
         attacking_move = attacking_move.copy()
-        attacking_move[constants.BOOSTS] = {  # damaging moves dont have boosts so dont bother copying
+        attacking_move[
+            constants.BOOSTS
+        ] = {  # damaging moves dont have boosts so dont bother copying
             constants.ATTACK: 1
         }
 
@@ -368,15 +401,29 @@ def competitive(attacking_move, attacking_pokemon, defending_pokemon):
                     else:
                         attacking_move[constants.BOOSTS][constants.SPECIAL_ATTACK] += 2
 
-        elif attacking_move[constants.SECONDARY] and constants.BOOSTS in attacking_move[constants.SECONDARY]:
-            attacking_move[constants.SECONDARY] = attacking_move[constants.SECONDARY].copy()
-            attacking_move[constants.SECONDARY][constants.BOOSTS] = attacking_move[constants.SECONDARY][constants.BOOSTS].copy()
+        elif (
+            attacking_move[constants.SECONDARY]
+            and constants.BOOSTS in attacking_move[constants.SECONDARY]
+        ):
+            attacking_move[constants.SECONDARY] = attacking_move[
+                constants.SECONDARY
+            ].copy()
+            attacking_move[constants.SECONDARY][constants.BOOSTS] = attacking_move[
+                constants.SECONDARY
+            ][constants.BOOSTS].copy()
             for boost in attacking_move[constants.SECONDARY][constants.BOOSTS].copy():
                 if attacking_move[constants.SECONDARY][constants.BOOSTS][boost] < 0:
-                    if constants.SPECIAL_ATTACK not in attacking_move[constants.SECONDARY][constants.BOOSTS]:
-                        attacking_move[constants.SECONDARY][constants.BOOSTS][constants.SPECIAL_ATTACK] = 2
+                    if (
+                        constants.SPECIAL_ATTACK
+                        not in attacking_move[constants.SECONDARY][constants.BOOSTS]
+                    ):
+                        attacking_move[constants.SECONDARY][constants.BOOSTS][
+                            constants.SPECIAL_ATTACK
+                        ] = 2
                     else:
-                        attacking_move[constants.SECONDARY][constants.BOOSTS][constants.SPECIAL_ATTACK] += 2
+                        attacking_move[constants.SECONDARY][constants.BOOSTS][
+                            constants.SPECIAL_ATTACK
+                        ] += 2
 
     return attacking_move
 
@@ -393,15 +440,29 @@ def defiant(attacking_move, attacking_pokemon, defending_pokemon):
                     else:
                         attacking_move[constants.BOOSTS][constants.ATTACK] += 2
 
-        elif attacking_move[constants.SECONDARY] and constants.BOOSTS in attacking_move[constants.SECONDARY]:
-            attacking_move[constants.SECONDARY] = attacking_move[constants.SECONDARY].copy()
-            attacking_move[constants.SECONDARY][constants.BOOSTS] = attacking_move[constants.SECONDARY][constants.BOOSTS].copy()
+        elif (
+            attacking_move[constants.SECONDARY]
+            and constants.BOOSTS in attacking_move[constants.SECONDARY]
+        ):
+            attacking_move[constants.SECONDARY] = attacking_move[
+                constants.SECONDARY
+            ].copy()
+            attacking_move[constants.SECONDARY][constants.BOOSTS] = attacking_move[
+                constants.SECONDARY
+            ][constants.BOOSTS].copy()
             for boost in attacking_move[constants.SECONDARY][constants.BOOSTS].copy():
                 if attacking_move[constants.SECONDARY][constants.BOOSTS][boost] < 0:
-                    if constants.ATTACK not in attacking_move[constants.SECONDARY][constants.BOOSTS]:
-                        attacking_move[constants.SECONDARY][constants.BOOSTS][constants.ATTACK] = 2
+                    if (
+                        constants.ATTACK
+                        not in attacking_move[constants.SECONDARY][constants.BOOSTS]
+                    ):
+                        attacking_move[constants.SECONDARY][constants.BOOSTS][
+                            constants.ATTACK
+                        ] = 2
                     else:
-                        attacking_move[constants.SECONDARY][constants.BOOSTS][constants.ATTACK] += 2
+                        attacking_move[constants.SECONDARY][constants.BOOSTS][
+                            constants.ATTACK
+                        ] += 2
     return attacking_move
 
 
@@ -437,9 +498,10 @@ def liquidooze(attacking_move, attacking_pokemon, defending_pokemon):
 
 def innerfocus(attacking_move, attacking_pokemon, defending_pokemon):
     if (
-        attacking_move[constants.SECONDARY] and
-        constants.VOLATILE_STATUS in attacking_move[constants.SECONDARY] and
-        attacking_move[constants.SECONDARY][constants.VOLATILE_STATUS] == constants.FLINCH
+        attacking_move[constants.SECONDARY]
+        and constants.VOLATILE_STATUS in attacking_move[constants.SECONDARY]
+        and attacking_move[constants.SECONDARY][constants.VOLATILE_STATUS]
+        == constants.FLINCH
     ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.SECONDARY] = False
@@ -456,7 +518,10 @@ def soundproof(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 def darkaura(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'dark' and attacking_pokemon.ability != 'aurabreak':
+    if (
+        attacking_move[constants.TYPE] == "dark"
+        and attacking_pokemon.ability != "aurabreak"
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.BASE_POWER] *= 1.33
 
@@ -464,7 +529,10 @@ def darkaura(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 def fairyaura(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.TYPE] == 'fairy' and attacking_pokemon.ability != 'aurabreak':
+    if (
+        attacking_move[constants.TYPE] == "fairy"
+        and attacking_pokemon.ability != "aurabreak"
+    ):
         attacking_move = attacking_move.copy()
         attacking_move[constants.BASE_POWER] *= 1.33
 
@@ -488,7 +556,7 @@ def punkrock(attacking_move, attacking_pokemon, defending_pokemon):
 
 def steamengine(attacking_move, attacking_pokemon, defending_pokemon):
     # duplicated from 'weakarmor'
-    if attacking_move[constants.TYPE] in ['fire', 'water']:
+    if attacking_move[constants.TYPE] in ["fire", "water"]:
         attacking_move = attacking_move.copy()
         if constants.BOOSTS in attacking_move:
             attacking_move[constants.BOOSTS] = attacking_move[constants.BOOSTS].copy()
@@ -504,7 +572,12 @@ def steamengine(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 def damp(attacking_move, attacking_pokemon, defending_pokemon):
-    if attacking_move[constants.ID] in ["explosion", "selfdestruct", "mistyexplosion", "mindblown"]:
+    if attacking_move[constants.ID] in [
+        "explosion",
+        "selfdestruct",
+        "mistyexplosion",
+        "mindblown",
+    ]:
         attacking_move = attacking_move.copy()
         attacking_move[constants.HEAL] = [0, 1]
         attacking_move[constants.BASE_POWER] = 0
@@ -531,66 +604,69 @@ def purifyingsalt(attacking_move, attacking_pokemon, defending_pokemon):
 
 
 ability_lookup = {
-    'guarddog': guarddog,
-    'wellbakedbody': wellbakedbody,
-    'thermalexchange': thermalexchange,
-    'purifyingsalt': purifyingsalt,
-    'windrider': windrider,
-    'goodasgold': goodasgold,
-    'damp': damp,
-    'steamengine': steamengine,
-    'punkrock': punkrock,
-    'icescales': icescales,
-    'armortail': armortail,
-    'fairyaura': fairyaura,
-    'darkaura': darkaura,
-    'soundproof': soundproof,
-    'innerfocus': innerfocus,
-    'liquidooze': liquidooze,
-    'weakarmor': weakarmor,
-    'defiant': defiant,
-    'competitive': competitive,
-    'shielddust': shielddust,
-    'justified': justified,
-    'marvelscale': marvelscale,
-    'tanglinghair': tanglinghair,
-    'cottondown': cottondown,
-    'queenlymajesty': queenlymajesty,
-    'waterbubble': waterbubble,
-    'stamina': stamina,
-    'levitate': levitate,
-    'lightningrod': lightningrod,
-    'stormdrain': stormdrain,
-    'voltabsorb': voltabsorb,
-    'waterabsorb': waterabsorb,
-    'dryskin': waterabsorb,
-    'eartheater': eartheater,
-    'motordrive': motordrive,
-    'sapsipper': sapsipper,
-    'multiscale': multiscale,
-    'shadowshield': multiscale,
-    'thickfat': thickfat,
-    'solidrock': solidrock,
-    'contrary': contrary,
-    'noguard': noguard,
-    'flashfire': flashfire,
-    'bulletproof': bulletproof,
-    'furcoat': furcoat,
-    'prismarmor': solidrock,
-    'filter': solidrock,
-    'fluffy': fluffy,
-    'ironbarbs': ironbarbs,
-    'wonderguard': wonderguard,
-    'roughskin': roughskin,
-    'magicbounce': magicbounce
+    "guarddog": guarddog,
+    "wellbakedbody": wellbakedbody,
+    "thermalexchange": thermalexchange,
+    "purifyingsalt": purifyingsalt,
+    "windrider": windrider,
+    "goodasgold": goodasgold,
+    "damp": damp,
+    "steamengine": steamengine,
+    "punkrock": punkrock,
+    "icescales": icescales,
+    "armortail": armortail,
+    "fairyaura": fairyaura,
+    "darkaura": darkaura,
+    "soundproof": soundproof,
+    "innerfocus": innerfocus,
+    "liquidooze": liquidooze,
+    "weakarmor": weakarmor,
+    "defiant": defiant,
+    "competitive": competitive,
+    "shielddust": shielddust,
+    "justified": justified,
+    "marvelscale": marvelscale,
+    "tanglinghair": tanglinghair,
+    "cottondown": cottondown,
+    "queenlymajesty": queenlymajesty,
+    "waterbubble": waterbubble,
+    "stamina": stamina,
+    "levitate": levitate,
+    "lightningrod": lightningrod,
+    "stormdrain": stormdrain,
+    "voltabsorb": voltabsorb,
+    "waterabsorb": waterabsorb,
+    "dryskin": waterabsorb,
+    "eartheater": eartheater,
+    "motordrive": motordrive,
+    "sapsipper": sapsipper,
+    "multiscale": multiscale,
+    "shadowshield": multiscale,
+    "thickfat": thickfat,
+    "solidrock": solidrock,
+    "contrary": contrary,
+    "noguard": noguard,
+    "flashfire": flashfire,
+    "bulletproof": bulletproof,
+    "furcoat": furcoat,
+    "prismarmor": solidrock,
+    "filter": solidrock,
+    "fluffy": fluffy,
+    "ironbarbs": ironbarbs,
+    "wonderguard": wonderguard,
+    "roughskin": roughskin,
+    "magicbounce": magicbounce,
 }
 
 
-def ability_modify_attack_against(ability_name, attacking_move, attacking_pokemon, defending_pokemon):
+def ability_modify_attack_against(
+    ability_name, attacking_move, attacking_pokemon, defending_pokemon
+):
     if (
-        attacking_pokemon.ability == 'neutralizinggas' or
-        defending_pokemon.ability == 'neutralizinggas' or
-        attacking_pokemon.ability in constants.ABILITIES_THAT_IGNORE_OTHER_ABILITIES and defending_pokemon.ability in constants.BYPASSABLE_ABILITIES
+        attacking_pokemon.ability == "neutralizinggas"
+        or defending_pokemon.ability == "neutralizinggas"
+        or attacking_pokemon.ability in constants.ABILITIES_THAT_IGNORE_OTHER_ABILITIES
+        and defending_pokemon.ability in constants.BYPASSABLE_ABILITIES
     ):
         return attacking_move
     ability_func = ability_lookup.get(ability_name)

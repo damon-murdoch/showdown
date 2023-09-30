@@ -25,11 +25,14 @@ def set_most_likely_pokemon_from_team_datasets(pkmn):
         pkmn.set_spread(predicted_set.nature, predicted_set.evs)
         logger.debug(
             "Assumed set for opponent's {}:\t{} {} {} {} {}".format(
-                pkmn.name, pkmn.nature, pkmn.evs, pkmn.ability, pkmn.item, pkmn.moves)
+                pkmn.name, pkmn.nature, pkmn.evs, pkmn.ability, pkmn.item, pkmn.moves
+            )
         )
         return
 
-    predicted_set = TeamDatasets.predict_set(pkmn, match_item=False, match_ability=False)
+    predicted_set = TeamDatasets.predict_set(
+        pkmn, match_item=False, match_ability=False
+    )
     if predicted_set is not None:
         pkmn.set_most_likely_ability_unless_revealed()
         pkmn.set_most_likely_item_unless_revealed()
@@ -39,7 +42,8 @@ def set_most_likely_pokemon_from_team_datasets(pkmn):
         pkmn.set_spread(predicted_set.nature, predicted_set.evs)
         logger.debug(
             "Assumed set for opponent's {}:\t{} {} {} {} {}".format(
-                pkmn.name, pkmn.nature, pkmn.evs, pkmn.ability, pkmn.item, pkmn.moves)
+                pkmn.name, pkmn.nature, pkmn.evs, pkmn.ability, pkmn.item, pkmn.moves
+            )
         )
         return
 
@@ -47,8 +51,9 @@ def set_most_likely_pokemon_from_team_datasets(pkmn):
 
     logger.debug(
         "Assumed set for opponent's {}:\t{} {} {} {} {}".format(
-            pkmn.name, pkmn.nature, pkmn.evs, pkmn.ability, pkmn.item, pkmn.moves)
+            pkmn.name, pkmn.nature, pkmn.evs, pkmn.ability, pkmn.item, pkmn.moves
         )
+    )
 
 
 def prepare_battles(battle):
@@ -89,10 +94,7 @@ class BattleBot(Battle):
                         split_info = pkmn_info.split("|")
                         pkmn_obj.ability = split_info[1]
                         pkmn_obj.item = split_info[2]
-                        pkmn_obj.set_spread(
-                            split_info[3],
-                            split_info[4]
-                        )
+                        pkmn_obj.set_spread(split_info[3], split_info[4])
                         for m in split_info[5:]:
                             pkmn_obj.add_move(m)
 
