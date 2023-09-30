@@ -4,3 +4,4 @@ websockets==10.3
 python-dateutil==2.8.0
 python-dotenv
 prisma
+bs4
