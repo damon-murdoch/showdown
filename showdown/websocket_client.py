@@ -1,6 +1,7 @@
 import asyncio
 import constants
 import websockets
+import database
 import requests
 import json
 import time
@@ -108,16 +109,17 @@ class PSWebsocketClient:
             logger.error("Could not log-in\nDetails:\n{}".format(response.content))
             raise LoginError("Could not log-in")
 
-    async def get_team(self, battle_format):
+    async def get_team(self, battle_format, selection_method=None, team_link=None):
+        # Random format is selected
         if battle_format in constants.RANDOM_FORMATS:
             return None
-        else:
-            return get_team(ShowdownConfig.pokemon_mode)
+        else:  # Non random battle format, generate the team
+            return get_team(battle_format, selection_method, team_link)
 
     async def update_team(self, battle_format, team):
         if battle_format in constants.RANDOM_FORMATS:
             logger.info(
-                "Setting team to None because the pokemon mode is {}".format(
+                "Setting team to None because the pokemon mode is {} ...".format(
                     battle_format
                 )
             )
@@ -138,7 +140,19 @@ class PSWebsocketClient:
         await self.send_message("", message)
         self.last_challenge_time = time.time()
 
-    async def accept_challenge(self, allowed_formats, room_name):
+    async def reject_challenge(self, username, message=None):
+        # Reject the challenge
+        await self.send_message("", [f"/reject {username}"])
+
+        # If message is provided
+        if message:
+            # Inform the player of the correct format
+            await self.send_message(
+                "",
+                [f"/msg {username},{message}"],
+            )
+
+    async def accept_challenge(self, allowed_formats, room_name, prisma):
         if room_name is not None:
             await self.join_room(room_name)
 
@@ -162,43 +176,86 @@ class PSWebsocketClient:
                 # Temporary username
                 _username = split_msg[2].strip()
 
-                # Get the format the player was challenged to
-                challenge_format = split_msg[5]
+                # Get the user with the username
+                user = await database.get_user(prisma, _username)
 
-                # If the format is not in the list of allowed formats
-                if challenge_format not in allowed_formats:
-                    # Reject the challenge
-                    await self.send_message("", [f"/reject {_username}"])
-                    # Inform the player of the correct format
-                    await self.send_message(
-                        "",
-                        [
-                            f"/msg {_username},I am currently only accepting challenges in the following format(s):",
-                            f"'{','.join(allowed_formats)}'",
-                        ],
+                # If the user is banned
+                if user.banned == True:
+                    await self.reject_challenge(
+                        user.username,
+                        "You are currently banned from challenging this bot.",
                     )
 
-                else:  # Passes format check
-                    # Get the team for the chalenge format
-                    team = await self.get_team(challenge_format)
+                else:  # User is not banned
+                    # Get the format the player was challenged to
+                    challenge_format = split_msg[5]
 
-                    # If no team is returned, and the format is not a random metagame
-                    if (
-                        team == None
-                        and challenge_format not in constants.RANDOM_FORMATS
-                    ):
+                    # If the format is not in the list of allowed formats
+                    if challenge_format not in allowed_formats:
                         # Reject the challenge
-                        await self.send_message("", [f"/reject {_username}"])
+                        await self.reject_challenge(
+                            user.username,
+                            "Challenges in this format cannot be accepted!",
+                        )
+
                         # Inform the player of the correct format
                         await self.send_message(
                             "",
                             [
-                                f"/msg {_username},No teams found for format '{challenge_format}', sorry! Please challenge me to something else!"
+                                f"/msg {user.username},I am only accepting challenges in the following format(s):",
+                                f"'{','.join(allowed_formats)}'",
                             ],
                         )
 
-                    else:  # Random format / team found
-                        username = _username
+                    else:  # Passes format check
+                        format = await database.get_user_format(
+                            prisma, user, challenge_format
+                        )
+
+                        # Use team is set to true, and a team link is provided
+                        if format.useTeam and format.team:
+                            # Get the user-provided team for the format
+                            team = await self.get_team(
+                                challenge_format, "team", format.team
+                            )
+
+                            # Failed to build team from link
+                            if not team:
+                                # Reject the challenge, show error message
+                                self.reject_challenge(
+                                    user.username,
+                                    "Team could not be generated! Please ensure the team link is a valid PokePaste link!",
+                                )
+
+                        else:  # Either of the above conditions are false / unset
+                            # If useFactory is set to true
+                            if format.useFactory:
+                                # Attempt to get a factory team
+                                team = await self.get_team(challenge_format, "factory")
+
+                                # Team is not returned, attempt to get a normal team
+                                if not team:
+                                    await self.get_team(challenge_format, "team")
+
+                            else:  # useFactory is set to false
+                                # Attempt to get a normal team
+                                team = await self.get_team(challenge_format, "team")
+
+                                # Team is not returned, attempt to get a factory team
+                                if not team:
+                                    await self.get_team(challenge_format, "factory")
+
+                        # If no team is returned, and the format is not a random metagame
+                        if (
+                            team == None
+                            and challenge_format not in constants.RANDOM_FORMATS
+                        ):
+                            await self.reject_challenge(
+                                user.username, "No teams available for this format!"
+                            )
+
+                        else:  # Random format / team found
+                            username = user.username
 
         # Update the team for the bot
         await self.update_team(challenge_format, team)

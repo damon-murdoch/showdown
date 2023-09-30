@@ -27,7 +27,18 @@ RANDOM_SINGLES_FORMATS = [
 ]
 
 # Doubles formats which don't require a team
-RANDOM_DOUBLES_FORMATS = []
+RANDOM_DOUBLES_FORMATS = [
+    "gen9randomdoublesbattle",
+    "gen8randomdoublesbattle",
+    "gen7randomdoublesbattle",
+    "gen6randomdoublesbattle",
+    "gen5randomdoublesbattle",
+    "gen4randomdoublesbattle",
+    "gen3randomdoublesbattle",
+    "gen2randomdoublesbattle",
+    "gen1randomdoublesbattle",
+    "challengecup2v2",
+]
 
 # Both of the arrays, combined
 RANDOM_FORMATS = RANDOM_SINGLES_FORMATS + RANDOM_DOUBLES_FORMATS

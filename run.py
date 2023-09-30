@@ -19,13 +19,8 @@ async def showdown():
     # Configure logging
     init_logging(ShowdownConfig.log_level, ShowdownConfig.log_to_file)
 
-    # Database placeholder
-    prisma = None
-
-    # If prisma is enabled
-    if ShowdownConfig.prisma_enabled:
-        # Create the prisma client
-        prisma = Prisma()
+    # Create the prisma client
+    prisma = Prisma()
 
     # Create the showdown web socket client
     ps_websocket_client = await PSWebsocketClient.create(
@@ -51,7 +46,7 @@ async def showdown():
 
         # Wait for a challenge in one of the allowed gamemodes
         battle_format = await ps_websocket_client.accept_challenge(
-            ShowdownConfig.allowed_modes, ShowdownConfig.room_name
+            ShowdownConfig.allowed_modes, ShowdownConfig.room_name, prisma
         )
 
         # Handle the battle in the format which has been challenged

@@ -207,6 +207,7 @@ async def start_battle(ps_websocket_client, pokemon_battle_type, prisma=None):
     else:
         battle = await start_standard_battle(ps_websocket_client, pokemon_battle_type)
 
+    """
     # Prisma defined
     if prisma and ShowdownConfig.show_win_streak:
         # Default win streak
@@ -228,6 +229,7 @@ async def start_battle(ps_websocket_client, pokemon_battle_type, prisma=None):
         await ps_websocket_client.send_message(
             battle.battle_tag, [f"Win streak for {account_name}: {win_streak}"]
         )
+    """
 
     await ps_websocket_client.send_message(
         battle.battle_tag, ShowdownConfig.pre_battle_msg
@@ -259,6 +261,7 @@ async def pokemon_battle(ps_websocket_client, pokemon_battle_type, prisma=None):
 
             logger.debug("Winner: {}".format(winner))
 
+            """
             # Prisma defined
             if prisma:
                 # Get the battle opponent data
@@ -303,6 +306,7 @@ async def pokemon_battle(ps_websocket_client, pokemon_battle_type, prisma=None):
                             battle.battle_tag,
                             [f"Current win streak for {loser}: {loser_streak}"],
                         )
+            """
 
             # Send the post-battle message to the channel
             await ps_websocket_client.send_message(

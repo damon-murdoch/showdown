@@ -124,7 +124,6 @@ class _ShowdownConfig:
         self.species_clause = env.bool("SPECIES_CLAUSE", True)
 
         # Prisma Settings
-        self.prisma_enabled = env.bool("PRISMA_ENABLED", False)
         self.show_win_streak = env.bool("SHOW_WIN_STREAK", False)
 
         # For use in accept_challenge mode only

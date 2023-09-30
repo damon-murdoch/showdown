@@ -10,19 +10,83 @@ generator db {
   recursive_type_depth = 5
 }
 
-model Records {
-    // Showdown Username
-    name String @id @unique
+model User {
+  // Showdown Username
+  username String @id @unique
 
-    // Total Wins
-    wins Int @default(0)
+  // User is banned
+  banned Boolean @default(false)
 
-    // Total Losses
-    losses Int @default(0)
+  // User is trusted
+  // If this is set to true, user
+  // can use basic commands
+  trusted Boolean @default(false)
 
-    // Current Win Streak
-    winStreak Int @default(0)
+  // User is admin
+  // If this is set to true, user
+  // can use all commands and set
+  // other uses to be trusted
+  admin Boolean @default(false)
 
-    // Max Win Streak
-    maxWinStreak Int @default(0)
+  // User is owner
+  // If this is set to true, user
+  // can use all commands and set
+  // other uses to be admins
+  owner Boolean @default(false)
+
+  // List of teams
+  formats Format[]
+}
+
+model Format {
+  id Int @id @default(autoincrement())
+
+  // Format Name (Per-User)
+  format String
+
+  // User reference
+  username String
+  user     User   @relation(fields: [username], references: [username])
+
+  // User Settings
+
+  // If this is set to true, the bot
+  // will search for a battle factory 
+  // team for the format before falling
+  // back to using pre-built teams (only 
+  // if available). If this is set to
+  // false, the bot will use pre-built
+  // teams, falling back to factory
+  // generated teams if unavailable.
+  useFactory Boolean @default(false)
+
+  // If this is set to true, the bot
+  // will use any user-provided teams
+  // for the format if available before
+  // falling back to the method specified
+  // by 'useFactory' if no user-provided
+  // team is available. 
+  useTeam Boolean @default(true)
+
+  // Pokepaste link to a team which the bot 
+  // should use against the player if the 
+  // 'useTeam' option is set to true. By 
+  // default, if a team is provided and 
+  // 'useTeam' is set to false, it will 
+  // be set to true.
+  team String?
+
+  // User Records
+
+  // Total Wins
+  wins Int @default(0)
+
+  // Total Losses
+  losses Int @default(0)
+
+  // Current Win Streak
+  winStreak Int @default(0)
+
+  // Max Win Streak
+  maxWinStreak Int @default(0)
 }
