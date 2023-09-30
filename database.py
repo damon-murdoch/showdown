@@ -61,47 +61,33 @@ async def get_user_format(prisma: Prisma, user, battle_format):
     return format
 
 
-async def update_winner(prisma: Prisma, account_name):
+async def update_winner(prisma: Prisma, user, battle_format):
+    # Check for winner record
+    record = await get_user_format(prisma, user, battle_format)
+
     # Connect to database
     await prisma.connect()
 
-    # Check for winner record
-    winner_record = await prisma.records.find_first(where={"name": account_name})
+    # Increment the current win streak
+    winStreak = record.winStreak + 1
 
-    # Winner record found
-    if winner_record:
-        # Increment the current win streak
-        winStreak = winner_record.winStreak + 1
+    # Get current max win streak
+    maxWinStreak = record.maxWinStreak
 
-        # Get current max win streak
-        maxWinStreak = winner_record.maxWinStreak
+    # Win streak is greater than max win streak
+    if winStreak > maxWinStreak:
+        # Update the max win streak
+        maxWinStreak = winStreak
 
-        # Win streak is greater than max win streak
-        if winStreak > maxWinStreak:
-            # Update the max win streak
-            maxWinStreak = winStreak
-
-        await prisma.records.update(
-            where={"name": account_name},
-            data={
-                "wins": winner_record.wins + 1,
-                "winStreak": winStreak,
-                "maxWinStreak": maxWinStreak,
-            },
-        )
-    else:  # No winner record
-        # Fresh win streak
-        winStreak = 1
-
-        await prisma.records.create(
-            data={
-                "name": account_name,
-                # Set win count to 1
-                "wins": winStreak,
-                "winStreak": winStreak,
-                "maxWinStreak": winStreak,
-            }
-        )
+    # Update the winner record
+    await prisma.format.update(
+        where={"id": record.id},
+        data={
+            "wins": record.wins + 1,
+            "winStreak": winStreak,
+            "maxWinStreak": maxWinStreak,
+        },
+    )
 
     # Disconnect from database
     await prisma.disconnect()
@@ -110,32 +96,23 @@ async def update_winner(prisma: Prisma, account_name):
     return winStreak
 
 
-async def update_loser(prisma: Prisma, account_name):
+async def update_loser(prisma: Prisma, user, battle_format):
+    # Check for loser record
+    record = await get_user_format(prisma, user, battle_format)
+
     # Connect to database
     await prisma.connect()
 
-    # Check for loser record
-    loser_record = await prisma.records.find_first(where={"name": account_name})
-
-    # Loser record found
-    if loser_record:
-        await prisma.records.update(
-            where={"name": account_name},
-            data={
-                # Add one to the loss count
-                "losses": loser_record.losses + 1,
-                # Reset the win streak
-                "winStreak": 0,
-            },
-        )
-    else:  # No loser record
-        await prisma.records.create(
-            data={
-                "name": account_name,
-                # Set loss count to 1
-                "losses": 1,
-            }
-        )
+    # Update the loser record
+    await prisma.format.update(
+        where={"id": record.id},
+        data={
+            # Add one to the loss count
+            "losses": record.losses + 1,
+            # Reset the win streak
+            "winStreak": 0,
+        },
+    )
 
     # Disconnect from database
     await prisma.disconnect()

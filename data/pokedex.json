@@ -40682,11 +40682,11 @@
         ],
         "baseStats": {
             "hp": 80,
-            "atk": 80,
-            "def": 110,
-            "spa": 95,
-            "spd": 80,
-            "spe": 40
+            "attack": 80,
+            "defense": 110,
+            "special-attack": 95,
+            "special-defense": 80,
+            "speed": 40
         },
         "abilities": {
             "0": "Supersweet Syrup",
@@ -40715,11 +40715,11 @@
         "gender": "N",
         "baseStats": {
             "hp": 40,
-            "atk": 45,
-            "def": 45,
-            "spa": 74,
-            "spd": 54,
-            "spe": 50
+            "attack": 45,
+            "defense": 45,
+            "special-attack": 74,
+            "special-defense": 54,
+            "speed": 50
         },
         "abilities": {
             "0": "Hospitality",
@@ -40755,11 +40755,11 @@
         "gender": "N",
         "baseStats": {
             "hp": 40,
-            "atk": 45,
-            "def": 45,
-            "spa": 74,
-            "spd": 54,
-            "spe": 50
+            "attack": 45,
+            "defense": 45,
+            "special-attack": 74,
+            "special-defense": 54,
+            "speed": 50
         },
         "abilities": {
             "0": "Hospitality",
@@ -40786,11 +40786,11 @@
         "gender": "N",
         "baseStats": {
             "hp": 71,
-            "atk": 60,
-            "def": 106,
-            "spa": 121,
-            "spd": 80,
-            "spe": 70
+            "attack": 60,
+            "defense": 106,
+            "special-attack": 121,
+            "special-defense": 80,
+            "speed": 70
         },
         "abilities": {
             "0": "Hospitality",
@@ -40826,11 +40826,11 @@
         "gender": "N",
         "baseStats": {
             "hp": 71,
-            "atk": 60,
-            "def": 106,
-            "spa": 121,
-            "spd": 80,
-            "spe": 70
+            "attack": 60,
+            "defense": 106,
+            "special-attack": 121,
+            "special-defense": 80,
+            "speed": 70
         },
         "abilities": {
             "0": "Hospitality",
@@ -40856,11 +40856,11 @@
         "gender": "M",
         "baseStats": {
             "hp": 88,
-            "atk": 128,
-            "def": 115,
-            "spa": 58,
-            "spd": 86,
-            "spe": 80
+            "attack": 128,
+            "defense": 115,
+            "special-attack": 58,
+            "special-defense": 86,
+            "speed": 80
         },
         "abilities": {
             "0": "Toxic Chain",
@@ -40886,11 +40886,11 @@
         "gender": "M",
         "baseStats": {
             "hp": 88,
-            "atk": 75,
-            "def": 66,
-            "spa": 130,
-            "spd": 90,
-            "spe": 106
+            "attack": 75,
+            "defense": 66,
+            "special-attack": 130,
+            "special-defense": 90,
+            "speed": 106
         },
         "abilities": {
             "0": "Toxic Chain",
@@ -40916,11 +40916,11 @@
         "gender": "M",
         "baseStats": {
             "hp": 88,
-            "atk": 91,
-            "def": 82,
-            "spa": 70,
-            "spd": 125,
-            "spe": 99
+            "attack": 91,
+            "defense": 82,
+            "special-attack": 70,
+            "special-defense": 125,
+            "speed": 99
         },
         "abilities": {
             "0": "Toxic Chain",
@@ -40946,11 +40946,11 @@
         "gender": "F",
         "baseStats": {
             "hp": 80,
-            "atk": 120,
-            "def": 84,
-            "spa": 60,
-            "spd": 96,
-            "spe": 110
+            "attack": 120,
+            "defense": 84,
+            "special-attack": 60,
+            "special-defense": 96,
+            "speed": 110
         },
         "abilities": {
             "0": "Defiant"
@@ -40997,11 +40997,11 @@
         "gender": "F",
         "baseStats": {
             "hp": 80,
-            "atk": 120,
-            "def": 84,
-            "spa": 60,
-            "spd": 96,
-            "spe": 110
+            "attack": 120,
+            "defense": 84,
+            "special-attack": 60,
+            "special-defense": 96,
+            "speed": 110
         },
         "abilities": {
             "0": "Water Absorb"
@@ -41028,11 +41028,11 @@
         "gender": "F",
         "baseStats": {
             "hp": 80,
-            "atk": 120,
-            "def": 84,
-            "spa": 60,
-            "spd": 96,
-            "spe": 110
+            "attack": 120,
+            "defense": 84,
+            "special-attack": 60,
+            "special-defense": 96,
+            "speed": 110
         },
         "abilities": {
             "0": "Mold Breaker"
@@ -41059,11 +41059,11 @@
         "gender": "F",
         "baseStats": {
             "hp": 80,
-            "atk": 120,
-            "def": 84,
-            "spa": 60,
-            "spd": 96,
-            "spe": 110
+            "attack": 120,
+            "defense": 84,
+            "special-attack": 60,
+            "special-defense": 96,
+            "speed": 110
         },
         "abilities": {
             "0": "Sturdy"
@@ -41089,11 +41089,11 @@
         "gender": "F",
         "baseStats": {
             "hp": 80,
-            "atk": 120,
-            "def": 84,
-            "spa": 60,
-            "spd": 96,
-            "spe": 110
+            "attack": 120,
+            "defense": 84,
+            "special-attack": 60,
+            "special-defense": 96,
+            "speed": 110
         },
         "abilities": {
             "0": "Embody Aspect (Teal)"
@@ -41119,11 +41119,11 @@
         "gender": "F",
         "baseStats": {
             "hp": 80,
-            "atk": 120,
-            "def": 84,
-            "spa": 60,
-            "spd": 96,
-            "spe": 110
+            "attack": 120,
+            "defense": 84,
+            "special-attack": 60,
+            "special-defense": 96,
+            "speed": 110
         },
         "abilities": {
             "0": "Embody Aspect (Wellspring)"
@@ -41150,11 +41150,11 @@
         "gender": "F",
         "baseStats": {
             "hp": 80,
-            "atk": 120,
-            "def": 84,
-            "spa": 60,
-            "spd": 96,
-            "spe": 110
+            "attack": 120,
+            "defense": 84,
+            "special-attack": 60,
+            "special-defense": 96,
+            "speed": 110
         },
         "abilities": {
             "0": "Embody Aspect (Hearthflame)"
@@ -41181,11 +41181,11 @@
         "gender": "F",
         "baseStats": {
             "hp": 80,
-            "atk": 120,
-            "def": 84,
-            "spa": 60,
-            "spd": 96,
-            "spe": 110
+            "attack": 120,
+            "defense": 84,
+            "special-attack": 60,
+            "special-defense": 96,
+            "speed": 110
         },
         "abilities": {
             "0": "Embody Aspect (Cornerstone)"

@@ -23,7 +23,7 @@ RANDOM_SINGLES_FORMATS = [
     "gen9bssfactory",
     "gen8bssfactory",
     "gen7bssfactory",
-    "challengecup1v1",
+    "gen9challengecup1v1",
 ]
 
 # Doubles formats which don't require a team

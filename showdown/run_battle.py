@@ -197,19 +197,18 @@ async def start_standard_battle(
     return battle
 
 
-async def start_battle(ps_websocket_client, pokemon_battle_type, prisma=None):
+async def start_battle(ps_websocket_client, battle_format, prisma):
     # Only random battles - CC1v1 / Battle Factory has team preview
-    if "random" in pokemon_battle_type:
+    if "random" in battle_format:
         Scoring.POKEMON_ALIVE_STATIC = (
             30  # random battle benefits from a lower static score for an alive pkmn
         )
-        battle = await start_random_battle(ps_websocket_client, pokemon_battle_type)
+        battle = await start_random_battle(ps_websocket_client, battle_format)
     else:
-        battle = await start_standard_battle(ps_websocket_client, pokemon_battle_type)
+        battle = await start_standard_battle(ps_websocket_client, battle_format)
 
-    """
     # Prisma defined
-    if prisma and ShowdownConfig.show_win_streak:
+    if ShowdownConfig.show_win_streak:
         # Default win streak
         win_streak = 0
 
@@ -219,17 +218,22 @@ async def start_battle(ps_websocket_client, pokemon_battle_type, prisma=None):
         # Get the name for the opponent
         account_name = opponent.account_name
 
-        record = await database.get_player(prisma, account_name)
+        # Get the user from the database (or create it)
+        user = await database.get_user(prisma, account_name)
+
+        # Get the user data for the given format from the database
+        format = await database.get_user_format(prisma, user, battle_format)
 
         # Record found
-        if record:
+        if format:
             # Set win streak to record win streak
-            win_streak = record.winStreak
+            win_streak = format.winStreak
 
-        await ps_websocket_client.send_message(
-            battle.battle_tag, [f"Win streak for {account_name}: {win_streak}"]
-        )
-    """
+            await ps_websocket_client.send_message(
+                battle.battle_tag, [f"Win streak for {account_name}: {win_streak}"]
+            )
+
+        # Otherwise, do not display
 
     await ps_websocket_client.send_message(
         battle.battle_tag, ShowdownConfig.pre_battle_msg
@@ -241,9 +245,9 @@ async def start_battle(ps_websocket_client, pokemon_battle_type, prisma=None):
     return battle
 
 
-async def pokemon_battle(ps_websocket_client, pokemon_battle_type, prisma=None):
+async def pokemon_battle(ps_websocket_client, battle_format, prisma):
     # Start the pokemon battle
-    battle = await start_battle(ps_websocket_client, pokemon_battle_type, prisma)
+    battle = await start_battle(ps_websocket_client, battle_format, prisma)
 
     # Infinite Loop
     while True:
@@ -252,61 +256,70 @@ async def pokemon_battle(ps_websocket_client, pokemon_battle_type, prisma=None):
 
         # If the battle has ended
         if battle_is_finished(battle.battle_tag, msg):
+            # Default: No winner
+            winner_name = None
+
             # If this is the winning message
             if constants.WIN_STRING in msg:
                 # Get the winner from the message
-                winner = msg.split(constants.WIN_STRING)[-1].split("\n")[0].strip()
+                winner_name = msg.split(constants.WIN_STRING)[-1].split("\n")[0].strip()
             else:  # No winner
-                winner = None
+                winner_name = None
 
-            logger.debug("Winner: {}".format(winner))
+            logger.debug("Winner: {}".format(winner_name))
 
-            """
-            # Prisma defined
-            if prisma:
-                # Get the battle opponent data
-                opponent = battle.opponent
+            # Get the battle opponent data
+            opponent = battle.opponent
 
-                loser = None
+            loser_name = None
 
-                # Bot won the game
-                if winner == ShowdownConfig.username:
-                    # Set loser to the opponent
-                    loser = opponent.account_name
+            # Bot won the game
+            if winner_name == ShowdownConfig.username:
+                # Set loser to the opponent
+                loser_name = opponent.account_name
 
-                # Opponent won the game
-                elif winner == opponent.account_name:
-                    # Set loser to the bot's name
-                    loser = ShowdownConfig.username
+            # Opponent won the game
+            elif winner_name == opponent.account_name:
+                # Set loser to the bot's name
+                loser_name = ShowdownConfig.username
 
-                # If found, update the data for the winner
-                if winner:
-                    winner_streak = await database.update_winner(prisma, winner)
+            # Winner is found
+            if winner_name:
+                # Get the user with the winner's name from the database
+                winner = await database.get_user(prisma, winner_name)
 
-                    # Win streak messages are enabled
-                    if (
-                        winner == opponent.account_name
-                        and ShowdownConfig.show_win_streak
-                    ):
-                        await ps_websocket_client.send_message(
-                            battle.battle_tag,
-                            [f"Current win streak for {winner}: {winner_streak}"],
-                        )
+                # Update the winner's data for the battle format
+                winner_streak = await database.update_winner(
+                    prisma, winner, battle_format
+                )
 
-                # If found, update the data for the loser
-                if loser:
-                    loser_streak = await database.update_loser(prisma, loser)
+                # Win streak messages are enabled
+                if (
+                    winner_name == opponent.account_name
+                    and ShowdownConfig.show_win_streak
+                ):
+                    await ps_websocket_client.send_message(
+                        battle.battle_tag,
+                        [f"Current win streak for {winner_name}: {winner_streak}"],
+                    )
 
-                    # Win streak messages are enabled
-                    if (
-                        loser == opponent.account_name
-                        and ShowdownConfig.show_win_streak
-                    ):
-                        await ps_websocket_client.send_message(
-                            battle.battle_tag,
-                            [f"Current win streak for {loser}: {loser_streak}"],
-                        )
-            """
+            # Loser is found
+            if loser_name:
+                # Get the user with the winner's name from the database
+                loser = await database.get_user(prisma, loser_name)
+
+                # Update the loser's data for the battle format
+                loser_streak = await database.update_loser(prisma, loser, battle_format)
+
+                # Win streak messages are enabled
+                if (
+                    loser_name == opponent.account_name
+                    and ShowdownConfig.show_win_streak
+                ):
+                    await ps_websocket_client.send_message(
+                        battle.battle_tag,
+                        [f"Current win streak for {loser_name}: {loser_streak}"],
+                    )
 
             # Send the post-battle message to the channel
             await ps_websocket_client.send_message(
@@ -319,7 +332,7 @@ async def pokemon_battle(ps_websocket_client, pokemon_battle_type, prisma=None):
             )
 
             # Return the battle winner
-            return winner
+            return winner_name
         else:  # Battle has not ended
             # Check if a battle action is required
             action_required = await async_update_battle(battle, msg)
